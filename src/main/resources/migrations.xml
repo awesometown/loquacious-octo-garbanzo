@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="2" author="jprice">
+        <createTable tableName="serviceStatuses">
+            <column name="id" type="varchar(100)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="displayColor" type="varchar(10)"/>
+        </createTable>
+
+        <loadData tableName="serviceStatuses" file="statuses_data.csv">
+            <column name="id" type="STRING" />
+            <column name="name" type="STRING" />
+            <column name="displayColor" type="STRING" />
+        </loadData>
+
+        <createTable tableName="services">
+            <column name="id" type="varchar(100)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(1000)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="serviceStatusId" type="varchar(100)">
+                <constraints nullable="false" foreignKeyName="fk_services_serviceStatuses" references="serviceStatuses(id)"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="incidents">
+            <column name="id" type="varchar(100)" autoIncrement="false">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="state" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="startTime" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="createdAt" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updatedAt" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="incidentUpdates">
+            <column name="id" type="varchar(100)" autoIncrement="false">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="incidentId" type="varchar(100)">
+                <constraints nullable="false" foreignKeyName="fk_incidentUpdates_incidents" references="incidents(id)"/>
+            </column>
+            <column name="description" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="newState" type="varchar(50)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="newServiceStatusId" type="varchar(50)">
+                <constraints nullable="true" foreignKeyName="fk_incidentUpdates_serviceStatuses" references="serviceStatuses(id)"/>
+            </column>
+            <column name="createdAt" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updatedAt" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
