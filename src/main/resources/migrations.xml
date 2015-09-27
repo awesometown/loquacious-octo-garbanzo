@@ -36,6 +36,12 @@
             <column name="serviceStatusId" type="varchar(100)">
                 <constraints nullable="false" foreignKeyName="fk_services_serviceStatuses" references="serviceStatuses(id)"/>
             </column>
+            <column name="createdAt" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updatedAt" type="datetime">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
 
         <createTable tableName="incidents">

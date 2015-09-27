@@ -23,7 +23,15 @@ public class JDBIModule extends AbstractModule {
     }
 
     @Provides
+    public IncidentUpdatesDAO getIncidentUpdatesDAO(DBI jdbi) {
+        return jdbi.onDemand(IncidentUpdatesDAO.class);
+    }
+
+    @Provides
     public ServiceStatusesDAO getServiceStatusesDAO(DBI jdbi) { return jdbi.onDemand(ServiceStatusesDAO.class); }
+
+    @Provides
+    public ServicesDAO getServicesDAO(DBI jdbi) { return jdbi.onDemand(ServicesDAO.class); }
 
     @Override
     protected void configure() {
