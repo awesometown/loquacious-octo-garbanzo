@@ -1,4 +1,4 @@
-package ca.uptoeleven.status.resources;
+package ca.uptoeleven.status.resources.api;
 
 import ca.uptoeleven.status.resources.models.ServiceViewModel;
 import com.google.common.collect.Lists;

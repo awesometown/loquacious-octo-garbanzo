@@ -2,9 +2,10 @@ package ca.uptoeleven.status;
 
 import ca.uptoeleven.status.db.IncidentsDAO;
 import ca.uptoeleven.status.db.JDBIModule;
-import ca.uptoeleven.status.resources.ServicesResource;
+import ca.uptoeleven.status.resources.api.ServicesResource;
 import com.hubspot.dropwizard.guice.GuiceBundle;
 import io.dropwizard.Application;
+import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.java8.Java8Bundle;
 import io.dropwizard.jdbi.DBIFactory;
@@ -12,6 +13,7 @@ import io.dropwizard.jdbi.bundles.DBIExceptionsBundle;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import io.dropwizard.views.ViewBundle;
 import org.skife.jdbi.v2.DBI;
 
 public class StatusApplication extends Application<StatusConfiguration> {
@@ -44,6 +46,9 @@ public class StatusApplication extends Application<StatusConfiguration> {
 				return configuration.getDataSourceFactory();
 			}
 		});
+		bootstrap.addBundle(new ViewBundle<>());
+		bootstrap.addBundle(new AssetsBundle("/assets/", "/assets/", null, "assets"));
+		bootstrap.addBundle(new AssetsBundle("/META-INF/resources/webjars", "/webjars", null, "webjars" ));
 	}
 
 	@Override

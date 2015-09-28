@@ -1,4 +1,4 @@
-package ca.uptoeleven.status.resources;
+package ca.uptoeleven.status.resources.api;
 
 import ca.uptoeleven.status.db.ServiceStatusesDAO;
 import ca.uptoeleven.status.db.models.ServiceStatus;
