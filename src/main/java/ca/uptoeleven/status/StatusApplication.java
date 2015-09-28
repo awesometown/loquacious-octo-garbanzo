@@ -57,7 +57,6 @@ public class StatusApplication extends Application<StatusConfiguration> {
 		final DBIFactory factory = new DBIFactory();
 		final DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), "h2");
 		final IncidentsDAO dao = jdbi.onDemand(IncidentsDAO.class);
-		environment.jersey().register(new ServicesResource());
 		//environment.jersey().register(remoteResource);
 		//environment.jersey().register(serialResource);
 		//environment.jersey().register(asyncResource);

@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Path("statuses")
+@Path("/api/statuses")
 @Produces(MediaType.APPLICATION_JSON)
 public class ServiceStatusesResource {
 

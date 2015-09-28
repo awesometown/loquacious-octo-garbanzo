@@ -3,6 +3,7 @@ package ca.uptoeleven.status.db;
 import ca.uptoeleven.status.StatusConfiguration;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
+import io.dropwizard.java8.jdbi.args.LocalDateTimeArgumentFactory;
 import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Environment;
 import org.skife.jdbi.v2.DBI;
@@ -14,7 +15,9 @@ public class JDBIModule extends AbstractModule {
 
     @Provides
     public DBI jdbi(Environment environment, StatusConfiguration configuration) {
-        return new DBIFactory().build(environment, configuration.getDataSourceFactory(), "h2");
+        DBI dbi = new DBIFactory().build(environment, configuration.getDataSourceFactory(), "h2");
+        dbi.registerArgumentFactory(new LocalDateTimeArgumentFactory());
+        return dbi;
     }
 
     @Provides
