@@ -16,6 +16,9 @@ public interface IncidentsDAO {
     @SqlUpdate("insert into incidents (id, title, state, startTime, createdAt, updatedAt) values (:id, :title, :state, :startTime, :createdAt, :updatedAt)")
     void insert(@BindBean Incident incident);
 
+    @SqlUpdate("update incidents set state=:newState where id=:id")
+    void updateState(@Bind("id") String id, @Bind("newState") String newState);
+
     @SqlQuery("select id, title, state, startTime, createdAt, updatedAt from incidents where id = :id")
     Incident findById(@Bind("id") String id);
 

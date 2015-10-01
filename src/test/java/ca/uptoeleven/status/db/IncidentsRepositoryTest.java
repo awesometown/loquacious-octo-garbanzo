@@ -1,14 +1,18 @@
 package ca.uptoeleven.status.db;
 
+import ca.uptoeleven.status.core.IncidentState;
 import ca.uptoeleven.status.core.ServiceStatus;
 import ca.uptoeleven.status.db.models.Incident;
 import ca.uptoeleven.status.db.models.IncidentUpdate;
 import ca.uptoeleven.status.db.models.Service;
 import com.google.common.collect.Lists;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.skife.jdbi.v2.DBI;
+
+import java.util.UUID;
 
 import static ca.uptoeleven.status.db.DBTestHelpers.*;
 import static org.junit.Assert.assertEquals;
@@ -61,7 +65,7 @@ public class IncidentsRepositoryTest {
 
     @Test
     public void createdIncidentResultsInUpdatedServiceStatus() {
-        Service service = DBTestHelpers.newService().withServiceStatusId("ok");
+        Service service = DBTestHelpers.newService().withServiceStatusId(ServiceStatus.OK.getId());
         servicesDAO.insert(service);
         Incident incident = newIncident().withAffectedServicesIds(Lists.newArrayList(service.getId()));
         IncidentUpdate update = newIncidentUpdate(incident.getId()).withNewServiceStatusId(ServiceStatus.DEGRADED.getId());
@@ -69,5 +73,37 @@ public class IncidentsRepositoryTest {
 
         service = servicesDAO.findById(service.getId());
         assertEquals(ServiceStatus.DEGRADED.getId(), service.getServiceStatusId());
+    }
+
+    @Test
+    @Ignore
+    //test fails until affected serviceids actually get stored with the incident
+    public void incidentUpdateResultsInUpdatedServiceStatus() {
+        Service service = DBTestHelpers.newService().withServiceStatusId(ServiceStatus.OK.getId());
+        servicesDAO.insert(service);
+        Incident incident = newIncident().withAffectedServicesIds(Lists.newArrayList(service.getId()));
+        IncidentUpdate initialUpdate = newIncidentUpdate(incident.getId()).withNewServiceStatusId(ServiceStatus.DEGRADED.getId());
+        repository.createIncident(incident, initialUpdate);
+
+        IncidentUpdate secondUpdate = newIncidentUpdate(incident.getId()).withNewServiceStatusId(ServiceStatus.MAJOR.getId());
+        repository.updateIncident(secondUpdate);
+
+        service = servicesDAO.findById(service.getId());
+        assertEquals(ServiceStatus.MAJOR.getId(), service.getServiceStatusId());
+    }
+
+    @Test
+    public void incidentUpdateResultsInUpdatedIncidentState() {
+        Service service = DBTestHelpers.newService().withServiceStatusId(ServiceStatus.OK.getId());
+        servicesDAO.insert(service);
+        Incident incident = newIncident().withAffectedServicesIds(Lists.newArrayList(service.getId()));
+        IncidentUpdate initialUpdate = newIncidentUpdate(incident.getId()).withNewServiceStatusId(ServiceStatus.DEGRADED.getId());
+        repository.createIncident(incident, initialUpdate);
+
+        IncidentUpdate secondUpdate = initialUpdate.withId(UUID.randomUUID().toString()).withNewState(IncidentState.MONITORING);
+        repository.updateIncident(secondUpdate);
+
+        incident = incidentsDAO.findById(incident.getId());
+        assertEquals(IncidentState.MONITORING, incident.getState());
     }
 }

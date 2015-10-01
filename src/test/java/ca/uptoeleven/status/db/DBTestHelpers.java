@@ -1,5 +1,7 @@
 package ca.uptoeleven.status.db;
 
+import ca.uptoeleven.status.core.IncidentState;
+import ca.uptoeleven.status.core.ServiceStatus;
 import ca.uptoeleven.status.db.models.Incident;
 import ca.uptoeleven.status.db.models.IncidentUpdate;
 import ca.uptoeleven.status.db.models.Service;
@@ -23,14 +25,14 @@ public class DBTestHelpers {
     }
 
     public static Service newService() {
-        return new Service(UUID.randomUUID().toString(), "name", "description", "ok", LocalDateTime.now(), LocalDateTime.now());
+        return new Service(UUID.randomUUID().toString(), "name", "description", ServiceStatus.OK.getId(), LocalDateTime.now(), LocalDateTime.now());
     }
 
     public static Incident newIncident() {
-        return new Incident(UUID.randomUUID().toString(), "title", "ok", new ArrayList<>(), LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now());
+        return new Incident(UUID.randomUUID().toString(), "title", ServiceStatus.OK.getId(), new ArrayList<>(), LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now());
     }
 
     public static IncidentUpdate newIncidentUpdate(String incidentId) {
-        return new IncidentUpdate(UUID.randomUUID().toString(), incidentId, "foo", "bar", null, LocalDateTime.now(), LocalDateTime.now());
+        return new IncidentUpdate(UUID.randomUUID().toString(), incidentId, "foo", IncidentState.INVESTIGATING, null, LocalDateTime.now(), LocalDateTime.now());
     }
 }
