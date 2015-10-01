@@ -23,4 +23,7 @@ public interface ServicesDAO {
 
     @SqlQuery("select id, name, description, serviceStatusId, createdAt, updatedAt from services")
     List<Service> findAll();
+
+    @SqlUpdate("update services set serviceStatusId=:newStatusId where id=:id")
+    void updateServiceStatusId(@Bind("id") String id, @Bind("newStatusId") String newStatusId);
 }

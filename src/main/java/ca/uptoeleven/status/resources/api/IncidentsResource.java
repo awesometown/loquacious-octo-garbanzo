@@ -30,6 +30,7 @@ public class IncidentsResource {
 
     @POST
     public Response create(IncidentCreateModel newIncident) {
+
         return Response.created(null).build();
     }
 

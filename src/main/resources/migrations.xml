@@ -6,7 +6,8 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <changeSet id="2" author="jprice">
+    <changeSet id="1" author="jprice">
+
         <createTable tableName="serviceStatuses">
             <column name="id" type="varchar(100)">
                 <constraints primaryKey="true" nullable="false"/>
@@ -15,12 +16,16 @@
                 <constraints nullable="false"/>
             </column>
             <column name="displayColor" type="varchar(10)"/>
+            <column name="sortOrder" type="integer">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
 
         <loadData tableName="serviceStatuses" file="statuses_data.csv">
             <column name="id" type="STRING" />
             <column name="name" type="STRING" />
             <column name="displayColor" type="STRING" />
+            <column name="sortOrder" type="NUMERIC"/>
         </loadData>
 
         <createTable tableName="services">

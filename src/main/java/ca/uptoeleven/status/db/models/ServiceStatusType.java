@@ -6,16 +6,20 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class ServiceStatus {
+public class ServiceStatusType {
     @NotNull
     @JsonProperty
-    private final String id;
+    private String id;
 
     @NotNull
     @JsonProperty
-    private final String name;
+    private String name;
 
     @NotNull
     @JsonProperty
-    private final String displayColor;
+    private String description;
+
+    @NotNull
+    @JsonProperty
+    private int sortOrder;
 }

@@ -2,11 +2,13 @@ package ca.uptoeleven.status.db.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.experimental.Wither;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Data
+@Wither
 public class Service {
 
     @NotNull

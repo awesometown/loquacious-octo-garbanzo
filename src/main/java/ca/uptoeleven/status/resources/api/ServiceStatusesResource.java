@@ -1,7 +1,7 @@
 package ca.uptoeleven.status.resources.api;
 
 import ca.uptoeleven.status.db.ServiceStatusesDAO;
-import ca.uptoeleven.status.db.models.ServiceStatus;
+import ca.uptoeleven.status.core.ServiceStatus;
 import ca.uptoeleven.status.resources.models.ServiceStatusViewModel;
 
 import javax.inject.Inject;
@@ -26,7 +26,7 @@ public class ServiceStatusesResource {
 
     @GET
     public List<ServiceStatusViewModel> getAllStatuses() {
-        List<ServiceStatus> statuses = dao.findAllStatuses();
+        List<ServiceStatus> statuses = dao.findAll();
         List<ServiceStatusViewModel> viewModels = statuses.stream()
                 .map(status -> new ServiceStatusViewModel(status.getId(), status.getName(), status.getDisplayColor()))
                 .collect(Collectors.<ServiceStatusViewModel> toList());

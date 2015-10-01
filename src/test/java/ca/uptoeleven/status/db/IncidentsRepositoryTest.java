@@ -1,7 +1,10 @@
 package ca.uptoeleven.status.db;
 
+import ca.uptoeleven.status.core.ServiceStatus;
 import ca.uptoeleven.status.db.models.Incident;
 import ca.uptoeleven.status.db.models.IncidentUpdate;
+import ca.uptoeleven.status.db.models.Service;
+import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -17,6 +20,7 @@ public class IncidentsRepositoryTest {
     private DBI dbi;
     private IncidentsDAO incidentsDAO;
     private IncidentUpdatesDAO updatesDAO;
+    private ServicesDAO servicesDAO;
     private IncidentsRepository repository;
 
     @Before
@@ -24,7 +28,8 @@ public class IncidentsRepositoryTest {
         this.dbi = h2JDBIRule.getDbi();
         this.incidentsDAO = incidentsDAO(h2JDBIRule.getDbi());
         this.updatesDAO = incidentUpdatesDAO(h2JDBIRule.getDbi());
-        this.repository = new IncidentsRepository(h2JDBIRule.getDbi(), incidentsDAO, updatesDAO);
+        this.servicesDAO = servicesDAO(h2JDBIRule.getDbi());
+        this.repository = new IncidentsRepository(h2JDBIRule.getDbi(), incidentsDAO, updatesDAO, servicesDAO);
     }
 
     @Test
@@ -52,5 +57,17 @@ public class IncidentsRepositoryTest {
 
         IncidentUpdate found = updatesDAO.findById(update.getId());
         assertEquals(update, found);
+    }
+
+    @Test
+    public void createdIncidentResultsInUpdatedServiceStatus() {
+        Service service = DBTestHelpers.newService().withServiceStatusId("ok");
+        servicesDAO.insert(service);
+        Incident incident = newIncident().withAffectedServicesIds(Lists.newArrayList(service.getId()));
+        IncidentUpdate update = newIncidentUpdate(incident.getId()).withNewServiceStatusId(ServiceStatus.DEGRADED.getId());
+        repository.createIncident(incident, update);
+
+        service = servicesDAO.findById(service.getId());
+        assertEquals(ServiceStatus.DEGRADED.getId(), service.getServiceStatusId());
     }
 }

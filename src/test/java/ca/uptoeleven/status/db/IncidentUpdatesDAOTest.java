@@ -21,14 +21,12 @@ public class IncidentUpdatesDAOTest {
     private DBI dbi;
     private IncidentsDAO incidentsDAO;
     private IncidentUpdatesDAO updatesDAO;
-    private IncidentsRepository repository;
 
     @Before
     public void setup() {
         this.dbi = h2JDBIRule.getDbi();
         this.incidentsDAO = incidentsDAO(h2JDBIRule.getDbi());
         this.updatesDAO = incidentUpdatesDAO(h2JDBIRule.getDbi());
-        this.repository = new IncidentsRepository(h2JDBIRule.getDbi(), incidentsDAO, updatesDAO);
     }
 
     @Test

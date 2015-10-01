@@ -47,6 +47,7 @@ public class H2JDBIRule extends ExternalResource {
 
     private void migrateDatabase() throws LiquibaseException {
         liquibase = new Liquibase("migrations.xml", new ClassLoaderResourceAccessor(), new JdbcConnection(handle.getConnection()));
+        liquibase.dropAll();
         liquibase.update("");
     }
 

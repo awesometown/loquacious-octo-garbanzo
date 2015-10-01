@@ -11,7 +11,7 @@ public class ServiceViewModel {
     private final String id;
     private final String name;
     private final String description;
-    private final String serviceStatusId;
+    private final ServiceStatusViewModel serviceStatus;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
 }

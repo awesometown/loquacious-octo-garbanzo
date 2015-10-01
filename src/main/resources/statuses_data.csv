@@ -1,3 +1,6 @@
-"ID","NAME","DISPLAYCOLOR"
-"ok","OK","2FCC66"
-"bad","Bad","E74C3C"
+"ID","NAME","DISPLAYCOLOR","SORTORDER"
+"ok","Operational","2FCC66",1
+"degraded","Degraded Performance","F1C40F",2
+"minor","Partial Outage","E67E22",3
+"major","Major Outage","E74C3C",4
+"maintenance","Maintenance","AAAAAA",5
