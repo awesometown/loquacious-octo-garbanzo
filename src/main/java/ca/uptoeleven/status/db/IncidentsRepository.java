@@ -4,7 +4,8 @@ import ca.uptoeleven.status.db.models.Incident;
 import ca.uptoeleven.status.db.models.IncidentUpdate;
 import org.skife.jdbi.v2.DBI;
 
-import java.util.Optional;
+import javax.inject.Inject;
+import java.util.List;
 
 public class IncidentsRepository {
 
@@ -13,11 +14,16 @@ public class IncidentsRepository {
     private final IncidentUpdatesDAO updatesDAO;
     private final ServicesDAO servicesDAO;
 
+    @Inject
     public IncidentsRepository(DBI dbi, IncidentsDAO incidentsDAO, IncidentUpdatesDAO updatesDAO, ServicesDAO servicesDAO) {
         this.dbi = dbi;
         this.incidentsDAO = incidentsDAO;
         this.updatesDAO = updatesDAO;
         this.servicesDAO = servicesDAO;
+    }
+
+    public List<Incident> getAllIncidents() {
+        return incidentsDAO.findAllIncidents();
     }
 
     public Incident createIncident(final Incident incident, final IncidentUpdate initialUpdate) {

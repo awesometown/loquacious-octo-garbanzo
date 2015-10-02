@@ -1,5 +1,6 @@
 package ca.uptoeleven.status.resources.api;
 
+import ca.uptoeleven.status.core.IncidentService;
 import ca.uptoeleven.status.db.IncidentsDAO;
 import ca.uptoeleven.status.db.models.Incident;
 import ca.uptoeleven.status.resources.models.IncidentCreateModel;
@@ -12,15 +13,15 @@ import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-@Path("/api/services/{serviceid}/incidents")
+@Path("/api/incidents")
 @Produces(MediaType.APPLICATION_JSON)
 public class IncidentsResource {
 
-    private final IncidentsDAO incidentsDAO;
+    private final IncidentService incidentService;
 
     @Inject
-    public IncidentsResource(IncidentsDAO incidentsDAO) {
-        this.incidentsDAO = incidentsDAO;
+    public IncidentsResource(IncidentService incidentService) {
+        this.incidentService = incidentService;
     }
 
     @GET
@@ -29,22 +30,17 @@ public class IncidentsResource {
     }
 
     @POST
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response create(IncidentCreateModel newIncident) {
-
-        return Response.created(null).build();
+        Incident created = incidentService.createIncident(newIncident);
+        return Response.ok(created).build();
     }
 
-    @POST
-    @Path("test/{foo}")
-    public Response test(@PathParam("foo") String foo) {
-        //incidentsDAO.insert(UUID.randomUUID().toString(), foo);
-        return Response.ok().build();
-    }
 
     @GET
     @Path("test")
     public Response getTest() {
-        List<Incident> incidents = incidentsDAO.findAllIncidents();
+        List<Incident> incidents = incidentService.getAllIncidents();
         return Response.ok(incidents).build();
     }
 }

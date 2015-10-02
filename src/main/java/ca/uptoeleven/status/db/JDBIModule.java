@@ -1,6 +1,7 @@
 package ca.uptoeleven.status.db;
 
 import ca.uptoeleven.status.StatusConfiguration;
+import ca.uptoeleven.status.core.IncidentService;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import io.dropwizard.java8.jdbi.args.LocalDateTimeArgumentFactory;
@@ -15,7 +16,7 @@ public class JDBIModule extends AbstractModule {
 
     @Provides
     public DBI jdbi(Environment environment, StatusConfiguration configuration) {
-        DBI dbi = new DBIFactory().build(environment, configuration.getDataSourceFactory(), "h2");
+        DBI dbi = new DBIFactory().build(environment, configuration.getDataSourceFactory(), "h2" );
         dbi.registerArgumentFactory(new LocalDateTimeArgumentFactory());
         return dbi;
     }
@@ -38,6 +39,7 @@ public class JDBIModule extends AbstractModule {
 
     @Override
     protected void configure() {
-
+        bind(IncidentsRepository.class);
+        bind(IncidentService.class);
     }
 }
