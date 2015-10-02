@@ -10,11 +10,9 @@ import java.time.LocalDateTime;
 @Data
 @Wither
 public class IncidentUpdate {
-    @NotNull
     @JsonProperty
     private final String id;
 
-    @NotNull
     @JsonProperty
     private final String incidentId;
 

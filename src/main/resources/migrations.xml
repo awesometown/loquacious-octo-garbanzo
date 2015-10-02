@@ -93,5 +93,14 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+
+        <createTable tableName="incidentAffectedServices">
+            <column name="incidentId" type="varchar(100)" autoIncrement="false">
+                <constraints foreignKeyName="fk_incidentAffectedServices_incidents" references="incidents(id)"/>
+            </column>
+            <column name="serviceId" type="varchar(100)">
+                <constraints foreignKeyName="fk_incidentAffectedServices_services" references="services(id)"/>
+            </column>
+        </createTable>
     </changeSet>
 </databaseChangeLog>

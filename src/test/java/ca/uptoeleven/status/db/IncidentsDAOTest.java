@@ -1,15 +1,19 @@
 package ca.uptoeleven.status.db;
 
 import ca.uptoeleven.status.db.models.Incident;
+import ca.uptoeleven.status.db.models.Service;
+import com.google.common.collect.Lists;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.skife.jdbi.v2.DBI;
 
-import static ca.uptoeleven.status.db.DBTestHelpers.incidentUpdatesDAO;
-import static ca.uptoeleven.status.db.DBTestHelpers.incidentsDAO;
-import static ca.uptoeleven.status.db.DBTestHelpers.newIncident;
+import java.util.List;
+
+import static ca.uptoeleven.status.db.DBTestHelpers.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class IncidentsDAOTest {
 
@@ -18,24 +22,45 @@ public class IncidentsDAOTest {
 
     private DBI dbi;
     private IncidentsDAO incidentsDAO;
+    private ServicesDAO servicesDAO;
 
     @Before
     public void setup() {
         this.dbi = h2JDBIRule.getDbi();
         this.incidentsDAO = incidentsDAO(h2JDBIRule.getDbi());
+        this.servicesDAO = servicesDAO(h2JDBIRule.getDbi());
     }
 
     @Test
-    public void createIncidentSucceedsWithoutError() {
-        incidentsDAO.insert(newIncident());
+    public void insertIncidentSucceedsWithoutError() {
+        incidentsDAO.insert(newIncident().withId(newId()));
+    }
+
+    @Test
+    public void createIncidentSetsId() {
+        Incident incident = newIncident();
+        incident = incidentsDAO.create(incident);
+        assertNotNull(incident.getId());
+    }
+
+    @Test
+    public void createIncidentSavesAffectedServiceId() {
+        Service service = newService().withId(newId());
+        servicesDAO.insert(service);
+
+        Incident incident = newIncident().withAffectedServicesIds(Lists.newArrayList(service.getId()));
+        incident = incidentsDAO.create(incident);
+        List<String> affectedIds = incidentsDAO.findAffectedServiceIds(incident.getId());
+        assertEquals(1, affectedIds.size());
+        assertEquals(service.getId(), affectedIds.get(0));
     }
 
     @Test
     public void createdIncidentCanBeSelected() {
         Incident toInsert = newIncident();
-        incidentsDAO.insert(toInsert);
+        toInsert = incidentsDAO.create(toInsert);
         Incident selected = incidentsDAO.findById(toInsert.getId());
-        Assert.assertNotNull(selected);
-        Assert.assertEquals(toInsert, selected);
+        assertNotNull(selected);
+        assertEquals(toInsert, selected);
     }
 }

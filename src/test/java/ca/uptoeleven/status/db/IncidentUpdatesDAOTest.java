@@ -32,19 +32,19 @@ public class IncidentUpdatesDAOTest {
     @Test
     public void insertSucceedsWithoutError() {
         Incident incident = newIncident();
-        incidentsDAO.insert(incident);
+        incident = incidentsDAO.create(incident);
 
-        IncidentUpdate update = newIncidentUpdate(incident.getId());
-        updatesDAO.insert(update);
+        IncidentUpdate update = newIncidentUpdate().withIncidentId(incident.getId());
+        updatesDAO.create(update);
     }
 
     @Test
     public void findByIdReturnsUpdate() {
         Incident incident = newIncident();
-        incidentsDAO.insert(incident);
+        incident = incidentsDAO.create(incident);
 
-        IncidentUpdate update = newIncidentUpdate(incident.getId());
-        updatesDAO.insert(update);
+        IncidentUpdate update = newIncidentUpdate().withIncidentId(incident.getId());
+        update = updatesDAO.create(update);
 
         IncidentUpdate found = updatesDAO.findById(update.getId());
         assertEquals(update, found);
@@ -53,12 +53,12 @@ public class IncidentUpdatesDAOTest {
     @Test
     public void findByIncidentIdReturnsAllUpdates() {
         Incident incident = newIncident();
-        incidentsDAO.insert(incident);
+        incident = incidentsDAO.create(incident);
 
-        IncidentUpdate update1 = newIncidentUpdate(incident.getId());
-        updatesDAO.insert(update1);
-        IncidentUpdate update2 = newIncidentUpdate(incident.getId());
-        updatesDAO.insert(update2);
+        IncidentUpdate update1 = newIncidentUpdate().withIncidentId(incident.getId());
+        update1 = updatesDAO.create(update1);
+        IncidentUpdate update2 = newIncidentUpdate().withIncidentId(incident.getId());
+        update2 = updatesDAO.create(update2);
 
         List<IncidentUpdate> found = updatesDAO.findByIncidentId(incident.getId());
         assertEquals(2, found.size());

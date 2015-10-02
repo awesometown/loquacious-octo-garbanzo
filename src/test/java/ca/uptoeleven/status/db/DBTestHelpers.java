@@ -24,15 +24,19 @@ public class DBTestHelpers {
         return dbi.onDemand(ServicesDAO.class);
     }
 
+    public static String newId() {
+        return UUID.randomUUID().toString();
+    }
+
     public static Service newService() {
         return new Service(UUID.randomUUID().toString(), "name", "description", ServiceStatus.OK.getId(), LocalDateTime.now(), LocalDateTime.now());
     }
 
     public static Incident newIncident() {
-        return new Incident(UUID.randomUUID().toString(), "title", ServiceStatus.OK.getId(), new ArrayList<>(), LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now());
+        return new Incident(null, "title", ServiceStatus.OK.getId(), new ArrayList<>(), LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now());
     }
 
-    public static IncidentUpdate newIncidentUpdate(String incidentId) {
-        return new IncidentUpdate(UUID.randomUUID().toString(), incidentId, "foo", IncidentState.INVESTIGATING, null, LocalDateTime.now(), LocalDateTime.now());
+    public static IncidentUpdate newIncidentUpdate() {
+        return new IncidentUpdate(null, null, "foo", IncidentState.INVESTIGATING, null, LocalDateTime.now(), LocalDateTime.now());
     }
 }

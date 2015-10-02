@@ -7,12 +7,12 @@ import lombok.experimental.Wither;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Data
 @Wither
 public class Incident {
 
-    @NotNull
     @JsonProperty
     private final String id;
 

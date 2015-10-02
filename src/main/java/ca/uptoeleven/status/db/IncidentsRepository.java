@@ -20,11 +20,11 @@ public class IncidentsRepository {
         this.servicesDAO = servicesDAO;
     }
 
-    public void createIncident(final Incident incident, final IncidentUpdate initialUpdate) {
-        dbi.inTransaction((handle, transactionStatus) -> {
-            incidentsDAO.insert(incident);
-            createUpdateAndUpdateAffectedServices(incident, initialUpdate);
-            return null;
+    public Incident createIncident(final Incident incident, final IncidentUpdate initialUpdate) {
+        return dbi.inTransaction((handle, transactionStatus) -> {
+            Incident created = incidentsDAO.create(incident);
+            createUpdateAndUpdateAffectedServices(incident, initialUpdate.withIncidentId(created.getId()));
+            return created;
         });
     }
 
@@ -38,7 +38,7 @@ public class IncidentsRepository {
     }
 
     private void createUpdateAndUpdateAffectedServices(final Incident incident, final IncidentUpdate update) {
-        updatesDAO.insert(update);
+        updatesDAO.create(update);
         for(String serviceId : incident.getAffectedServicesIds()) {
             servicesDAO.updateServiceStatusId(serviceId, update.getNewServiceStatusId());
         }
