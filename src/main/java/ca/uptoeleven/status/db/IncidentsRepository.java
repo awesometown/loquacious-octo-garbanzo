@@ -26,6 +26,10 @@ public class IncidentsRepository {
         return incidentsDAO.findAllIncidents();
     }
 
+    public Incident getIncident(String incidentId) {
+        return incidentsDAO.findById(incidentId);
+    }
+
     public Incident createIncident(final Incident incident, final IncidentUpdate initialUpdate) {
         return dbi.inTransaction((handle, transactionStatus) -> {
             Incident created = incidentsDAO.create(incident);

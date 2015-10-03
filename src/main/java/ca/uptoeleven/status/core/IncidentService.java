@@ -23,6 +23,10 @@ public class IncidentService {
         return incidentsRepository.getAllIncidents();
     }
 
+    public Incident getIncident(String incidentId) {
+        return incidentsRepository.getIncident(incidentId);
+    }
+
     public Incident createIncident(IncidentCreateModel model) {
         LocalDateTime now = LocalDateTime.now();
         Incident incident = new Incident(

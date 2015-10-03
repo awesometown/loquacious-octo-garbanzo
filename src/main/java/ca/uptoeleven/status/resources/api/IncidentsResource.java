@@ -36,11 +36,20 @@ public class IncidentsResource {
         return Response.ok(created).build();
     }
 
-
     @GET
-    @Path("test")
-    public Response getTest() {
-        List<Incident> incidents = incidentService.getAllIncidents();
-        return Response.ok(incidents).build();
+    @Path("/{incidentId}")
+    public IncidentViewModel getIncident(@PathParam("incidentId") String incidentId) {
+        Incident incident = incidentService.getIncident(incidentId);
+        IncidentViewModel vm = new IncidentViewModel(
+                incident.getId(),
+                incident.getTitle(),
+                incident.getState(),
+                "TODO",
+                false,
+                incident.getCreatedAt(),
+                incident.getUpdatedAt(),
+                new ArrayList<>()
+        );
+        return vm;
     }
 }
