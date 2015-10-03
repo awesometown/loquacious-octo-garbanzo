@@ -18,7 +18,7 @@
     <link href="/webjars/bootstrap/3.3.5/css/bootstrap-theme.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="/assets/css/theme.css" rel="stylesheet">
+	<link href="/assets/css/theme.css" rel="stylesheet">
 
     <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,300|Droid+Sans+Mono" rel="stylesheet"
           type="text/css">
@@ -60,7 +60,7 @@
         <ul class="list-group">
 		<#list services as service>
             <li class="list-group-item">
-                <p class="service-status">${service.serviceStatusId}</p>
+                <p class="service-status">${service.serviceStatus.name}</p>
 
                 <p class="service-name">${service.name}</p>
             </li>
