@@ -1,6 +1,9 @@
 package ca.uptoeleven.status.resources.ui;
 
+import ca.uptoeleven.status.db.models.Incident;
+import ca.uptoeleven.status.resources.api.IncidentsResource;
 import ca.uptoeleven.status.resources.api.ServicesResource;
+import ca.uptoeleven.status.resources.models.IncidentViewModel;
 import ca.uptoeleven.status.resources.models.ServiceViewModel;
 import ca.uptoeleven.status.resources.ui.views.DashboardView;
 import io.dropwizard.views.View;
@@ -24,6 +27,9 @@ public class DashboardResource {
     public View getDashboard() {
         ServicesResource sr = rc.getResource(ServicesResource.class);
         List<ServiceViewModel> svms = sr.getServices();
-        return new DashboardView(svms);
+
+        IncidentsResource ir = rc.getResource(IncidentsResource.class);
+        List<IncidentViewModel> incidents = ir.listIncidents();
+        return new DashboardView(svms, incidents);
     }
 }

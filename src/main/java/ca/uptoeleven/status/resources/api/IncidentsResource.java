@@ -12,8 +12,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Path("/api/incidents")
+@Path("/api/incidents" )
 @Produces(MediaType.APPLICATION_JSON)
 public class IncidentsResource {
 
@@ -26,7 +27,9 @@ public class IncidentsResource {
 
     @GET
     public List<IncidentViewModel> listIncidents() {
-        return new ArrayList<>();
+        return incidentService.getAllIncidents().stream().map(incident ->
+                        map(incident)
+        ).collect(Collectors.toList());
     }
 
     @POST
@@ -37,9 +40,13 @@ public class IncidentsResource {
     }
 
     @GET
-    @Path("/{incidentId}")
-    public IncidentViewModel getIncident(@PathParam("incidentId") String incidentId) {
+    @Path("/{incidentId}" )
+    public IncidentViewModel getIncident(@PathParam("incidentId" ) String incidentId) {
         Incident incident = incidentService.getIncident(incidentId);
+        return map(incident);
+    }
+
+    private IncidentViewModel map(Incident incident) {
         IncidentViewModel vm = new IncidentViewModel(
                 incident.getId(),
                 incident.getTitle(),

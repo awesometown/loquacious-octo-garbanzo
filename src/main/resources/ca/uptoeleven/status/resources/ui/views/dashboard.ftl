@@ -42,18 +42,16 @@
     </div>
 
     <div class="currentIssues">
-        <div class="alert alert-success">
-            <p class="issue-state">Identified</p>
 
-            <h2>Network Connectivity Issues</h2>
+		<#list incidents as incident>
+            <div class="alert ${classForStatus('bar')}">
+                <p class="issue-state">${incident.state}</p>
 
-            <p class="issue-updated">last updated 15 minutes ago</p>
-        </div>
-        <div class="alert alert-info">
-            <h2>Alert!</h2>
+                <h2>${incident.title}</h2>
 
-            <p>Some Stuff!</p>
-        </div>
+                <p class="issue-updated">last updated 15 minutes ago</p>
+            </div>
+		</#list>
     </div>
 
     <div class="services">
@@ -67,7 +65,6 @@
 		</#list>
         </ul>
     </div>
-
 </div>
 <!-- /container -->
 

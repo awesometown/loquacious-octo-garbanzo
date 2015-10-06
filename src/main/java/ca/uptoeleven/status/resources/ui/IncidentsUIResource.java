@@ -3,6 +3,7 @@ package ca.uptoeleven.status.resources.ui;
 import ca.uptoeleven.status.resources.api.IncidentsResource;
 import ca.uptoeleven.status.resources.models.IncidentViewModel;
 import ca.uptoeleven.status.resources.ui.views.DashboardView;
+import ca.uptoeleven.status.resources.ui.views.IncidentCreate;
 import ca.uptoeleven.status.resources.ui.views.IncidentView;
 import io.dropwizard.views.View;
 
@@ -20,6 +21,12 @@ public class IncidentsUIResource {
 
     @Context
     private ResourceContext rc;
+
+    @GET
+    @Path("/new")
+    public View createIncident(@PathParam("incidentId") String incidentId) {
+        return new IncidentCreate();
+    }
 
     @GET
     @Path("/{incidentId}")
