@@ -1,4 +1,4 @@
-<#import "common/admin_master.ftl" as layout />
+<#import "../common/admin_master.ftl" as layout />
 
 <@layout.adminTemplate title="My test page">
 <h1 class="page-header">Create an Incident</h1>

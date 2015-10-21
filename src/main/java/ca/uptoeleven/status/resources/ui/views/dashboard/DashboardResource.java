@@ -1,15 +1,16 @@
-package ca.uptoeleven.status.resources.ui;
+package ca.uptoeleven.status.resources.ui.views.dashboard;
 
-import ca.uptoeleven.status.db.models.Incident;
 import ca.uptoeleven.status.resources.api.IncidentsResource;
 import ca.uptoeleven.status.resources.api.ServicesResource;
 import ca.uptoeleven.status.resources.models.IncidentViewModel;
 import ca.uptoeleven.status.resources.models.ServiceViewModel;
-import ca.uptoeleven.status.resources.ui.views.DashboardView;
+import ca.uptoeleven.status.resources.ui.views.dashboard.DashboardView;
+import ca.uptoeleven.status.resources.ui.views.dashboard.IncidentDetailsView;
 import io.dropwizard.views.View;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Context;
@@ -31,5 +32,13 @@ public class DashboardResource {
         IncidentsResource ir = rc.getResource(IncidentsResource.class);
         List<IncidentViewModel> incidents = ir.listIncidents();
         return new DashboardView(svms, incidents);
+    }
+
+    @GET
+    @Path("/{incidentId}")
+    public View viewIncident(@PathParam("incidentId") String incidentId) {
+        IncidentsResource ir = rc.getResource(IncidentsResource.class);
+        IncidentViewModel vm = ir.getIncident(incidentId);
+        return new IncidentDetailsView(vm);
     }
 }

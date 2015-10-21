@@ -1,4 +1,4 @@
-package ca.uptoeleven.status.resources.ui.views;
+package ca.uptoeleven.status.resources.ui.views.admin;
 
 import ca.uptoeleven.status.core.IncidentState;
 import ca.uptoeleven.status.core.ServiceStatus;

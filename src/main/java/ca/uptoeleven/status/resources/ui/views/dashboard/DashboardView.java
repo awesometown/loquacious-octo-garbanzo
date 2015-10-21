@@ -1,4 +1,4 @@
-package ca.uptoeleven.status.resources.ui.views;
+package ca.uptoeleven.status.resources.ui.views.dashboard;
 
 import ca.uptoeleven.status.db.models.Incident;
 import ca.uptoeleven.status.resources.models.IncidentViewModel;
