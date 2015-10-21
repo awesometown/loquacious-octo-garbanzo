@@ -7,9 +7,10 @@ import ca.uptoeleven.status.resources.models.IncidentCreateModel;
 import ca.uptoeleven.status.resources.models.IncidentViewModel;
 import com.google.inject.Inject;
 
+import javax.validation.Valid;
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.*;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +20,9 @@ import java.util.stream.Collectors;
 public class IncidentsResource {
 
     private final IncidentService incidentService;
+
+    @Context
+    private UriInfo uriInfo;
 
     @Inject
     public IncidentsResource(IncidentService incidentService) {
@@ -34,9 +38,11 @@ public class IncidentsResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response create(IncidentCreateModel newIncident) {
+    public Response create(@Valid IncidentCreateModel newIncident) {
         Incident created = incidentService.createIncident(newIncident);
-        return Response.ok(created).build();
+        UriBuilder ub = uriInfo.getAbsolutePathBuilder();
+        URI userUri = ub.path(created.getId()).build();
+        return Response.created(userUri).build();
     }
 
     @GET

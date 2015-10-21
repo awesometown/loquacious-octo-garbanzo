@@ -7,6 +7,7 @@ import ca.uptoeleven.status.resources.models.IncidentCreateModel;
 import com.google.inject.Inject;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,7 +34,7 @@ public class IncidentService {
                 UUID.randomUUID().toString(),
                 model.getTitle(),
                 model.getState(),
-                model.getAffectedServiceIds(),
+                model.getAffectedServiceIds() == null ? new ArrayList<>() : model.getAffectedServiceIds(),
                 model.getStartTime() == null ? now : model.getStartTime(),
                 now,
                 now);
