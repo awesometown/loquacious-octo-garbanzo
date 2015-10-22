@@ -1,14 +1,12 @@
 package ca.uptoeleven.status.db;
 
-import ca.uptoeleven.status.db.models.IncidentUpdate;
-import ca.uptoeleven.status.db.models.IncidentUpdateMapper;
+import ca.uptoeleven.status.core.IncidentUpdate;
 import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.BindBean;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
 import org.skife.jdbi.v2.sqlobject.SqlUpdate;
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;

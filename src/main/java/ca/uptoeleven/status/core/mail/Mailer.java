@@ -1,4 +1,4 @@
-package ca.uptoeleven.status.mail;
+package ca.uptoeleven.status.core.mail;
 
 import java.io.IOException;
 import com.amazonaws.services.simpleemail.*;

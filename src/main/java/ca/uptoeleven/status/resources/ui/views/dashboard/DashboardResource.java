@@ -2,10 +2,8 @@ package ca.uptoeleven.status.resources.ui.views.dashboard;
 
 import ca.uptoeleven.status.resources.api.IncidentsResource;
 import ca.uptoeleven.status.resources.api.ServicesResource;
-import ca.uptoeleven.status.resources.models.IncidentViewModel;
-import ca.uptoeleven.status.resources.models.ServiceViewModel;
-import ca.uptoeleven.status.resources.ui.views.dashboard.DashboardView;
-import ca.uptoeleven.status.resources.ui.views.dashboard.IncidentDetailsView;
+import ca.uptoeleven.status.api.IncidentViewModel;
+import ca.uptoeleven.status.api.ServiceViewModel;
 import io.dropwizard.views.View;
 
 import javax.ws.rs.GET;

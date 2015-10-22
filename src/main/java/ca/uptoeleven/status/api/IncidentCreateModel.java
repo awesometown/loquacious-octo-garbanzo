@@ -1,4 +1,4 @@
-package ca.uptoeleven.status.resources.models;
+package ca.uptoeleven.status.api;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

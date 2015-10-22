@@ -1,6 +1,6 @@
 package ca.uptoeleven.status.resources.ui.views.admin;
 
-import ca.uptoeleven.status.resources.models.ServiceViewModel;
+import ca.uptoeleven.status.api.ServiceViewModel;
 import io.dropwizard.views.View;
 import lombok.Getter;
 

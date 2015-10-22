@@ -1,9 +1,6 @@
 package ca.uptoeleven.status.db;
 
-import ca.uptoeleven.status.db.models.Incident;
-import ca.uptoeleven.status.db.models.IncidentMapper;
-import ca.uptoeleven.status.db.models.Service;
-import ca.uptoeleven.status.db.models.ServiceMapper;
+import ca.uptoeleven.status.core.Service;
 import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.BindBean;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;

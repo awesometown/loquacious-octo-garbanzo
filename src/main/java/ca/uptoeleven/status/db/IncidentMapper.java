@@ -1,5 +1,6 @@
-package ca.uptoeleven.status.db.models;
+package ca.uptoeleven.status.db;
 
+import ca.uptoeleven.status.core.Incident;
 import org.skife.jdbi.v2.StatementContext;
 import org.skife.jdbi.v2.tweak.ResultSetMapper;
 

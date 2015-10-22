@@ -1,7 +1,6 @@
 package ca.uptoeleven.status.db;
 
 import ca.uptoeleven.status.core.ServiceStatus;
-import ca.uptoeleven.status.db.models.ServiceStatusMapper;
 import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;

@@ -2,11 +2,11 @@ package ca.uptoeleven.status.resources.api;
 
 import ca.uptoeleven.status.db.ServiceStatusesDAO;
 import ca.uptoeleven.status.db.ServicesDAO;
-import ca.uptoeleven.status.db.models.Service;
+import ca.uptoeleven.status.core.Service;
 import ca.uptoeleven.status.core.ServiceStatus;
-import ca.uptoeleven.status.resources.models.ServiceCreateModel;
-import ca.uptoeleven.status.resources.models.ServiceStatusViewModel;
-import ca.uptoeleven.status.resources.models.ServiceViewModel;
+import ca.uptoeleven.status.api.ServiceCreateModel;
+import ca.uptoeleven.status.api.ServiceStatusViewModel;
+import ca.uptoeleven.status.api.ServiceViewModel;
 import com.google.inject.Inject;
 
 import javax.ws.rs.*;

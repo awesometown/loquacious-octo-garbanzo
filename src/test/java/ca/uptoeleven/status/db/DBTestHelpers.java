@@ -2,9 +2,9 @@ package ca.uptoeleven.status.db;
 
 import ca.uptoeleven.status.core.IncidentState;
 import ca.uptoeleven.status.core.ServiceStatus;
-import ca.uptoeleven.status.db.models.Incident;
-import ca.uptoeleven.status.db.models.IncidentUpdate;
-import ca.uptoeleven.status.db.models.Service;
+import ca.uptoeleven.status.core.Incident;
+import ca.uptoeleven.status.core.IncidentUpdate;
+import ca.uptoeleven.status.core.Service;
 import org.skife.jdbi.v2.DBI;
 
 import java.time.LocalDateTime;

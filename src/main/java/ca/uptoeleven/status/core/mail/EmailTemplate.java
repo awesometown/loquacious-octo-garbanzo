@@ -1,4 +1,4 @@
-package ca.uptoeleven.status.mail;
+package ca.uptoeleven.status.core.mail;
 
 import com.github.rjeschke.txtmark.Processor;
 import org.apache.commons.lang3.text.StrSubstitutor;

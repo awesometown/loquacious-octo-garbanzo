@@ -1,9 +1,9 @@
 package ca.uptoeleven.status.core;
 
+import ca.uptoeleven.status.core.Incident;
+import ca.uptoeleven.status.core.IncidentUpdate;
 import ca.uptoeleven.status.db.IncidentsRepository;
-import ca.uptoeleven.status.db.models.Incident;
-import ca.uptoeleven.status.db.models.IncidentUpdate;
-import ca.uptoeleven.status.resources.models.IncidentCreateModel;
+import ca.uptoeleven.status.api.IncidentCreateModel;
 import com.google.inject.Inject;
 
 import java.time.LocalDateTime;

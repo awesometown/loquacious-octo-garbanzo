@@ -2,18 +2,16 @@ package ca.uptoeleven.status.db;
 
 import ca.uptoeleven.status.core.IncidentState;
 import ca.uptoeleven.status.core.ServiceStatus;
-import ca.uptoeleven.status.db.models.Incident;
-import ca.uptoeleven.status.db.models.IncidentUpdate;
-import ca.uptoeleven.status.db.models.Service;
+import ca.uptoeleven.status.core.Incident;
+import ca.uptoeleven.status.core.IncidentUpdate;
+import ca.uptoeleven.status.core.Service;
 import com.google.common.collect.Lists;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.skife.jdbi.v2.DBI;
 
 import java.util.List;
-import java.util.UUID;
 
 import static ca.uptoeleven.status.db.DBTestHelpers.*;
 import static org.junit.Assert.assertEquals;

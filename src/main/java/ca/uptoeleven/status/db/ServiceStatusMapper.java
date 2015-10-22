@@ -1,4 +1,4 @@
-package ca.uptoeleven.status.db.models;
+package ca.uptoeleven.status.db;
 
 import ca.uptoeleven.status.core.ServiceStatus;
 import org.skife.jdbi.v2.StatementContext;

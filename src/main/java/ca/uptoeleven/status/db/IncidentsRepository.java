@@ -1,7 +1,7 @@
 package ca.uptoeleven.status.db;
 
-import ca.uptoeleven.status.db.models.Incident;
-import ca.uptoeleven.status.db.models.IncidentUpdate;
+import ca.uptoeleven.status.core.Incident;
+import ca.uptoeleven.status.core.IncidentUpdate;
 import org.skife.jdbi.v2.DBI;
 
 import javax.inject.Inject;

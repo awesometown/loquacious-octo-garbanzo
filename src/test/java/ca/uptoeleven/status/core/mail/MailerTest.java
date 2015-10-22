@@ -1,4 +1,4 @@
-package ca.uptoeleven.status.mail;
+package ca.uptoeleven.status.core.mail;
 
 import org.junit.Ignore;
 import org.junit.Test;

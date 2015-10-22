@@ -2,7 +2,7 @@ package ca.uptoeleven.status.resources.api;
 
 import ca.uptoeleven.status.db.ServiceStatusesDAO;
 import ca.uptoeleven.status.core.ServiceStatus;
-import ca.uptoeleven.status.resources.models.ServiceStatusViewModel;
+import ca.uptoeleven.status.api.ServiceStatusViewModel;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;

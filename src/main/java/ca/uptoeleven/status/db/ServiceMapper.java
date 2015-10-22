@@ -1,11 +1,11 @@
-package ca.uptoeleven.status.db.models;
+package ca.uptoeleven.status.db;
 
+import ca.uptoeleven.status.core.Service;
 import org.skife.jdbi.v2.StatementContext;
 import org.skife.jdbi.v2.tweak.ResultSetMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class ServiceMapper implements ResultSetMapper<Service>
 {

@@ -2,7 +2,7 @@ package ca.uptoeleven.status.resources.ui.views.admin;
 
 import ca.uptoeleven.status.core.IncidentState;
 import ca.uptoeleven.status.core.ServiceStatus;
-import ca.uptoeleven.status.resources.models.ServiceViewModel;
+import ca.uptoeleven.status.api.ServiceViewModel;
 import com.google.common.collect.Lists;
 import io.dropwizard.views.View;
 import lombok.Getter;

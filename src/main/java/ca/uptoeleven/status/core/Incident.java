@@ -1,4 +1,4 @@
-package ca.uptoeleven.status.db.models;
+package ca.uptoeleven.status.core;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -6,26 +6,30 @@ import lombok.experimental.Wither;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Wither
-public class Service {
+public class Incident {
 
-    @NotNull
     @JsonProperty
     private final String id;
 
     @NotNull
     @JsonProperty
-    private final String name;
+    private final String title;
 
     @NotNull
     @JsonProperty
-    private final String description;
+    private final String state;
 
     @NotNull
     @JsonProperty
-    private final String serviceStatusId;
+    private final List<String> affectedServicesIds;
+
+    @NotNull
+    @JsonProperty
+    private final LocalDateTime startTime;
 
     @NotNull
     @JsonProperty
@@ -34,4 +38,6 @@ public class Service {
     @NotNull
     @JsonProperty
     private final LocalDateTime updatedAt;
+
+    private final List<IncidentUpdate> incidentUpdates;
 }

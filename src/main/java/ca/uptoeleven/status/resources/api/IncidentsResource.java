@@ -1,19 +1,16 @@
 package ca.uptoeleven.status.resources.api;
 
 import ca.uptoeleven.status.core.IncidentService;
-import ca.uptoeleven.status.db.IncidentsDAO;
-import ca.uptoeleven.status.db.models.Incident;
-import ca.uptoeleven.status.db.models.IncidentUpdate;
-import ca.uptoeleven.status.resources.models.IncidentCreateModel;
-import ca.uptoeleven.status.resources.models.IncidentUpdateViewModel;
-import ca.uptoeleven.status.resources.models.IncidentViewModel;
+import ca.uptoeleven.status.core.Incident;
+import ca.uptoeleven.status.api.IncidentCreateModel;
+import ca.uptoeleven.status.api.IncidentUpdateViewModel;
+import ca.uptoeleven.status.api.IncidentViewModel;
 import com.google.inject.Inject;
 
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

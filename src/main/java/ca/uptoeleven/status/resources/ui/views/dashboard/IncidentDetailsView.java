@@ -1,6 +1,6 @@
 package ca.uptoeleven.status.resources.ui.views.dashboard;
 
-import ca.uptoeleven.status.resources.models.IncidentViewModel;
+import ca.uptoeleven.status.api.IncidentViewModel;
 import io.dropwizard.views.View;
 import lombok.Getter;
 

@@ -1,9 +1,8 @@
 package ca.uptoeleven.status.db;
 
-import ca.uptoeleven.status.db.models.Incident;
-import ca.uptoeleven.status.db.models.Service;
+import ca.uptoeleven.status.core.Incident;
+import ca.uptoeleven.status.core.Service;
 import com.google.common.collect.Lists;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

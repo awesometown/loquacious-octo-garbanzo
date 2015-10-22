@@ -1,7 +1,6 @@
 package ca.uptoeleven.status.db;
 
-import ca.uptoeleven.status.db.models.Incident;
-import ca.uptoeleven.status.db.models.Service;
+import ca.uptoeleven.status.core.Service;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;

@@ -1,19 +1,14 @@
 package ca.uptoeleven.status.resources.ui.views.admin;
 
-import ca.uptoeleven.status.db.models.Incident;
 import ca.uptoeleven.status.resources.api.IncidentsResource;
 import ca.uptoeleven.status.resources.api.ServicesResource;
-import ca.uptoeleven.status.resources.models.IncidentCreateModel;
-import ca.uptoeleven.status.resources.models.ServiceViewModel;
-import ca.uptoeleven.status.resources.ui.views.admin.IncidentCreateView;
+import ca.uptoeleven.status.api.ServiceViewModel;
 import io.dropwizard.views.View;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Path("admin")
