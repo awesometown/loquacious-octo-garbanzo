@@ -49,7 +49,7 @@
 
                 <h2>${incident.title}</h2>
 
-                <p class="issue-updated">last updated 15 minutes ago</p>
+                <p class="issue-updated">last updated ${prettyDate(incident.updatedAt)}</p>
             </div>
 		</#list>
     </div>
