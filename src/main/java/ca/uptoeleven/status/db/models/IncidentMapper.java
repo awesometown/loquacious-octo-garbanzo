@@ -18,6 +18,7 @@ public class IncidentMapper implements ResultSetMapper<Incident>
                 new ArrayList<>(),
                 resultSet.getTimestamp("STARTTIME" ).toLocalDateTime(),
                 resultSet.getTimestamp("CREATEDAT" ).toLocalDateTime(),
-                resultSet.getTimestamp("UPDATEDAT" ).toLocalDateTime());
+                resultSet.getTimestamp("UPDATEDAT" ).toLocalDateTime(),
+                null);
     }
 }

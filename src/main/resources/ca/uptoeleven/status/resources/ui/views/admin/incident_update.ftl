@@ -28,6 +28,11 @@
         <li><button value="Update" name="Create" id="submit" class="btn btn-success"/></li>
     </ul>
 </form>
+<ul>
+<#list incident.incidentUpdates as update>
+	<li>${update.description}</li>
+</#list>
+<ul>
 
 <script type="application/javascript">
 //    $(document).ready(function() {

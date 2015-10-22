@@ -39,4 +39,6 @@ public class Incident {
     @NotNull
     @JsonProperty
     private final LocalDateTime updatedAt;
+
+    private final List<IncidentUpdate> incidentUpdates;
 }

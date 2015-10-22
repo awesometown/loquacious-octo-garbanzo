@@ -33,7 +33,7 @@ public class DBTestHelpers {
     }
 
     public static Incident newIncident() {
-        return new Incident(null, "title", ServiceStatus.OK.getId(), new ArrayList<>(), LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now());
+        return new Incident(null, "title", ServiceStatus.OK.getId(), new ArrayList<>(), LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now(), null);
     }
 
     public static IncidentUpdate newIncidentUpdate() {

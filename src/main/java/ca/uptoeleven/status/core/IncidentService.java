@@ -37,7 +37,8 @@ public class IncidentService {
                 model.getAffectedServiceIds() == null ? new ArrayList<>() : model.getAffectedServiceIds(),
                 model.getStartTime() == null ? now : model.getStartTime(),
                 now,
-                now);
+                now,
+                null);
         IncidentUpdate initialUpdate = new IncidentUpdate(
                 UUID.randomUUID().toString(),
                 incident.getId(),

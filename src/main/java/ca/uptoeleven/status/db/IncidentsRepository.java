@@ -6,6 +6,7 @@ import org.skife.jdbi.v2.DBI;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class IncidentsRepository {
 
@@ -23,11 +24,19 @@ public class IncidentsRepository {
     }
 
     public List<Incident> getAllIncidents() {
-        return incidentsDAO.findAllIncidents();
+        List<Incident> allIncidents = incidentsDAO.findAllIncidents();
+        return allIncidents.stream().map(incident -> populateUpdates(incident)).collect(Collectors.toList());
+    }
+
+    private Incident populateUpdates(Incident incident) {
+        List<IncidentUpdate> updates = updatesDAO.findByIncidentId(incident.getId());
+        return incident.withIncidentUpdates(updates);
     }
 
     public Incident getIncident(String incidentId) {
-        return incidentsDAO.findById(incidentId);
+        Incident incident = incidentsDAO.findById(incidentId);
+        List<IncidentUpdate> updates = updatesDAO.findByIncidentId(incidentId);
+        return incident.withIncidentUpdates(updates);
     }
 
     public Incident createIncident(final Incident incident, final IncidentUpdate initialUpdate) {

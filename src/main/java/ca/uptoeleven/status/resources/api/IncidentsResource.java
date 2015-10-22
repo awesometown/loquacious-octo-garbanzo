@@ -3,7 +3,9 @@ package ca.uptoeleven.status.resources.api;
 import ca.uptoeleven.status.core.IncidentService;
 import ca.uptoeleven.status.db.IncidentsDAO;
 import ca.uptoeleven.status.db.models.Incident;
+import ca.uptoeleven.status.db.models.IncidentUpdate;
 import ca.uptoeleven.status.resources.models.IncidentCreateModel;
+import ca.uptoeleven.status.resources.models.IncidentUpdateViewModel;
 import ca.uptoeleven.status.resources.models.IncidentViewModel;
 import com.google.inject.Inject;
 
@@ -53,6 +55,15 @@ public class IncidentsResource {
     }
 
     private IncidentViewModel map(Incident incident) {
+        List<IncidentUpdateViewModel> updates = incident.getIncidentUpdates().stream()
+                .map(update -> new IncidentUpdateViewModel(
+                        update.getId(),
+                        update.getDescription(),
+                        update.getNewState(),
+                        "TODO",
+                        update.getCreatedAt(),
+                        update.getUpdatedAt())).collect(Collectors.toList());
+
         IncidentViewModel vm = new IncidentViewModel(
                 incident.getId(),
                 incident.getTitle(),
@@ -61,7 +72,7 @@ public class IncidentsResource {
                 false,
                 incident.getCreatedAt(),
                 incident.getUpdatedAt(),
-                new ArrayList<>()
+                updates
         );
         return vm;
     }
