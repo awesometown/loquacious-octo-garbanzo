@@ -45,3 +45,11 @@ body {
 .services .service-status {
     float: right;
 }
+
+/* admin section stuff down here */
+
+
+div.service-checkbox-list {
+    padding-left: 10px;
+    padding-top: 5px;
+}

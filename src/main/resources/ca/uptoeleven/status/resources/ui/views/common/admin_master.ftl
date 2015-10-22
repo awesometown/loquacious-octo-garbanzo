@@ -68,7 +68,7 @@
                 <li class="active"><a href="/admin">Dashboard</span></a></li>
                 <li><a href="/admin/incidents">Incidents</a></li>
         </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="col-sm-9 col-sm-offset-3 col-md-6 col-md-offset-2 main">
 			<#nested>
     </div>
 </div>
