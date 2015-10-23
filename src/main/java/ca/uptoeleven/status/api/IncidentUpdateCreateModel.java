@@ -1,8 +1,16 @@
 package ca.uptoeleven.status.api;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Wither;
 
-@Data
+@Getter
+@Wither
+@NoArgsConstructor
+@AllArgsConstructor
 public class IncidentUpdateCreateModel {
-    private final String updateDescription;
+    private String description;
+    private String state;
+    private String serviceStatusId;
 }

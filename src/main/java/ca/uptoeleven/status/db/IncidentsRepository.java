@@ -28,9 +28,25 @@ public class IncidentsRepository {
         return allIncidents.stream().map(incident -> populateUpdates(incident)).collect(Collectors.toList());
     }
 
-    private Incident populateUpdates(Incident incident) {
-        List<IncidentUpdate> updates = updatesDAO.findByIncidentId(incident.getId());
-        return incident.withIncidentUpdates(updates);
+    public Incident create(Incident incident) {
+        return dbi.inTransaction((handle, transactionStatus) -> {
+            incidentsDAO.create(incident);
+            for (IncidentUpdate update : incident.getIncidentUpdates()) {
+                updatesDAO.insert(incident.getId(), update);
+            }
+            return incident;
+        });
+    }
+
+    public Incident save(Incident incident) {
+        return dbi.inTransaction((handle, transactionStatus) -> {
+            incidentsDAO.update(incident.getId(), incident.getState(), incident.getUpdatedAt());
+            updatesDAO.clear(incident.getId());
+            for (IncidentUpdate update : incident.getIncidentUpdates()) {
+                updatesDAO.insert(incident.getId(), update);
+            }
+            return incident;
+        });
     }
 
     public Incident getIncident(String incidentId) {
@@ -39,27 +55,35 @@ public class IncidentsRepository {
         return incident.withIncidentUpdates(updates);
     }
 
-    public Incident createIncident(final Incident incident, final IncidentUpdate initialUpdate) {
+    private Incident populateUpdates(Incident incident) {
+        List<IncidentUpdate> updates = updatesDAO.findByIncidentId(incident.getId());
+        return incident.withIncidentUpdates(updates);
+    }
+
+    /*public Incident createIncident(final Incident incident, final IncidentUpdate initialUpdate) {
+
+
         return dbi.inTransaction((handle, transactionStatus) -> {
             Incident created = incidentsDAO.create(incident);
+
             createUpdateAndUpdateAffectedServices(incident, initialUpdate.withIncidentId(created.getId()));
             return created;
         });
-    }
+    }*/
 
-    public void updateIncident(final IncidentUpdate update) {
+    /*public void updateIncident(final IncidentUpdate update) {
         dbi.inTransaction((handle, transactionStatus) -> {
             Incident incident = incidentsDAO.findById(update.getIncidentId());
             incidentsDAO.updateState(update.getIncidentId(), update.getNewState());
             createUpdateAndUpdateAffectedServices(incident, update);
             return null;
         });
-    }
+    }*/
 
-    private void createUpdateAndUpdateAffectedServices(final Incident incident, final IncidentUpdate update) {
+    /*private void createUpdateAndUpdateAffectedServices(final Incident incident, final IncidentUpdate update) {
         updatesDAO.create(update);
         for(String serviceId : incident.getAffectedServicesIds()) {
             servicesDAO.updateServiceStatusId(serviceId, update.getNewServiceStatusId());
         }
-    }
+    }*/
 }

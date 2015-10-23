@@ -14,22 +14,25 @@ import java.util.UUID;
 @RegisterMapper(IncidentUpdateMapper.class)
 public abstract class IncidentUpdatesDAO {
 
-    public IncidentUpdate create(IncidentUpdate incidentUpdate) {
+    /*public IncidentUpdate create(String incidentId, IncidentUpdate incidentUpdate) {
         LocalDateTime now = LocalDateTime.now();
         incidentUpdate = incidentUpdate
                 .withId(UUID.randomUUID().toString())
                 .withCreatedAt(now)
                 .withUpdatedAt(now);
-        insert(incidentUpdate);
+        insert(incidentId, incidentUpdate);
         return incidentUpdate;
-    }
+    }*/
 
     @SqlUpdate("insert into incidentUpdates (id , incidentId, description, newState, newServiceStatusId, createdAt, updatedAt) values (:id, :incidentId, :description, :newState, :newServiceStatusId, :createdAt, :updatedAt)")
-    abstract void insert(@BindBean IncidentUpdate update);
+    abstract void insert(@Bind("incidentId") String incidentId, @BindBean IncidentUpdate update);
 
     @SqlQuery("select id, incidentId, description, newState, newServiceStatusId, createdAt, updatedAt from incidentUpdates where id = :id ")
     abstract IncidentUpdate findById(@Bind("id") String id);
 
     @SqlQuery("select id, incidentId, description, newState, newServiceStatusId, createdAt, updatedAt from incidentUpdates where incidentId = :incidentId")
     abstract List<IncidentUpdate> findByIncidentId(@Bind("incidentId") String incidentId);
+
+    @SqlQuery("delete from incidentUpdates where incidentId = :incidentId")
+    abstract void clear(@Bind("incidentId") String incidentId);
 }

@@ -1,10 +1,12 @@
 package ca.uptoeleven.status.db;
 
 import ca.uptoeleven.status.core.Incident;
+import com.google.common.collect.ImmutableList;
 import org.skife.jdbi.v2.TransactionIsolationLevel;
 import org.skife.jdbi.v2.sqlobject.*;
 import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -25,13 +27,13 @@ public abstract class IncidentsDAO {
     @SqlUpdate("insert into incidents (id, title, state, startTime, createdAt, updatedAt) values (:id, :title, :state, :startTime, :createdAt, :updatedAt)")
     abstract void insert(@BindBean Incident incident);
 
-    @SqlUpdate("update incidents set state=:newState where id=:id")
-    public abstract void updateState(@Bind("id") String id, @Bind("newState") String newState);
+    @SqlUpdate("update incidents set state=:newState, updatedAt=:updatedAt where id=:id")
+    public abstract void update(@Bind("id") String id, @Bind("newState") String newState, @Bind("updatedAt") LocalDateTime updatedAt);
 
     public Incident findById(String id) {
         Incident incident = findByIdBare(id);
         if (incident != null) {
-            return incident.withAffectedServicesIds(findAffectedServiceIds(incident.getId()));
+            return incident.withAffectedServicesIds(ImmutableList.copyOf(findAffectedServiceIds(incident.getId())));
         }
         return null;
     }
@@ -43,7 +45,7 @@ public abstract class IncidentsDAO {
     public List<Incident> findAllIncidents() {
         List<Incident> populatedIncidents = findAllIncidentsBare().stream().map(incident -> {
             List<String> affectedServiceIds = findAffectedServiceIds(incident.getId());
-            return incident.withAffectedServicesIds(affectedServiceIds);
+            return incident.withAffectedServicesIds(ImmutableList.copyOf(affectedServiceIds));
         }).collect(Collectors.toList());
         return populatedIncidents;
     }

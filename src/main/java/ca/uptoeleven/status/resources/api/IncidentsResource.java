@@ -1,6 +1,7 @@
 package ca.uptoeleven.status.resources.api;
 
-import ca.uptoeleven.status.core.IncidentService;
+import ca.uptoeleven.status.api.IncidentUpdateCreateModel;
+import ca.uptoeleven.status.core.DefaultIncidentService;
 import ca.uptoeleven.status.core.Incident;
 import ca.uptoeleven.status.api.IncidentCreateModel;
 import ca.uptoeleven.status.api.IncidentUpdateViewModel;
@@ -18,13 +19,13 @@ import java.util.stream.Collectors;
 @Produces(MediaType.APPLICATION_JSON)
 public class IncidentsResource {
 
-    private final IncidentService incidentService;
+    private final DefaultIncidentService incidentService;
 
     @Context
     private UriInfo uriInfo;
 
     @Inject
-    public IncidentsResource(IncidentService incidentService) {
+    public IncidentsResource(DefaultIncidentService incidentService) {
         this.incidentService = incidentService;
     }
 
@@ -49,6 +50,12 @@ public class IncidentsResource {
     public IncidentViewModel getIncident(@PathParam("incidentId" ) String incidentId) {
         Incident incident = incidentService.getIncident(incidentId);
         return map(incident);
+    }
+
+    @POST
+    @Path("/{incidentId}/updates")
+    public Response updateIncident(IncidentUpdateCreateModel incidentUpdateCreateModel) {
+        return null;
     }
 
     private IncidentViewModel map(Incident incident) {

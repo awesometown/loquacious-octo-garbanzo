@@ -13,9 +13,6 @@ public class IncidentUpdate {
     @JsonProperty
     private final String id;
 
-    @JsonProperty
-    private final String incidentId;
-
     @NotNull
     @JsonProperty
     private final String description;
