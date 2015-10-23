@@ -26,12 +26,12 @@ public class ServicesDAOTest {
 
     @Test
     public void createServiceSucceedsWithoutError() {
-        servicesDAO.insert(newService());
+        servicesDAO.insert(newServiceForTest());
     }
 
     @Test
     public void createdServiceCanBeSelected() {
-        Service toInsert = newService();
+        Service toInsert = newServiceForTest();
         servicesDAO.insert(toInsert);
         Service selected = servicesDAO.findById(toInsert.getId());
         Assert.assertNotNull(selected);

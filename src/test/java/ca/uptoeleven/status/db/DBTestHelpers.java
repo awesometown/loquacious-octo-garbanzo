@@ -1,13 +1,8 @@
 package ca.uptoeleven.status.db;
 
-import ca.uptoeleven.status.core.IncidentState;
-import ca.uptoeleven.status.core.ServiceStatus;
-import ca.uptoeleven.status.core.Incident;
-import ca.uptoeleven.status.core.IncidentUpdate;
-import ca.uptoeleven.status.core.Service;
+import ca.uptoeleven.status.core.*;
 import org.skife.jdbi.v2.DBI;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -28,15 +23,19 @@ public class DBTestHelpers {
         return UUID.randomUUID().toString();
     }
 
-    public static Service newService() {
-        return new Service(UUID.randomUUID().toString(), "name", "description", ServiceStatus.OK.getId(), LocalDateTime.now(), LocalDateTime.now());
+    public static Service newServiceForTest() {
+        return Service.createNew("name", "description");
     }
 
-    public static Incident newIncident() {
-        return new Incident(null, "title", ServiceStatus.OK.getId(), new ArrayList<>(), LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now(), null);
+    public static Incident newIncidentWithUpdateForTest() {
+        return Incident.newIncident("title", "updateDescription", IncidentState.INVESTIGATING, ServiceStatus.OK.getId(), new ArrayList<>());
     }
 
-    public static IncidentUpdate newIncidentUpdate() {
-        return new IncidentUpdate(null, null, "foo", IncidentState.INVESTIGATING, null, LocalDateTime.now(), LocalDateTime.now());
+	public static Incident newIncidentForTest() {
+		return Incident.newIncident("title", "notUsed", IncidentState.INVESTIGATING, ServiceStatus.OK.getId(), new ArrayList<>()).withIncidentUpdatesList(new ArrayList<>());
+	}
+
+    public static IncidentUpdate newIncidentUpdateForTest() {
+        return IncidentUpdate.createNew("foo", IncidentState.INVESTIGATING, ServiceStatus.OK.getId());
     }
 }

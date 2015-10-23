@@ -16,7 +16,6 @@ public abstract class IncidentsDAO {
 
     @Transaction(TransactionIsolationLevel.REPEATABLE_READ)
     public Incident create(Incident incident) {
-        incident = incident.withId(UUID.randomUUID().toString());
         insert(incident);
         for(String serviceId : incident.getAffectedServicesIds()) {
             insertAffectedServiceId(incident.getId(), serviceId);

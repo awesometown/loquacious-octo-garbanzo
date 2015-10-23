@@ -13,7 +13,6 @@ public class IncidentUpdateMapper implements ResultSetMapper<IncidentUpdate>
     {
         return new IncidentUpdate(
                 resultSet.getString("ID"),
-                resultSet.getString("INCIDENTID"),
                 resultSet.getString("DESCRIPTION"),
                 resultSet.getString("NEWSTATE"),
                 resultSet.getString("NEWSERVICESTATUSID" ),

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NonNull;
 import lombok.experimental.Wither;
 
 import javax.validation.constraints.NotNull;
@@ -13,37 +14,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static ca.uptoeleven.status.core.IdGenerator.newId;
+import static ca.uptoeleven.status.core.UtcDateTime.nowUtc;
 
 @Data
 @Wither
 @AllArgsConstructor
 public class Incident {
 
-    public static Incident newIncident(String title, String firstUpdateDescription, String state, String serviceStatusId, List<String> affectedServicesIds, LocalDateTime timestamp) {
-        IncidentUpdate update = new IncidentUpdate(newId(), firstUpdateDescription, state, serviceStatusId, timestamp, timestamp);
+    public static Incident newIncident(String title, String firstUpdateDescription, String state, String serviceStatusId, List<String> affectedServicesIds) {
+        LocalDateTime now = nowUtc();
+        IncidentUpdate update = new IncidentUpdate(newId(), firstUpdateDescription, state, serviceStatusId, now, now);
         return new Incident(
                 newId(),
                 title,
                 state,
                 ImmutableList.copyOf(affectedServicesIds),
-                timestamp,
-                timestamp,
-                timestamp,
+                now,
+                now,
+                now,
                 ImmutableList.of(update));
     }
 
     public Incident(
-            String id,
-            String title,
-            String state,
-            List<String> affectedServicesIds,
-            LocalDateTime startTime,
-            LocalDateTime createdAt,
-            LocalDateTime updatedAt,
-            List<IncidentUpdate> incidentUpdates) {
+		    @NonNull String id,
+            @NonNull String title,
+            @NonNull String state,
+            @NonNull List<String> affectedServicesIds,
+            @NonNull LocalDateTime startTime,
+            @NonNull LocalDateTime createdAt,
+            @NonNull LocalDateTime updatedAt,
+            @NonNull List<IncidentUpdate> incidentUpdates) {
         this(id, title, state, ImmutableList.copyOf(affectedServicesIds), startTime, createdAt, updatedAt, ImmutableList.copyOf(incidentUpdates));
     }
 
+	@NotNull
     @JsonProperty
     private final String id;
 
@@ -75,11 +79,11 @@ public class Incident {
     @JsonProperty
     private final ImmutableList<IncidentUpdate> incidentUpdates;
 
-    public Incident withAffectedServiceIds(List<String> affectedServiceIds) {
+    public Incident withAffectedServicesIdsList(List<String> affectedServiceIds) {
         return withAffectedServicesIds(ImmutableList.copyOf(affectedServiceIds));
     }
 
-    public Incident withIncidentUpdates(List<IncidentUpdate> incidentUpdates) {
+    public Incident withIncidentUpdatesList(List<IncidentUpdate> incidentUpdates) {
         return withIncidentUpdates(ImmutableList.copyOf(incidentUpdates));
     }
 

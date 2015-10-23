@@ -52,38 +52,11 @@ public class IncidentsRepository {
     public Incident getIncident(String incidentId) {
         Incident incident = incidentsDAO.findById(incidentId);
         List<IncidentUpdate> updates = updatesDAO.findByIncidentId(incidentId);
-        return incident.withIncidentUpdates(updates);
+        return incident.withIncidentUpdatesList(updates);
     }
 
     private Incident populateUpdates(Incident incident) {
         List<IncidentUpdate> updates = updatesDAO.findByIncidentId(incident.getId());
-        return incident.withIncidentUpdates(updates);
+        return incident.withIncidentUpdatesList(updates);
     }
-
-    /*public Incident createIncident(final Incident incident, final IncidentUpdate initialUpdate) {
-
-
-        return dbi.inTransaction((handle, transactionStatus) -> {
-            Incident created = incidentsDAO.create(incident);
-
-            createUpdateAndUpdateAffectedServices(incident, initialUpdate.withIncidentId(created.getId()));
-            return created;
-        });
-    }*/
-
-    /*public void updateIncident(final IncidentUpdate update) {
-        dbi.inTransaction((handle, transactionStatus) -> {
-            Incident incident = incidentsDAO.findById(update.getIncidentId());
-            incidentsDAO.updateState(update.getIncidentId(), update.getNewState());
-            createUpdateAndUpdateAffectedServices(incident, update);
-            return null;
-        });
-    }*/
-
-    /*private void createUpdateAndUpdateAffectedServices(final Incident incident, final IncidentUpdate update) {
-        updatesDAO.create(update);
-        for(String serviceId : incident.getAffectedServicesIds()) {
-            servicesDAO.updateServiceStatusId(serviceId, update.getNewServiceStatusId());
-        }
-    }*/
 }

@@ -3,13 +3,22 @@ package ca.uptoeleven.status.core;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.experimental.Wither;
+import org.skife.jdbi.cglib.core.Local;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
+import static ca.uptoeleven.status.core.IdGenerator.newId;
+import static ca.uptoeleven.status.core.UtcDateTime.nowUtc;
+
 @Data
 @Wither
 public class Service {
+
+    public static Service createNew(String name, String description) {
+        LocalDateTime now = nowUtc();
+        return new Service(newId(), name, description, ServiceStatus.OK.getId(), now, now);
+    }
 
     @NotNull
     @JsonProperty

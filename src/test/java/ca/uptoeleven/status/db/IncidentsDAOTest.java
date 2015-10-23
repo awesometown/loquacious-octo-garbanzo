@@ -32,22 +32,22 @@ public class IncidentsDAOTest {
 
     @Test
     public void insertIncidentSucceedsWithoutError() {
-        incidentsDAO.insert(newIncident().withId(newId()));
+        incidentsDAO.insert(newIncidentWithUpdateForTest().withId(newId()));
     }
 
     @Test
     public void createIncidentSetsId() {
-        Incident incident = newIncident();
+        Incident incident = newIncidentWithUpdateForTest();
         incident = incidentsDAO.create(incident);
         assertNotNull(incident.getId());
     }
 
     @Test
     public void createIncidentSavesAffectedServiceId() {
-        Service service = newService().withId(newId());
+        Service service = newServiceForTest().withId(newId());
         servicesDAO.insert(service);
 
-        Incident incident = newIncident().withAffectedServicesIds(Lists.newArrayList(service.getId()));
+        Incident incident = newIncidentWithUpdateForTest().withAffectedServicesIdsList(Lists.newArrayList(service.getId()));
         incident = incidentsDAO.create(incident);
         List<String> affectedIds = incidentsDAO.findAffectedServiceIds(incident.getId());
         assertEquals(1, affectedIds.size());
@@ -56,7 +56,7 @@ public class IncidentsDAOTest {
 
     @Test
     public void createdIncidentCanBeSelected() {
-        Incident toInsert = newIncident();
+        Incident toInsert = newIncidentForTest();
         toInsert = incidentsDAO.create(toInsert);
         Incident selected = incidentsDAO.findById(toInsert.getId());
         assertNotNull(selected);

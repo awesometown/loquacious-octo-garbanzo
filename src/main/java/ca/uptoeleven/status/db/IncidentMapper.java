@@ -1,6 +1,7 @@
 package ca.uptoeleven.status.db;
 
 import ca.uptoeleven.status.core.Incident;
+import com.google.common.collect.ImmutableList;
 import org.skife.jdbi.v2.StatementContext;
 import org.skife.jdbi.v2.tweak.ResultSetMapper;
 
@@ -20,6 +21,6 @@ public class IncidentMapper implements ResultSetMapper<Incident>
                 resultSet.getTimestamp("STARTTIME" ).toLocalDateTime(),
                 resultSet.getTimestamp("CREATEDAT" ).toLocalDateTime(),
                 resultSet.getTimestamp("UPDATEDAT" ).toLocalDateTime(),
-                null);
+                ImmutableList.of());
     }
 }
