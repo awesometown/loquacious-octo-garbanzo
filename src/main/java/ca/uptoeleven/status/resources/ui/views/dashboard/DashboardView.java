@@ -4,18 +4,15 @@ import ca.uptoeleven.status.api.IncidentViewModel;
 import ca.uptoeleven.status.api.ServiceViewModel;
 import io.dropwizard.views.View;
 import lombok.Getter;
-import org.joda.time.DateTime;
-import org.ocpsoft.prettytime.Duration;
 import org.ocpsoft.prettytime.PrettyTime;
-import org.ocpsoft.prettytime.impl.DurationImpl;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
+
+import static ca.uptoeleven.status.core.UtcDateTime.nowUtc;
 
 @Getter
 public class DashboardView extends View {
@@ -32,9 +29,11 @@ public class DashboardView extends View {
         return "alert-success";
     }
 
-    public String prettyDate(ZonedDateTime dateTime) {
+    public String prettyDate(LocalDateTime dateTime) {
 	    PrettyTime p = new PrettyTime();
-	    Date date = Date.from(dateTime.toInstant());
+	    LocalDateTime now = nowUtc();
+	    ZonedDateTime zoned = ZonedDateTime.of(dateTime, ZoneOffset.UTC);
+	    Date date = Date.from(zoned.toInstant());
 	    return p.format(date);
     }
 }

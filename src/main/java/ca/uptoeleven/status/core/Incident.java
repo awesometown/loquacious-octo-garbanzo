@@ -36,15 +36,15 @@ public class Incident {
     }
 
     public Incident(
-		    @NonNull String id,
-            @NonNull String title,
-            @NonNull String state,
-            @NonNull List<String> affectedServicesIds,
-            @NonNull LocalDateTime startTime,
-            @NonNull LocalDateTime createdAt,
-            @NonNull LocalDateTime updatedAt,
-            @NonNull List<IncidentUpdate> incidentUpdates) {
-        this(id, title, state, ImmutableList.copyOf(affectedServicesIds), startTime, createdAt, updatedAt, ImmutableList.copyOf(incidentUpdates));
+		    String id,
+		    String title,
+            String state,
+            List<String> affectedServicesIds,
+            LocalDateTime startTime,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt,
+            List<IncidentUpdate> incidentUpdates) {
+        this(id, title, state, ImmutableList.copyOf(affectedServicesIds), startTime, createdAt, updatedAt, incidentUpdates == null ? ImmutableList.of() : ImmutableList.copyOf(incidentUpdates));
     }
 
 	@NotNull
