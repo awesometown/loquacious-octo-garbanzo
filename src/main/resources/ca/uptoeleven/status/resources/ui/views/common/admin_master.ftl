@@ -67,6 +67,7 @@
             <ul class="nav nav-sidebar">
                 <li class="active"><a href="/admin">Dashboard</span></a></li>
                 <li><a href="/admin/incidents">Incidents</a></li>
+                <li><a href="/admin/services">Services</a></li>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-6 col-md-offset-2 main">
 			<#nested>

@@ -53,6 +53,19 @@ public class AdminResource {
         return new IncidentCreateView(services);
     }
 
+    @GET
+    @Path("/services")
+    public View listServices() {
+        List<ServiceViewModel> services = servicesResource.getServices();
+        return new ServiceListView(services);
+    }
+
+    @GET
+    @Path("/services/new")
+    public View newService() {
+        return new ServiceCreateView();
+    }
+
 //    @POST
 //    @Path("/incidents/new")
 //    @Consumes("application/x-www-form-urlencoded")
