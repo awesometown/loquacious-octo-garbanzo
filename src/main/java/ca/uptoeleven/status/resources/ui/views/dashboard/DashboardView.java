@@ -2,6 +2,7 @@ package ca.uptoeleven.status.resources.ui.views.dashboard;
 
 import ca.uptoeleven.status.api.IncidentViewModel;
 import ca.uptoeleven.status.api.ServiceViewModel;
+import ca.uptoeleven.status.core.ServiceStatus;
 import io.dropwizard.views.View;
 import lombok.Getter;
 import org.ocpsoft.prettytime.PrettyTime;
@@ -24,15 +25,9 @@ public class DashboardView extends View {
         this.services = services;
         this.incidents = incidents;
     }
-
-    public String classForStatus(String incidentStatus) {
-        return "alert-success";
-    }
-
     public String prettyDate(LocalDateTime dateTime) {
-	    PrettyTime p = new PrettyTime();
-	    LocalDateTime now = nowUtc();
-	    ZonedDateTime zoned = ZonedDateTime.of(dateTime, ZoneOffset.UTC);
+        PrettyTime p = new PrettyTime();
+        ZonedDateTime zoned = ZonedDateTime.of(dateTime, ZoneOffset.UTC);
 	    Date date = Date.from(zoned.toInstant());
 	    return p.format(date);
     }

@@ -35,9 +35,7 @@ public class DefaultIncidentService implements IncidentService {
 
     @Override
     public Incident createIncident(IncidentCreateModel model) {
-        LocalDateTime now = LocalDateTime.now();
-        IncidentUpdate initialUpdate = new IncidentUpdate(newId(), model.getDescription(), model.getState(), model.getServiceStatusId(), now, now);
-        Incident incident = map(model, now).withAdditionalUpdate(initialUpdate);
+        Incident incident = Incident.newIncident(model.getTitle(), model.getDescription(), model.getState(), model.getServiceStatusId(), model.getAffectedServiceIds());
         return incidentsRepository.create(incident);
     }
 
@@ -54,7 +52,7 @@ public class DefaultIncidentService implements IncidentService {
 
     private Incident map(IncidentCreateModel model, LocalDateTime now) {
         return new Incident(
-                    UUID.randomUUID().toString(),
+                    newId(),
                     model.getTitle(),
                     model.getState(),
                     model.getAffectedServiceIds() == null ? new ArrayList<>() : model.getAffectedServiceIds(),
@@ -66,7 +64,7 @@ public class DefaultIncidentService implements IncidentService {
 
     private IncidentUpdate map(IncidentUpdateCreateModel model, LocalDateTime now) {
         return new IncidentUpdate(
-                UUID.randomUUID().toString(),
+                newId(),
                 model.getDescription(),
                 model.getState(),
                 model.getServiceStatusId(),

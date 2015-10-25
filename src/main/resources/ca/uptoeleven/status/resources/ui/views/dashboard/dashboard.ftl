@@ -44,7 +44,7 @@
     <div class="currentIssues">
 
 		<#list incidents as incident>
-            <div class="alert ${classForStatus('bar')}">
+            <div class="alert incident-${incident.serviceStatusId}">
                 <p class="issue-state">${incident.state}</p>
 
                 <h2>${incident.title}</h2>

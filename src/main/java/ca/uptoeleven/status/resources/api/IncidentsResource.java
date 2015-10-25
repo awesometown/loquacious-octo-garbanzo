@@ -64,15 +64,18 @@ public class IncidentsResource {
                         update.getId(),
                         update.getDescription(),
                         update.getNewState(),
-                        "TODO",
+                        update.getNewServiceStatusId(),
                         update.getCreatedAt(),
                         update.getUpdatedAt())).collect(Collectors.toList());
+
+        //TODO: store the latest state on the incident itself
+        String lastStatusId = incident.getIncidentUpdates().get(updates.size()-1).getNewServiceStatusId();
 
         IncidentViewModel vm = new IncidentViewModel(
                 incident.getId(),
                 incident.getTitle(),
                 incident.getState(),
-                "TODO",
+                lastStatusId,
                 false,
                 incident.getCreatedAt(),
                 incident.getUpdatedAt(),
