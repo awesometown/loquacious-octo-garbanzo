@@ -1,15 +1,15 @@
-<#import "../common/admin_master.ftl" as layout />
+<#import "../common/dashboard_master.ftl" as layout />
+<@layout.dashboardTemplate title="Incident Details">
 
-<@layout.adminTemplate title="My test page">
-<h1 class="page-header">Incident</h1>
+<h1>${incident.title}</h1>
+<p>Opened ${incident.createdAt}; last updated ${incident.updatedAt}</p>
+
+<p>Affected Services: TODO</p>
+
+<p>Updates:</p>
 <ul>
-    <li>${incident.id}</li>
-    <li>${incident.title}</li>
-    <li>${incident.state}</li>
-    <li>${incident.serviceStatusId}</li>
-    <li>${incident.allServices?c}</li>
-    <li>${incident.createdAt}</li>
-    <li>${incident.updatedAt}</li>
-    <!--incidentUpdates; -->
-</ul>
-</@layout.adminTemplate>
+	<#list incident.incidentUpdates as update>
+        <li>${update.description}</li>
+	</#list>
+<ul>
+</@layout.dashboardTemplate>

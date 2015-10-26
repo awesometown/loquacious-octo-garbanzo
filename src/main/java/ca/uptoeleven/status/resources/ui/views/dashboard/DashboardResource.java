@@ -33,7 +33,7 @@ public class DashboardResource {
     }
 
     @GET
-    @Path("/{incidentId}")
+    @Path("/incidents/{incidentId}")
     public View viewIncident(@PathParam("incidentId") String incidentId) {
         IncidentsResource ir = rc.getResource(IncidentsResource.class);
         IncidentViewModel vm = ir.getIncident(incidentId);
