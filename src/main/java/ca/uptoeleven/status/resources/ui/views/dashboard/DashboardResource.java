@@ -19,24 +19,28 @@ import java.util.List;
 @Produces(MediaType.TEXT_HTML)
 public class DashboardResource {
 
-    @Context
-    private ResourceContext rc;
+	private final IncidentsResource incidentsResource;
+	private final ServicesResource servicesResource;
+
+	public DashboardResource(@Context ResourceContext rc) {
+		incidentsResource = rc.getResource(IncidentsResource.class);
+		servicesResource = rc.getResource(ServicesResource.class);
+	}
 
     @GET
     public View getDashboard() {
-        ServicesResource sr = rc.getResource(ServicesResource.class);
-        List<ServiceViewModel> svms = sr.getServices();
+		List<ServiceViewModel> svms = servicesResource.getServices();
 
-        IncidentsResource ir = rc.getResource(IncidentsResource.class);
-        List<IncidentViewModel> incidents = ir.listIncidents();
+        List<IncidentViewModel> incidents = incidentsResource.listIncidents();
         return new DashboardView(svms, incidents);
     }
 
     @GET
     @Path("/incidents/{incidentId}")
     public View viewIncident(@PathParam("incidentId") String incidentId) {
-        IncidentsResource ir = rc.getResource(IncidentsResource.class);
-        IncidentViewModel vm = ir.getIncident(incidentId);
-        return new IncidentDetailsView(vm);
+        return new IncidentDetailsView(
+				incidentsResource.getIncident(incidentId),
+				servicesResource.getServices()
+		);
     }
 }

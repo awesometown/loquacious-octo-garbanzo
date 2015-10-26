@@ -4,7 +4,12 @@
 <h1>${incident.title}</h1>
 <p>Opened ${incident.createdAt}; last updated ${incident.updatedAt}</p>
 
-<p>Affected Services: TODO</p>
+<p>Affected Services:</p>
+<ul>
+	<#list incident.affectedServiceIds as serviceId>
+	    <li>${nameForServiceId(serviceId)}</li>
+	</#list>
+</ul>
 
 <p>Updates:</p>
 <ul>
