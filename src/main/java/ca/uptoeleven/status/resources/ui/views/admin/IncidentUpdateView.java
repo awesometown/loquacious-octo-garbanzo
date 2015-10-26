@@ -1,5 +1,6 @@
 package ca.uptoeleven.status.resources.ui.views.admin;
 
+import ca.uptoeleven.status.api.ServiceViewModel;
 import ca.uptoeleven.status.core.IncidentState;
 import ca.uptoeleven.status.core.ServiceStatus;
 import ca.uptoeleven.status.api.IncidentViewModel;
@@ -8,21 +9,34 @@ import io.dropwizard.views.View;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
-@Getter
+
 public class IncidentUpdateView extends View {
-    private final IncidentViewModel incident;
 
-    public IncidentUpdateView(IncidentViewModel incident) {
-        super("incident_update.ftl");
-        this.incident = incident;
-    }
+	@Getter
+	private final IncidentViewModel incident;
 
-    public List<ServiceStatus> getStatuses() {
-        return Lists.newArrayList(ServiceStatus.OK, ServiceStatus.DEGRADED, ServiceStatus.MINOR, ServiceStatus.MAJOR);
-    }
+	@Getter
+	private final Map<String, ServiceViewModel> services;
 
-    public List<String> getStates() {
-        return Lists.newArrayList(IncidentState.INVESTIGATING, IncidentState.IDENTIFIED, IncidentState.MONITORING, IncidentState.RESOLVED);
-    }
+	public IncidentUpdateView(IncidentViewModel incident, List<ServiceViewModel> services) {
+		super("incident_update.ftl");
+		this.incident = incident;
+		this.services = services.stream().collect(Collectors.toMap(ServiceViewModel::getId, Function.identity()));
+	}
+
+	public List<ServiceStatus> getStatuses() {
+		return Lists.newArrayList(ServiceStatus.OK, ServiceStatus.DEGRADED, ServiceStatus.MINOR, ServiceStatus.MAJOR);
+	}
+
+	public List<String> getStates() {
+		return Lists.newArrayList(IncidentState.INVESTIGATING, IncidentState.IDENTIFIED, IncidentState.MONITORING, IncidentState.RESOLVED);
+	}
+
+	public String nameForServiceId(String serviceId) {
+		return services.get(serviceId).getName();
+	}
 }

@@ -43,7 +43,7 @@ public class AdminResource {
     @GET
     @Path("/incidents/{incidentId}")
     public View incidentDetails(@PathParam("incidentId") String incidentId) {
-        return new IncidentUpdateView(incidentsResource.getIncident(incidentId));
+        return new IncidentUpdateView(incidentsResource.getIncident(incidentId), servicesResource.getServices());
     }
 
     @GET
@@ -65,16 +65,4 @@ public class AdminResource {
     public View newService() {
         return new ServiceCreateView();
     }
-
-//    @POST
-//    @Path("/incidents/new")
-//    @Consumes("application/x-www-form-urlencoded")
-//    public Response createIncident(
-//            @FormParam("incident-title") String incidentTitle,
-//            @FormParam("incident-update-description") String updateDescription,
-//            @FormParam("incident-state") String incidentStateId,
-//            @FormParam("new-service-status") String serviceStatusId) {
-//        IncidentCreateModel newIncident = new IncidentCreateModel(incidentTitle, updateDescription, incidentStateId, serviceStatusId, new ArrayList<String>(), LocalDateTime.now());
-//        return incidentsResource.create(newIncident);
-//    }
 }

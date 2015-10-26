@@ -6,10 +6,15 @@
 <form id="update-incident-form" role="form">
     <p>State: ${incident.state}</p>
     <p>Service Status: ${incident.serviceStatusId}</p>
-    <p>Affected Services: TODO</p>
+    <p>Affected Services:</p>
+	<ul>
+		<#list incident.affectedServiceIds as serviceId>
+		    <li>${nameForServiceId(serviceId)}</li>
+		</#list>
+	</ul>
     <p>Post an Update</p>
     <div class="form-group">
-        <label for="description">Text for initial update</label>
+        <label for="description">Update text</label>
         <textarea class="form-control" name="description" id="description"></textarea>
     </div>
     <div class="form-group">

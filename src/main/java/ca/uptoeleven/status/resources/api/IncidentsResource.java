@@ -15,6 +15,7 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -80,7 +81,7 @@ public class IncidentsResource {
                 incident.getTitle(),
                 incident.getState(),
                 lastStatusId,
-                false,
+                new ArrayList<>(incident.getAffectedServicesIds()),
                 incident.getCreatedAt(),
                 incident.getUpdatedAt(),
                 updates
