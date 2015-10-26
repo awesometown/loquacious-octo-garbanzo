@@ -12,5 +12,5 @@ public interface IncidentService {
 
     Incident createIncident(IncidentCreateModel model);
 
-    void updateIncident(String incidentId, IncidentUpdateCreateModel model);
+    Incident updateIncident(String incidentId, IncidentUpdateCreateModel model);
 }

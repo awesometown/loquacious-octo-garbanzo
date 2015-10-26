@@ -57,10 +57,10 @@ public class IncidentsResource {
     }
 
     @POST
-    @Path("/{incidentId}/updates")
-    public Response updateIncident(@PathParam("incidentId") String incidentId, @Valid IncidentUpdateCreateModel incidentUpdateCreateModel) {
-        incidentService.updateIncident(incidentId, incidentUpdateCreateModel);
-        return Response.ok().build();
+    @Path("/{incidentId}")
+    public IncidentViewModel updateIncident(@PathParam("incidentId") String incidentId, @Valid IncidentUpdateCreateModel incidentUpdateCreateModel) {
+        Incident updated = incidentService.updateIncident(incidentId, incidentUpdateCreateModel);
+        return map(updated);
     }
 
     private IncidentViewModel map(Incident incident) {

@@ -1,10 +1,9 @@
 package ca.uptoeleven.status.resources;
 
+import ca.uptoeleven.status.api.IncidentUpdateCreateModel;
+import ca.uptoeleven.status.api.IncidentUpdateViewModel;
 import ca.uptoeleven.status.api.IncidentViewModel;
-import ca.uptoeleven.status.core.Incident;
-import ca.uptoeleven.status.core.IncidentService;
-import ca.uptoeleven.status.core.IncidentState;
-import ca.uptoeleven.status.core.ServiceStatus;
+import ca.uptoeleven.status.core.*;
 import ca.uptoeleven.status.resources.api.IncidentsResource;
 import com.google.common.collect.Lists;
 import org.junit.Test;
@@ -29,5 +28,20 @@ public class IncidentResourceTests {
 		assertEquals(incident.getTitle(), ivm.getTitle());
 		assertEquals(incident.getState(), ivm.getState());
 		assertEquals(incident.getCreatedAt(), ivm.getCreatedAt());
+	}
+
+	@Test
+	public void testUpdateIncident() {
+		IncidentUpdateCreateModel update = new IncidentUpdateCreateModel("an update", IncidentState.MONITORING, ServiceStatus.DEGRADED.getId());
+
+		when(service.getIncident(incident.getId())).thenReturn(incident);
+		when(service.updateIncident(incident.getId(), update)).thenReturn(incident.withAdditionalUpdate(IncidentUpdate.createNew(update.getDescription(), update.getState(), update.getServiceStatusId())));
+
+		IncidentsResource resource = new IncidentsResource(service);
+		IncidentViewModel updated = resource.updateIncident(incident.getId(), update);
+		assertEquals(2, updated.getIncidentUpdates().size());
+		IncidentUpdateViewModel updateViewModel = updated.getIncidentUpdates().get(1);
+		assertEquals(update.getDescription(), updateViewModel.getDescription());
+		assertEquals(update.getState(), updateViewModel.getState());
 	}
 }

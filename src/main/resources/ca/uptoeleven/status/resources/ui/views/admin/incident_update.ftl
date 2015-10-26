@@ -1,6 +1,10 @@
 <#import "../common/admin_master.ftl" as layout />
 
 <@layout.adminTemplate title="My test page">
+<script type="application/javascript">
+	var incident = ${getIncidentJson()}
+</script>
+
 <h1 class="page-header">${incident.title}</h1>
 
 <form id="update-incident-form" role="form">
@@ -21,7 +25,7 @@
         <label for="state">State</label>
         <select class="form-control" id="state" name="state">
             <#list states as state>
-                <option value="${state}">${state}</option>
+                <option value="${state}" id="option_${state}">${state}</option>
             </#list>
         </select>
     </div>
@@ -43,11 +47,13 @@
 
 <script type="application/javascript">
     $(document).ready(function() {
+	    $("#state").val(incident.state);
+
         $("#submit").click(function() {
             var data = {};
             $("#update-incident-form").serializeArray().map(function(x){data[x.name] = x.value;});
             $.ajax({
-                url: "http://localhost:8080/api/incidents/${incident.id}/updates",
+                url: "http://localhost:8080/api/incidents/${incident.id}",
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify(data),
@@ -55,7 +61,7 @@
 					alert("hmm");
 				},
 				success: function(data) {
-					alert("yay!");
+					location.reload();
 				}
             });
         })

@@ -47,17 +47,19 @@ public class DefaultIncidentService implements IncidentService {
     }
 
     @Override
-    public void updateIncident(String incidentId, IncidentUpdateCreateModel model) {
+    public Incident updateIncident(String incidentId, IncidentUpdateCreateModel model) {
         LocalDateTime now = nowUtc();
         IncidentUpdate update = map(model, now);
         Incident incident = getIncident(incidentId);
         incident = incident
+		        .withState(model.getState())
                 .withUpdatedAt(now)
                 .withAdditionalUpdate(update);
         Incident saved = incidentsRepository.save(incident);
 		for(String serviceId : saved.getAffectedServicesIds()) {
 			servicesDAO.updateServiceStatusId(serviceId, model.getServiceStatusId());
 		}
+	    return saved;
     }
 
     private IncidentUpdate map(IncidentUpdateCreateModel model, LocalDateTime now) {

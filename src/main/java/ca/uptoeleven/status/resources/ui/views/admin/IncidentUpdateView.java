@@ -4,10 +4,12 @@ import ca.uptoeleven.status.api.ServiceViewModel;
 import ca.uptoeleven.status.core.IncidentState;
 import ca.uptoeleven.status.core.ServiceStatus;
 import ca.uptoeleven.status.api.IncidentViewModel;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import io.dropwizard.views.View;
 import lombok.Getter;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -38,5 +40,9 @@ public class IncidentUpdateView extends View {
 
 	public String nameForServiceId(String serviceId) {
 		return services.get(serviceId).getName();
+	}
+
+	public String getIncidentJson() throws IOException {
+		return new ObjectMapper().writeValueAsString(incident);
 	}
 }
