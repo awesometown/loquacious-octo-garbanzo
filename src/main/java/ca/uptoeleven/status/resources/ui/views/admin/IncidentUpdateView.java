@@ -19,7 +19,7 @@ public class IncidentUpdateView extends View {
     }
 
     public List<ServiceStatus> getStatuses() {
-        return Lists.newArrayList(ServiceStatus.DEGRADED, ServiceStatus.MINOR, ServiceStatus.MAJOR);
+        return Lists.newArrayList(ServiceStatus.OK, ServiceStatus.DEGRADED, ServiceStatus.MINOR, ServiceStatus.MAJOR);
     }
 
     public List<String> getStates() {
