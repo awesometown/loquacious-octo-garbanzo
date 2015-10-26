@@ -4,7 +4,7 @@
 <h1 class="page-header">Services</h1>
 <ul>
 	<#list services as service>
-		<li>${service.name} - ${service.description}</li>
+		<li>${service.name} - ${service.description} - ${service.serviceStatus.name}</li>
 	</#list>
 </ul>
 <a href="/admin/services/new">Create new service</a>

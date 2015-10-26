@@ -15,7 +15,7 @@ public abstract class IncidentUpdatesDAO {
     @SqlQuery("select id, incidentId, description, newState, newServiceStatusId, createdAt, updatedAt from incidentUpdates where id = :id ")
     abstract IncidentUpdate findById(@Bind("id") String id);
 
-    @SqlQuery("select id, incidentId, description, newState, newServiceStatusId, createdAt, updatedAt from incidentUpdates where incidentId = :incidentId")
+    @SqlQuery("select id, incidentId, description, newState, newServiceStatusId, createdAt, updatedAt from incidentUpdates where incidentId = :incidentId order by updatedAt desc")
     abstract List<IncidentUpdate> findByIncidentId(@Bind("incidentId") String incidentId);
 
     @SqlCall("delete from incidentUpdates where incidentId = :incidentId")

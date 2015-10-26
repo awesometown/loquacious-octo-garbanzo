@@ -3,6 +3,7 @@ package ca.uptoeleven.status.core;
 import ca.uptoeleven.status.api.IncidentUpdateCreateModel;
 import ca.uptoeleven.status.db.IncidentsRepository;
 import ca.uptoeleven.status.api.IncidentCreateModel;
+import ca.uptoeleven.status.db.ServicesDAO;
 import com.google.inject.Inject;
 
 import java.time.LocalDateTime;
@@ -17,10 +18,12 @@ import static ca.uptoeleven.status.core.UtcDateTime.nowUtc;
 public class DefaultIncidentService implements IncidentService {
 
     private final IncidentsRepository incidentsRepository;
+	private final ServicesDAO servicesDAO;
 
     @Inject
-    public DefaultIncidentService(IncidentsRepository incidentsRepository) {
+    public DefaultIncidentService(IncidentsRepository incidentsRepository, ServicesDAO servicesDAO) {
         this.incidentsRepository = incidentsRepository;
+		this.servicesDAO = servicesDAO;
     }
 
     @Override
@@ -36,7 +39,11 @@ public class DefaultIncidentService implements IncidentService {
     @Override
     public Incident createIncident(IncidentCreateModel model) {
         Incident incident = Incident.newIncident(model.getTitle(), model.getDescription(), model.getState(), model.getServiceStatusId(), model.getAffectedServiceIds());
-        return incidentsRepository.create(incident);
+        Incident created = incidentsRepository.create(incident);
+		for(String serviceId : created.getAffectedServicesIds()) {
+			servicesDAO.updateServiceStatusId(serviceId, model.getServiceStatusId());
+		}
+		return created;
     }
 
     @Override
@@ -47,19 +54,10 @@ public class DefaultIncidentService implements IncidentService {
         incident = incident
                 .withUpdatedAt(now)
                 .withAdditionalUpdate(update);
-        incidentsRepository.save(incident);
-    }
-
-    private Incident map(IncidentCreateModel model, LocalDateTime now) {
-        return new Incident(
-                    newId(),
-                    model.getTitle(),
-                    model.getState(),
-                    model.getAffectedServiceIds() == null ? new ArrayList<>() : model.getAffectedServiceIds(),
-                    model.getStartTime() == null ? now : model.getStartTime(),
-                    now,
-                    now,
-                    null);
+        Incident saved = incidentsRepository.save(incident);
+		for(String serviceId : saved.getAffectedServicesIds()) {
+			servicesDAO.updateServiceStatusId(serviceId, model.getServiceStatusId());
+		}
     }
 
     private IncidentUpdate map(IncidentUpdateCreateModel model, LocalDateTime now) {

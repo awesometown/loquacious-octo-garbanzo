@@ -6,7 +6,9 @@ import ca.uptoeleven.status.core.Incident;
 import ca.uptoeleven.status.api.IncidentCreateModel;
 import ca.uptoeleven.status.api.IncidentUpdateViewModel;
 import ca.uptoeleven.status.api.IncidentViewModel;
+import ca.uptoeleven.status.core.IncidentUpdate;
 import com.google.inject.Inject;
+import org.glassfish.jersey.server.Uri;
 
 import javax.validation.Valid;
 import javax.ws.rs.*;
@@ -54,8 +56,9 @@ public class IncidentsResource {
 
     @POST
     @Path("/{incidentId}/updates")
-    public Response updateIncident(IncidentUpdateCreateModel incidentUpdateCreateModel) {
-        return null;
+    public Response updateIncident(@PathParam("incidentId") String incidentId, @Valid IncidentUpdateCreateModel incidentUpdateCreateModel) {
+        incidentService.updateIncident(incidentId, incidentUpdateCreateModel);
+        return Response.ok().build();
     }
 
     private IncidentViewModel map(Incident incident) {
