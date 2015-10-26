@@ -2,7 +2,6 @@ package ca.uptoeleven.status.resources.ui.views.dashboard;
 
 import ca.uptoeleven.status.api.IncidentViewModel;
 import ca.uptoeleven.status.api.ServiceViewModel;
-import ca.uptoeleven.status.core.ServiceStatus;
 import io.dropwizard.views.View;
 import lombok.Getter;
 import org.ocpsoft.prettytime.PrettyTime;
@@ -12,8 +11,6 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
-
-import static ca.uptoeleven.status.core.UtcDateTime.nowUtc;
 
 @Getter
 public class DashboardView extends View {
