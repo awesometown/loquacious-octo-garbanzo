@@ -6,6 +6,7 @@ import ca.uptoeleven.status.core.Incident;
 import ca.uptoeleven.status.api.IncidentCreateModel;
 import ca.uptoeleven.status.api.IncidentUpdateViewModel;
 import ca.uptoeleven.status.api.IncidentViewModel;
+import ca.uptoeleven.status.core.IncidentService;
 import ca.uptoeleven.status.core.IncidentUpdate;
 import com.google.inject.Inject;
 import org.glassfish.jersey.server.Uri;
@@ -21,13 +22,13 @@ import java.util.stream.Collectors;
 @Produces(MediaType.APPLICATION_JSON)
 public class IncidentsResource {
 
-    private final DefaultIncidentService incidentService;
+    private final IncidentService incidentService;
 
     @Context
     private UriInfo uriInfo;
 
     @Inject
-    public IncidentsResource(DefaultIncidentService incidentService) {
+    public IncidentsResource(IncidentService incidentService) {
         this.incidentService = incidentService;
     }
 
