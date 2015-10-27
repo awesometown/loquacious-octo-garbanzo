@@ -2,7 +2,7 @@ package ca.uptoeleven.status;
 
 import ca.uptoeleven.status.db.IncidentsDAO;
 import ca.uptoeleven.status.db.JDBIModule;
-import ca.uptoeleven.status.resources.api.ServicesResource;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.hubspot.dropwizard.guice.GuiceBundle;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
@@ -48,7 +48,9 @@ public class StatusApplication extends Application<StatusConfiguration> {
 		});
 		bootstrap.addBundle(new ViewBundle<>());
 		bootstrap.addBundle(new AssetsBundle("/assets/", "/assets/", null, "assets"));
-		bootstrap.addBundle(new AssetsBundle("/META-INF/resources/webjars", "/webjars", null, "webjars" ));
+		bootstrap.addBundle(new AssetsBundle("/META-INF/resources/webjars", "/webjars", null, "webjars"));
+
+		bootstrap.getObjectMapper().configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 	}
 
 	@Override

@@ -15,6 +15,9 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -66,12 +69,12 @@ public class IncidentsResource {
     private IncidentViewModel map(Incident incident) {
         List<IncidentUpdateViewModel> updates = incident.getIncidentUpdates().stream()
                 .map(update -> new IncidentUpdateViewModel(
-                        update.getId(),
-                        update.getDescription(),
-                        update.getNewState(),
-                        update.getNewServiceStatusId(),
-                        update.getCreatedAt(),
-                        update.getUpdatedAt())).collect(Collectors.toList());
+		                update.getId(),
+		                update.getDescription(),
+		                update.getNewState(),
+		                update.getNewServiceStatusId(),
+		                asUtc(update.getCreatedAt()),
+		                asUtc(update.getUpdatedAt()))).collect(Collectors.toList());
 
         //TODO: store the latest state on the incident itself
         String lastStatusId = incident.getIncidentUpdates().get(updates.size()-1).getNewServiceStatusId();
@@ -82,10 +85,14 @@ public class IncidentsResource {
                 incident.getState(),
                 lastStatusId,
                 new ArrayList<>(incident.getAffectedServicesIds()),
-                incident.getCreatedAt(),
-                incident.getUpdatedAt(),
+                asUtc(incident.getCreatedAt()),
+                asUtc(incident.getUpdatedAt()),
                 updates
         );
         return vm;
     }
+
+	private ZonedDateTime asUtc(LocalDateTime dateTime) {
+		return ZonedDateTime.of(dateTime, ZoneOffset.UTC);
+	}
 }
