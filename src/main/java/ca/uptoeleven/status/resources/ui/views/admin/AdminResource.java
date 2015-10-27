@@ -37,7 +37,7 @@ public class AdminResource {
     @GET
     @Path("/incidents")
     public View listIncidents() {
-        return new IncidentListView(incidentsResource.listIncidents());
+        return new IncidentListView(incidentsResource.listIncidents().getData());
     }
 
     @GET

@@ -31,7 +31,7 @@ public class DashboardResource {
     public View getDashboard() {
 		List<ServiceViewModel> svms = servicesResource.getServices();
 
-        List<IncidentViewModel> incidents = incidentsResource.listIncidents();
+        List<IncidentViewModel> incidents = incidentsResource.listIncidents().getData();
         return new DashboardView(svms, incidents);
     }
 
