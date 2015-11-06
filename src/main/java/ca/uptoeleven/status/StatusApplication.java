@@ -75,8 +75,9 @@ public class StatusApplication extends Application<StatusConfiguration> {
 		filter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, environment.getApplicationContext().getContextPath() + "*");
 		filter.setInitParameter(ALLOWED_METHODS_PARAM, "GET,PUT,POST,OPTIONS");
 		filter.setInitParameter(ALLOWED_ORIGINS_PARAM, ALLOWED_ORIGINS);
-		filter.setInitParameter(ALLOWED_HEADERS_PARAM, "Origin, Content-Type, Accept, Location");
+		filter.setInitParameter(ALLOWED_HEADERS_PARAM, "Origin, Content-Type, Accept");
 		filter.setInitParameter(ALLOW_CREDENTIALS_PARAM, "true");
+		filter.setInitParameter(EXPOSED_HEADERS_PARAM, "Location");
 		//environment.jersey().register(remoteResource);
 		//environment.jersey().register(serialResource);
 		//environment.jersey().register(asyncResource);
