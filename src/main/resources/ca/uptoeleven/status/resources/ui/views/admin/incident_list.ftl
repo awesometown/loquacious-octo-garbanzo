@@ -16,7 +16,7 @@
                     <p>${incident.updatedAt}</p>
 
                     <p>Affected Services:</p>
-                    <ul>
+                <ul>
                         <li>todo</li>
                     </ul>
                 </div>

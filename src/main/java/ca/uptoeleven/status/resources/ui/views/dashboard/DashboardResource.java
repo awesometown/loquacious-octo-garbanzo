@@ -29,7 +29,7 @@ public class DashboardResource {
 
     @GET
     public View getDashboard() {
-		List<ServiceViewModel> svms = servicesResource.getServices();
+		List<ServiceViewModel> svms = servicesResource.getServices().getData();
 
         List<IncidentViewModel> incidents = incidentsResource.listIncidents().getData();
         return new DashboardView(svms, incidents);
@@ -40,7 +40,7 @@ public class DashboardResource {
     public View viewIncident(@PathParam("incidentId") String incidentId) {
         return new IncidentDetailsView(
 				incidentsResource.getIncident(incidentId),
-				servicesResource.getServices()
+				servicesResource.getServices().getData()
 		);
     }
 }

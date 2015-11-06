@@ -31,7 +31,7 @@ public class AdminResource {
 
     @GET
     public View adminDashboard() {
-        return new AdminDashboardView(servicesResource.getServices());
+        return new AdminDashboardView(servicesResource.getServices().getData());
     }
 
     @GET
@@ -43,20 +43,20 @@ public class AdminResource {
     @GET
     @Path("/incidents/{incidentId}")
     public View incidentDetails(@PathParam("incidentId") String incidentId) {
-        return new IncidentUpdateView(incidentsResource.getIncident(incidentId), servicesResource.getServices());
+        return new IncidentUpdateView(incidentsResource.getIncident(incidentId), servicesResource.getServices().getData());
     }
 
     @GET
     @Path("/incidents/new")
     public View newIncident() {
-        List<ServiceViewModel> services = servicesResource.getServices();
+        List<ServiceViewModel> services = servicesResource.getServices().getData();
         return new IncidentCreateView(services);
     }
 
     @GET
     @Path("/services")
     public View listServices() {
-        List<ServiceViewModel> services = servicesResource.getServices();
+        List<ServiceViewModel> services = servicesResource.getServices().getData();
         return new ServiceListView(services);
     }
 

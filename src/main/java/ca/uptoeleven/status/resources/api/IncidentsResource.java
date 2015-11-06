@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ca.uptoeleven.status.core.UtcDateTime.asUtc;
+
 @Path("/api/incidents")
 @Produces(MediaType.APPLICATION_JSON)
 public class IncidentsResource {
@@ -88,9 +90,5 @@ public class IncidentsResource {
 				updates
 		);
 		return vm;
-	}
-
-	private ZonedDateTime asUtc(LocalDateTime dateTime) {
-		return ZonedDateTime.of(dateTime, ZoneOffset.UTC);
 	}
 }

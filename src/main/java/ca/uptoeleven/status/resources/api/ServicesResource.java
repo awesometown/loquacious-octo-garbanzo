@@ -1,5 +1,6 @@
 package ca.uptoeleven.status.resources.api;
 
+import ca.uptoeleven.status.api.ListHolder;
 import ca.uptoeleven.status.db.ServiceStatusesDAO;
 import ca.uptoeleven.status.db.ServicesDAO;
 import ca.uptoeleven.status.core.Service;
@@ -20,6 +21,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static ca.uptoeleven.status.core.UtcDateTime.asUtc;
+
 @Path("/api/services")
 @Produces(MediaType.APPLICATION_JSON)
 public class ServicesResource {
@@ -34,17 +37,17 @@ public class ServicesResource {
     }
 
     @GET
-    public List<ServiceViewModel> getServices() {
+    public ListHolder<ServiceViewModel> getServices() {
         List<Service> services = servicesDAO.findAll();
         Map<String, ServiceStatus> statusMapping = getServiceStatusesMap();
         List<ServiceViewModel> vms = services.stream()
                 .map(service -> {
                     ServiceStatus status = statusMapping.get(service.getServiceStatusId());
                     ServiceStatusViewModel statusViewModel = new ServiceStatusViewModel(status.getId(), status.getName(), status.getDisplayColor());
-                    return new ServiceViewModel(service.getId(), service.getName(), service.getDescription(), statusViewModel, service.getCreatedAt(), service.getUpdatedAt());
+                    return new ServiceViewModel(service.getId(), service.getName(), service.getDescription(), statusViewModel, asUtc(service.getCreatedAt()), asUtc(service.getUpdatedAt()));
                 })
                 .collect(Collectors.<ServiceViewModel>toList());
-       return vms;
+       return new ListHolder<>(vms);
     }
 
     private Map<String, ServiceStatus> getServiceStatusesMap() {
