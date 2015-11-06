@@ -20,7 +20,7 @@
             var data = {};
             $("#new-service-form").serializeArray().map(function(x){data[x.name] = x.value;});
             $.ajax({
-                url: "http://localhost:8080/api/services",
+                url: "http://localhost:9000/api/services",
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify(data),

@@ -14,9 +14,19 @@ import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
+import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.skife.jdbi.v2.DBI;
 
+import javax.servlet.DispatcherType;
+import javax.servlet.FilterRegistration;
+import java.util.EnumSet;
+
+import static org.eclipse.jetty.servlets.CrossOriginFilter.*;
+
 public class StatusApplication extends Application<StatusConfiguration> {
+
+	private static final String ALLOWED_ORIGINS = "*";
+
 	public static void main(String[] args) throws Exception {
 		new StatusApplication().run(args);
 	}
@@ -59,6 +69,14 @@ public class StatusApplication extends Application<StatusConfiguration> {
 		final DBIFactory factory = new DBIFactory();
 		final DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), "h2");
 		final IncidentsDAO dao = jdbi.onDemand(IncidentsDAO.class);
+
+		FilterRegistration.Dynamic filter = environment.servlets().addFilter("CORSFilter", CrossOriginFilter.class);
+
+		filter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, environment.getApplicationContext().getContextPath() + "*");
+		filter.setInitParameter(ALLOWED_METHODS_PARAM, "GET,PUT,POST,OPTIONS");
+		filter.setInitParameter(ALLOWED_ORIGINS_PARAM, ALLOWED_ORIGINS);
+		filter.setInitParameter(ALLOWED_HEADERS_PARAM, "Origin, Content-Type, Accept, Location");
+		filter.setInitParameter(ALLOW_CREDENTIALS_PARAM, "true");
 		//environment.jersey().register(remoteResource);
 		//environment.jersey().register(serialResource);
 		//environment.jersey().register(asyncResource);

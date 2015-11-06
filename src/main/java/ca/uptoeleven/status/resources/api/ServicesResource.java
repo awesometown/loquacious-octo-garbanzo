@@ -12,6 +12,7 @@ import com.google.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -36,18 +37,19 @@ public class ServicesResource {
     @GET
     public List<ServiceViewModel> getServices() {
         List<Service> services = servicesDAO.findAll();
-        Map<String, ServiceStatus> statusMapping = getServiceStatusesMap();
         List<ServiceViewModel> vms = services.stream()
-                .map(service -> {
-                    ServiceStatus status = statusMapping.get(service.getServiceStatusId());
-                    ServiceStatusViewModel statusViewModel = new ServiceStatusViewModel(status.getId(), status.getName(), status.getDisplayColor());
-                    return new ServiceViewModel(service.getId(), service.getName(), service.getDescription(), statusViewModel, service.getCreatedAt(), service.getUpdatedAt());
-                })
-                .collect(Collectors.<ServiceViewModel>toList());
+                .map(service -> map(getServiceStatusesMap(), service))
+		        .collect(Collectors.<ServiceViewModel>toList());
        return vms;
     }
 
-    private Map<String, ServiceStatus> getServiceStatusesMap() {
+	private ServiceViewModel map(Map<String, ServiceStatus> statusMapping, Service service) {
+		ServiceStatus status = statusMapping.get(service.getServiceStatusId());
+		ServiceStatusViewModel statusViewModel = new ServiceStatusViewModel(status.getId(), status.getName(), status.getDisplayColor());
+		return new ServiceViewModel(service.getId(), service.getName(), service.getDescription(), statusViewModel, service.getCreatedAt(), service.getUpdatedAt());
+	}
+
+	private Map<String, ServiceStatus> getServiceStatusesMap() {
         Map<String, ServiceStatus> mapping = new HashMap<>();
         List<ServiceStatus> statuses = serviceStatusesDAO.findAll();
         for(ServiceStatus status : statuses) {
@@ -55,6 +57,13 @@ public class ServicesResource {
         }
         return mapping;
     }
+
+	@GET
+	@Path("/{serviceId}")
+	public ServiceViewModel getService(@PathParam("serviceId") String serviceId) {
+		Service service = servicesDAO.findById(serviceId);
+		return map(getServiceStatusesMap(), service);
+	}
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -69,6 +78,11 @@ public class ServicesResource {
                 now,
                 now);
         servicesDAO.insert(service);
-        return Response.created(URI.create("/"+service.getId())).build();
+	    URI uri = UriBuilder
+			    .fromResource(ServicesResource.class)
+			    .path(ServicesResource.class, "getService")
+			    .resolveTemplate("serviceId", service.getId())
+			    .build();
+	    return Response.created(uri).build();
     }
 }
