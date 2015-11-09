@@ -1,6 +1,10 @@
 server:
-  applicationConnectors:
-  - type: http
+  type: simple
+  rootPath: '/api/*'
+  applicationContextPath: /
+  adminContextPath: /serviceadmin
+  connector:
+    type: http
     port: 9000
 
 database:

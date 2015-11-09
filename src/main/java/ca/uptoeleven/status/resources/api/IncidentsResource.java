@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 import static ca.uptoeleven.status.core.UtcDateTime.asUtc;
 
-@Path("/api/incidents")
+@Path("/incidents")
 @Produces(MediaType.APPLICATION_JSON)
 public class IncidentsResource {
 

@@ -14,11 +14,13 @@ import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
+import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.skife.jdbi.v2.DBI;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
+import java.nio.charset.Charset;
 import java.util.EnumSet;
 
 import static org.eclipse.jetty.servlets.CrossOriginFilter.*;
@@ -57,7 +59,8 @@ public class StatusApplication extends Application<StatusConfiguration> {
 			}
 		});
 		bootstrap.addBundle(new ViewBundle<>());
-		bootstrap.addBundle(new AssetsBundle("/assets/", "/assets/", null, "assets"));
+		bootstrap.addBundle(new AssetsBundle("/assets/", "/", "index.html", "assets"));
+		//bootstrap.addBundle(new AssetsBundle("/assets/", "/assets/", null, "assets"));
 		bootstrap.addBundle(new AssetsBundle("/META-INF/resources/webjars", "/webjars", null, "webjars"));
 
 		bootstrap.getObjectMapper().configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
@@ -69,6 +72,10 @@ public class StatusApplication extends Application<StatusConfiguration> {
 		final DBIFactory factory = new DBIFactory();
 		final DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), "h2");
 		final IncidentsDAO dao = jdbi.onDemand(IncidentsDAO.class);
+
+		environment.jersey().setUrlPattern("/jersey/*");
+		//AssetServlet as = new AssetServlet("/assets/", "/test", "index.html", Charset.defaultCharset());
+		//environment.getApplicationContext().addServlet(new ServletHolder(as), "/test/*");
 
 		FilterRegistration.Dynamic filter = environment.servlets().addFilter("CORSFilter", CrossOriginFilter.class);
 
