@@ -49,8 +49,20 @@ public abstract class IncidentsDAO {
         return populatedIncidents;
     }
 
-    @SqlQuery("select id, title, state, startTime, createdAt, updatedAt from incidents")
+	@Transaction(TransactionIsolationLevel.REPEATABLE_READ)
+	public List<Incident> findActiveIncidents() {
+		List<Incident> populatedIncidents = findActiveIncidentsBare().stream().map(incident -> {
+			List<String> affectedServiceIds = findAffectedServiceIds(incident.getId());
+			return incident.withAffectedServicesIds(ImmutableList.copyOf(affectedServiceIds));
+		}).collect(Collectors.toList());
+		return populatedIncidents;
+	}
+
+    @SqlQuery("select id, title, state, startTime, createdAt, updatedAt from incidents order by createdAt desc")
     abstract List<Incident> findAllIncidentsBare();
+
+	@SqlQuery("select id, title, state, startTime, createdAt, updatedAt from incidents where state != 'resolved' order by createdAt desc")
+	abstract List<Incident> findActiveIncidentsBare();
 
     @SqlUpdate("insert into incidentAffectedServices (incidentId, serviceId) values (:incidentId, :serviceId)")
     abstract void insertAffectedServiceId(@Bind("incidentId") String incidentId, @Bind("serviceId") String serviceId);

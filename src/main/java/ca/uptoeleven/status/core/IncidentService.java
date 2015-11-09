@@ -8,6 +8,8 @@ import java.util.List;
 public interface IncidentService {
     List<Incident> getAllIncidents();
 
+	List<Incident> getActiveIncidents();
+
     Incident getIncident(String incidentId);
 
     Incident createIncident(IncidentCreateModel model);

@@ -1,6 +1,7 @@
 package ca.uptoeleven.status.db;
 
 import ca.uptoeleven.status.core.Incident;
+import ca.uptoeleven.status.core.IncidentState;
 import ca.uptoeleven.status.core.Service;
 import com.google.common.collect.Lists;
 import org.junit.Before;
@@ -29,6 +30,18 @@ public class IncidentsDAOTest {
         this.incidentsDAO = incidentsDAO(h2JDBIRule.getDbi());
         this.servicesDAO = servicesDAO(h2JDBIRule.getDbi());
     }
+
+	@Test
+	public void findActiveIncidentsOmitsResolvedIncidents() {
+		Incident open = newIncidentForTest().withState(IncidentState.INVESTIGATING);
+		Incident resolved = newIncidentForTest().withState(IncidentState.RESOLVED);
+		incidentsDAO.create(open);
+		incidentsDAO.create(resolved);
+
+		List<Incident> incidents = incidentsDAO.findActiveIncidents();
+		assertEquals(1, incidents.size());
+		assertEquals(open.getId(), incidents.get(0).getId());
+	}
 
     @Test
     public void insertIncidentSucceedsWithoutError() {

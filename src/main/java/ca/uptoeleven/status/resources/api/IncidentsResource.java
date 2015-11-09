@@ -53,6 +53,15 @@ public class IncidentsResource {
 	}
 
 	@GET
+	@Path("/active")
+	public ListHolder<IncidentViewModel> getActiveIncidents() {
+		return new ListHolder<>(
+				incidentService.getActiveIncidents().stream().map(incident ->
+								map(incident)
+				).collect(Collectors.toList()));
+	}
+
+	@GET
 	@Path("/{incidentId}")
 	public IncidentViewModel getIncident(@PathParam("incidentId") String incidentId) {
 		Incident incident = incidentService.getIncident(incidentId);

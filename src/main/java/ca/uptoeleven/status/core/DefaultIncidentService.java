@@ -31,6 +31,9 @@ public class DefaultIncidentService implements IncidentService {
         return incidentsRepository.getAllIncidents();
     }
 
+	@Override
+	public List<Incident> getActiveIncidents() { return incidentsRepository.getActiveIncidents(); }
+
     @Override
     public Incident getIncident(String incidentId) {
         return incidentsRepository.getIncident(incidentId);

@@ -28,6 +28,11 @@ public class IncidentsRepository {
         return allIncidents.stream().map(incident -> populateUpdates(incident)).collect(Collectors.toList());
     }
 
+	public List<Incident> getActiveIncidents() {
+		List<Incident> activeIncidents = incidentsDAO.findActiveIncidents();
+		return activeIncidents.stream().map(incident -> populateUpdates(incident)).collect(Collectors.toList());
+	}
+
     public Incident create(Incident incident) {
         return dbi.inTransaction((handle, transactionStatus) -> {
             incidentsDAO.create(incident);
