@@ -1,0 +1,1 @@
+build: java -jar status.jar db migrate local.yml

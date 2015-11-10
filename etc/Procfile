@@ -1,0 +1,1 @@
+web: java -jar status.jar server local.yml
