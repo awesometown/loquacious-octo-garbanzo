@@ -60,7 +60,6 @@ public class StatusApplication extends Application<StatusConfiguration> {
 		});
 		bootstrap.addBundle(new ViewBundle<>());
 		bootstrap.addBundle(new AssetsBundle("/assets/", "/", "index.html", "assets"));
-		//bootstrap.addBundle(new AssetsBundle("/assets/", "/assets/", null, "assets"));
 		bootstrap.addBundle(new AssetsBundle("/META-INF/resources/webjars", "/webjars", null, "webjars"));
 
 		bootstrap.getObjectMapper().configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
@@ -69,14 +68,6 @@ public class StatusApplication extends Application<StatusConfiguration> {
 	@Override
 	public void run(StatusConfiguration configuration,
 	                Environment environment) {
-		final DBIFactory factory = new DBIFactory();
-		final DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), "h2");
-		final IncidentsDAO dao = jdbi.onDemand(IncidentsDAO.class);
-
-		environment.jersey().setUrlPattern("/jersey/*");
-		//AssetServlet as = new AssetServlet("/assets/", "/test", "index.html", Charset.defaultCharset());
-		//environment.getApplicationContext().addServlet(new ServletHolder(as), "/test/*");
-
 		FilterRegistration.Dynamic filter = environment.servlets().addFilter("CORSFilter", CrossOriginFilter.class);
 
 		filter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, environment.getApplicationContext().getContextPath() + "*");
@@ -85,10 +76,5 @@ public class StatusApplication extends Application<StatusConfiguration> {
 		filter.setInitParameter(ALLOWED_HEADERS_PARAM, "Origin, Content-Type, Accept");
 		filter.setInitParameter(ALLOW_CREDENTIALS_PARAM, "true");
 		filter.setInitParameter(EXPOSED_HEADERS_PARAM, "Location");
-		//environment.jersey().register(remoteResource);
-		//environment.jersey().register(serialResource);
-		//environment.jersey().register(asyncResource);
-		//environment.jersey().register(reactiveResource);
 	}
-
 }
