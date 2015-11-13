@@ -1,26 +1,28 @@
 package ca.uptoeleven.status;
 
-import ca.uptoeleven.status.db.IncidentsDAO;
+import ca.uptoeleven.status.auth.DummyAuthenticator;
+import ca.uptoeleven.status.auth.DummyAuthorizer;
+import ca.uptoeleven.status.core.User;
 import ca.uptoeleven.status.db.JDBIModule;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.hubspot.dropwizard.guice.GuiceBundle;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
+import io.dropwizard.auth.AuthDynamicFeature;
+import io.dropwizard.auth.AuthValueFactoryProvider;
+import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.java8.Java8Bundle;
-import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.jdbi.bundles.DBIExceptionsBundle;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
-import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
-import org.skife.jdbi.v2.DBI;
+import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
-import java.nio.charset.Charset;
 import java.util.EnumSet;
 
 import static org.eclipse.jetty.servlets.CrossOriginFilter.*;
@@ -76,5 +78,15 @@ public class StatusApplication extends Application<StatusConfiguration> {
 		filter.setInitParameter(ALLOWED_HEADERS_PARAM, "Origin, Content-Type, Accept");
 		filter.setInitParameter(ALLOW_CREDENTIALS_PARAM, "true");
 		filter.setInitParameter(EXPOSED_HEADERS_PARAM, "Location");
+
+		environment.jersey().register(new AuthDynamicFeature(
+				new BasicCredentialAuthFilter.Builder<User>()
+						.setAuthenticator(new DummyAuthenticator())
+						.setAuthorizer(new DummyAuthorizer())
+						.setRealm("SUPER SECRET STUFF")
+						.buildAuthFilter()));
+		environment.jersey().register(RolesAllowedDynamicFeature.class);
+		//If you want to use @Auth to inject a custom Principal type into your resource
+		environment.jersey().register(new AuthValueFactoryProvider.Binder<>(User.class));
 	}
 }
