@@ -10,6 +10,7 @@ import ca.uptoeleven.status.api.ServiceStatusViewModel;
 import ca.uptoeleven.status.api.ServiceViewModel;
 import com.google.inject.Inject;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -38,6 +39,7 @@ public class ServicesResource {
     }
 
     @GET
+	@RolesAllowed("ADMIN")
     public ListHolder<ServiceViewModel> getServices() {
         List<Service> services = servicesDAO.findAll();
         List<ServiceViewModel> vms = services.stream() .map(service -> map(getServiceStatusesMap(), service))

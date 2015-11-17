@@ -1,5 +1,6 @@
 package ca.uptoeleven.status;
 
+import ca.uptoeleven.status.auth.CustomUnauthorizedHandler;
 import ca.uptoeleven.status.auth.DummyAuthenticator;
 import ca.uptoeleven.status.auth.DummyAuthorizer;
 import ca.uptoeleven.status.core.User;
@@ -75,7 +76,7 @@ public class StatusApplication extends Application<StatusConfiguration> {
 		filter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, environment.getApplicationContext().getContextPath() + "*");
 		filter.setInitParameter(ALLOWED_METHODS_PARAM, "GET,PUT,POST,OPTIONS");
 		filter.setInitParameter(ALLOWED_ORIGINS_PARAM, ALLOWED_ORIGINS);
-		filter.setInitParameter(ALLOWED_HEADERS_PARAM, "Origin, Content-Type, Accept");
+		filter.setInitParameter(ALLOWED_HEADERS_PARAM, "Origin, Content-Type, Accept, Authorization");
 		filter.setInitParameter(ALLOW_CREDENTIALS_PARAM, "true");
 		filter.setInitParameter(EXPOSED_HEADERS_PARAM, "Location");
 
@@ -83,6 +84,7 @@ public class StatusApplication extends Application<StatusConfiguration> {
 				new BasicCredentialAuthFilter.Builder<User>()
 						.setAuthenticator(new DummyAuthenticator())
 						.setAuthorizer(new DummyAuthorizer())
+						.setUnauthorizedHandler(new CustomUnauthorizedHandler())
 						.setRealm("SUPER SECRET STUFF")
 						.buildAuthFilter()));
 		environment.jersey().register(RolesAllowedDynamicFeature.class);
