@@ -39,7 +39,6 @@ public class ServicesResource {
     }
 
     @GET
-	@RolesAllowed("ADMIN")
     public ListHolder<ServiceViewModel> getServices() {
         List<Service> services = servicesDAO.findAll();
         List<ServiceViewModel> vms = services.stream() .map(service -> map(getServiceStatusesMap(), service))
@@ -71,6 +70,7 @@ public class ServicesResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+	@RolesAllowed("ADMIN")
     public Response createService(ServiceCreateModel createModel) {
         LocalDateTime now = LocalDateTime.now();
 

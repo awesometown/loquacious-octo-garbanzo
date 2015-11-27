@@ -8,6 +8,7 @@ import ca.uptoeleven.status.core.IncidentUpdate;
 import com.google.inject.Inject;
 import org.glassfish.jersey.server.Uri;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -45,6 +46,7 @@ public class IncidentsResource {
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
+	@RolesAllowed("ADMIN")
 	public Response create(@Valid IncidentCreateModel newIncident) {
 		Incident created = incidentService.createIncident(newIncident);
 		UriBuilder ub = uriInfo.getAbsolutePathBuilder();
@@ -70,6 +72,7 @@ public class IncidentsResource {
 
 	@POST
 	@Path("/{incidentId}")
+	@RolesAllowed("ADMIN")
 	public IncidentViewModel updateIncident(@PathParam("incidentId") String incidentId, @Valid IncidentUpdateCreateModel incidentUpdateCreateModel) {
 		Incident updated = incidentService.updateIncident(incidentId, incidentUpdateCreateModel);
 		return map(updated);
