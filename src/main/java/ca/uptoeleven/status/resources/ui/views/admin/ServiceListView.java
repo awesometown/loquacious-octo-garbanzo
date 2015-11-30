@@ -9,12 +9,12 @@ import java.util.List;
 
 public class ServiceListView extends View {
 
-    @Getter
-    private List<ServiceViewModel> services;
+	@Getter
+	private List<ServiceViewModel> services;
 
-    public ServiceListView(List<ServiceViewModel> services) {
-        super("service_list.ftl");
-        this.services = services;
-    }
+	public ServiceListView(List<ServiceViewModel> services) {
+		super("service_list.ftl");
+		this.services = services;
+	}
 
 }

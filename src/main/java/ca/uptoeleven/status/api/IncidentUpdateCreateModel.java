@@ -12,12 +12,14 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class IncidentUpdateCreateModel {
-    @NotNull
-    private String description;
 
-    @NotNull
-    private String state;
+	@NotNull
+	private String description;
 
-    @NotNull
-    private String serviceStatusId;
+	@NotNull
+	private String state;
+
+	@NotNull
+	private String serviceStatusId;
+
 }

@@ -10,9 +10,10 @@ import java.util.List;
 @RegisterMapper(ServiceStatusMapper.class)
 public interface ServiceStatusesDAO {
 
-    @SqlQuery("select id, name, displayColor, sortOrder from serviceStatuses")
-    List<ServiceStatus> findAll();
+	@SqlQuery("select id, name, displayColor, sortOrder from serviceStatuses")
+	List<ServiceStatus> findAll();
 
-    @SqlQuery("select id, name, displayColor, sortOrder from serviceStatuses where id = :id")
-    ServiceStatus findById(@Bind("id") String id);
+	@SqlQuery("select id, name, displayColor, sortOrder from serviceStatuses where id = :id")
+	ServiceStatus findById(@Bind("id") String id);
+
 }

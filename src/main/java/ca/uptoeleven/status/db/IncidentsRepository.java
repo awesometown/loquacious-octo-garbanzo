@@ -10,58 +10,61 @@ import java.util.stream.Collectors;
 
 public class IncidentsRepository {
 
-    private final DBI dbi;
-    private final IncidentsDAO incidentsDAO;
-    private final IncidentUpdatesDAO updatesDAO;
-    private final ServicesDAO servicesDAO;
+	private final DBI dbi;
 
-    @Inject
-    public IncidentsRepository(DBI dbi, IncidentsDAO incidentsDAO, IncidentUpdatesDAO updatesDAO, ServicesDAO servicesDAO) {
-        this.dbi = dbi;
-        this.incidentsDAO = incidentsDAO;
-        this.updatesDAO = updatesDAO;
-        this.servicesDAO = servicesDAO;
-    }
+	private final IncidentsDAO incidentsDAO;
 
-    public List<Incident> getAllIncidents() {
-        List<Incident> allIncidents = incidentsDAO.findAllIncidents();
-        return allIncidents.stream().map(incident -> populateUpdates(incident)).collect(Collectors.toList());
-    }
+	private final IncidentUpdatesDAO updatesDAO;
+
+	private final ServicesDAO servicesDAO;
+
+	@Inject
+	public IncidentsRepository(DBI dbi, IncidentsDAO incidentsDAO, IncidentUpdatesDAO updatesDAO, ServicesDAO servicesDAO) {
+		this.dbi = dbi;
+		this.incidentsDAO = incidentsDAO;
+		this.updatesDAO = updatesDAO;
+		this.servicesDAO = servicesDAO;
+	}
+
+	public List<Incident> getAllIncidents() {
+		List<Incident> allIncidents = incidentsDAO.findAllIncidents();
+		return allIncidents.stream().map(incident -> populateUpdates(incident)).collect(Collectors.toList());
+	}
 
 	public List<Incident> getActiveIncidents() {
 		List<Incident> activeIncidents = incidentsDAO.findActiveIncidents();
 		return activeIncidents.stream().map(incident -> populateUpdates(incident)).collect(Collectors.toList());
 	}
 
-    public Incident create(Incident incident) {
-        return dbi.inTransaction((handle, transactionStatus) -> {
-            incidentsDAO.create(incident);
-            for (IncidentUpdate update : incident.getIncidentUpdates()) {
-                updatesDAO.insert(incident.getId(), update);
-            }
-            return incident;
-        });
-    }
+	public Incident create(Incident incident) {
+		return dbi.inTransaction((handle, transactionStatus) -> {
+			incidentsDAO.create(incident);
+			for (IncidentUpdate update : incident.getIncidentUpdates()) {
+				updatesDAO.insert(incident.getId(), update);
+			}
+			return incident;
+		});
+	}
 
-    public Incident save(Incident incident) {
-        return dbi.inTransaction((handle, transactionStatus) -> {
-            incidentsDAO.update(incident.getId(), incident.getState(), incident.getUpdatedAt());
-            updatesDAO.clear(incident.getId());
-            for (IncidentUpdate update : incident.getIncidentUpdates()) {
-                updatesDAO.insert(incident.getId(), update);
-            }
-            return incident;
-        });
-    }
+	public Incident save(Incident incident) {
+		return dbi.inTransaction((handle, transactionStatus) -> {
+			incidentsDAO.update(incident.getId(), incident.getState(), incident.getUpdatedAt());
+			updatesDAO.clear(incident.getId());
+			for (IncidentUpdate update : incident.getIncidentUpdates()) {
+				updatesDAO.insert(incident.getId(), update);
+			}
+			return incident;
+		});
+	}
 
-    public Incident getIncident(String incidentId) {
-        Incident incident = incidentsDAO.findById(incidentId);
-        List<IncidentUpdate> updates = updatesDAO.findByIncidentId(incidentId);
-        return incident.withIncidentUpdatesList(updates);
-    }
+	public Incident getIncident(String incidentId) {
+		Incident incident = incidentsDAO.findById(incidentId);
+		List<IncidentUpdate> updates = updatesDAO.findByIncidentId(incidentId);
+		return incident.withIncidentUpdatesList(updates);
+	}
 
-    private Incident populateUpdates(Incident incident) {
-        List<IncidentUpdate> updates = updatesDAO.findByIncidentId(incident.getId());
-        return incident.withIncidentUpdatesList(updates);
-    }
+	private Incident populateUpdates(Incident incident) {
+		List<IncidentUpdate> updates = updatesDAO.findByIncidentId(incident.getId());
+		return incident.withIncidentUpdatesList(updates);
+	}
 }
