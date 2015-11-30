@@ -14,4 +14,5 @@ public class CredentialsResource {
 	public Response areValid() {
 		return Response.ok().build();
 	}
+
 }

@@ -17,19 +17,19 @@ import static org.junit.Assert.assertNotNull;
 
 public class IncidentsDAOTest {
 
-    @Rule
-    public H2JDBIRule h2JDBIRule = new H2JDBIRule();
+	@Rule
+	public H2JDBIRule h2JDBIRule = new H2JDBIRule();
 
-    private DBI dbi;
-    private IncidentsDAO incidentsDAO;
-    private ServicesDAO servicesDAO;
+	private DBI dbi;
+	private IncidentsDAO incidentsDAO;
+	private ServicesDAO servicesDAO;
 
-    @Before
-    public void setup() {
-        this.dbi = h2JDBIRule.getDbi();
-        this.incidentsDAO = incidentsDAO(h2JDBIRule.getDbi());
-        this.servicesDAO = servicesDAO(h2JDBIRule.getDbi());
-    }
+	@Before
+	public void setup() {
+		this.dbi = h2JDBIRule.getDbi();
+		this.incidentsDAO = incidentsDAO(h2JDBIRule.getDbi());
+		this.servicesDAO = servicesDAO(h2JDBIRule.getDbi());
+	}
 
 	@Test
 	public void findActiveIncidentsOmitsResolvedIncidents() {
@@ -43,36 +43,37 @@ public class IncidentsDAOTest {
 		assertEquals(open.getId(), incidents.get(0).getId());
 	}
 
-    @Test
-    public void insertIncidentSucceedsWithoutError() {
-        incidentsDAO.insert(newIncidentWithUpdateForTest().withId(newId()));
-    }
+	@Test
+	public void insertIncidentSucceedsWithoutError() {
+		incidentsDAO.insert(newIncidentWithUpdateForTest().withId(newId()));
+	}
 
-    @Test
-    public void createIncidentSetsId() {
-        Incident incident = newIncidentWithUpdateForTest();
-        incident = incidentsDAO.create(incident);
-        assertNotNull(incident.getId());
-    }
+	@Test
+	public void createIncidentSetsId() {
+		Incident incident = newIncidentWithUpdateForTest();
+		incident = incidentsDAO.create(incident);
+		assertNotNull(incident.getId());
+	}
 
-    @Test
-    public void createIncidentSavesAffectedServiceId() {
-        Service service = newServiceForTest().withId(newId());
-        servicesDAO.insert(service);
+	@Test
+	public void createIncidentSavesAffectedServiceId() {
+		Service service = newServiceForTest().withId(newId());
+		servicesDAO.insert(service);
 
-        Incident incident = newIncidentWithUpdateForTest().withAffectedServicesIdsList(Lists.newArrayList(service.getId()));
-        incident = incidentsDAO.create(incident);
-        List<String> affectedIds = incidentsDAO.findAffectedServiceIds(incident.getId());
-        assertEquals(1, affectedIds.size());
-        assertEquals(service.getId(), affectedIds.get(0));
-    }
+		Incident incident = newIncidentWithUpdateForTest().withAffectedServicesIdsList(Lists.newArrayList(service.getId()));
+		incident = incidentsDAO.create(incident);
+		List<String> affectedIds = incidentsDAO.findAffectedServiceIds(incident.getId());
+		assertEquals(1, affectedIds.size());
+		assertEquals(service.getId(), affectedIds.get(0));
+	}
 
-    @Test
-    public void createdIncidentCanBeSelected() {
-        Incident toInsert = newIncidentForTest();
-        toInsert = incidentsDAO.create(toInsert);
-        Incident selected = incidentsDAO.findById(toInsert.getId());
-        assertNotNull(selected);
-        assertEquals(toInsert, selected);
-    }
+	@Test
+	public void createdIncidentCanBeSelected() {
+		Incident toInsert = newIncidentForTest();
+		toInsert = incidentsDAO.create(toInsert);
+		Incident selected = incidentsDAO.findById(toInsert.getId());
+		assertNotNull(selected);
+		assertEquals(toInsert, selected);
+	}
+
 }

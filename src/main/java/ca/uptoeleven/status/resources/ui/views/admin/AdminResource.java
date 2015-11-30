@@ -15,54 +15,54 @@ import java.util.List;
 @Produces(MediaType.TEXT_HTML)
 public class AdminResource {
 
-    @Context
-    private UriInfo uriInfo;
+	@Context
+	private UriInfo uriInfo;
 
-    @Context
-    private HttpServletRequest request;
+	@Context
+	private HttpServletRequest request;
 
-    private ServicesResource servicesResource;
-    private IncidentsResource incidentsResource;
+	private ServicesResource servicesResource;
+	private IncidentsResource incidentsResource;
 
-    public AdminResource(@Context ResourceContext rc) {
-        this.servicesResource = rc.getResource(ServicesResource.class);
-        this.incidentsResource = rc.getResource(IncidentsResource.class);
-    }
+	public AdminResource(@Context ResourceContext rc) {
+		this.servicesResource = rc.getResource(ServicesResource.class);
+		this.incidentsResource = rc.getResource(IncidentsResource.class);
+	}
 
-    @GET
-    public View adminDashboard() {
-        return new AdminDashboardView(servicesResource.getServices().getData());
-    }
+	@GET
+	public View adminDashboard() {
+		return new AdminDashboardView(servicesResource.getServices().getData());
+	}
 
-    @GET
-    @Path("/incidents")
-    public View listIncidents() {
-        return new IncidentListView(incidentsResource.listIncidents().getData());
-    }
+	@GET
+	@Path("/incidents")
+	public View listIncidents() {
+		return new IncidentListView(incidentsResource.listIncidents().getData());
+	}
 
-    @GET
-    @Path("/incidents/{incidentId}")
-    public View incidentDetails(@PathParam("incidentId") String incidentId) {
-        return new IncidentUpdateView(incidentsResource.getIncident(incidentId), servicesResource.getServices().getData());
-    }
+	@GET
+	@Path("/incidents/{incidentId}")
+	public View incidentDetails(@PathParam("incidentId") String incidentId) {
+		return new IncidentUpdateView(incidentsResource.getIncident(incidentId), servicesResource.getServices().getData());
+	}
 
-    @GET
-    @Path("/incidents/new")
-    public View newIncident() {
-        List<ServiceViewModel> services = servicesResource.getServices().getData();
-        return new IncidentCreateView(services);
-    }
+	@GET
+	@Path("/incidents/new")
+	public View newIncident() {
+		List<ServiceViewModel> services = servicesResource.getServices().getData();
+		return new IncidentCreateView(services);
+	}
 
-    @GET
-    @Path("/services")
-    public View listServices() {
-        List<ServiceViewModel> services = servicesResource.getServices().getData();
-        return new ServiceListView(services);
-    }
+	@GET
+	@Path("/services")
+	public View listServices() {
+		List<ServiceViewModel> services = servicesResource.getServices().getData();
+		return new ServiceListView(services);
+	}
 
-    @GET
-    @Path("/services/new")
-    public View newService() {
-        return new ServiceCreateView();
-    }
+	@GET
+	@Path("/services/new")
+	public View newService() {
+		return new ServiceCreateView();
+	}
 }

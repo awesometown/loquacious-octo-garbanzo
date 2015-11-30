@@ -3,6 +3,7 @@ package ca.uptoeleven.status.core;
 import java.security.Principal;
 
 public class User implements Principal {
+
 	private final String name;
 
 	public User(String name) {

@@ -11,35 +11,40 @@ import org.skife.jdbi.v2.DBI;
 
 public class JDBIModule extends AbstractModule {
 
-    public JDBIModule() {
-    }
+	public JDBIModule() {
+	}
 
-    @Provides
-    public DBI jdbi(Environment environment, StatusConfiguration configuration) {
-        DBI dbi = new DBIFactory().build(environment, configuration.getDataSourceFactory(), "h2" );
-        dbi.registerArgumentFactory(new LocalDateTimeArgumentFactory());
-        return dbi;
-    }
+	@Provides
+	public DBI jdbi(Environment environment, StatusConfiguration configuration) {
+		DBI dbi = new DBIFactory().build(environment, configuration.getDataSourceFactory(), "h2");
+		dbi.registerArgumentFactory(new LocalDateTimeArgumentFactory());
+		return dbi;
+	}
 
-    @Provides
-    public IncidentsDAO getIncidentsDAO(DBI jdbi) {
-        return jdbi.onDemand(IncidentsDAO.class);
-    }
+	@Provides
+	public IncidentsDAO getIncidentsDAO(DBI jdbi) {
+		return jdbi.onDemand(IncidentsDAO.class);
+	}
 
-    @Provides
-    public IncidentUpdatesDAO getIncidentUpdatesDAO(DBI jdbi) {
-        return jdbi.onDemand(IncidentUpdatesDAO.class);
-    }
+	@Provides
+	public IncidentUpdatesDAO getIncidentUpdatesDAO(DBI jdbi) {
+		return jdbi.onDemand(IncidentUpdatesDAO.class);
+	}
 
-    @Provides
-    public ServiceStatusesDAO getServiceStatusesDAO(DBI jdbi) { return jdbi.onDemand(ServiceStatusesDAO.class); }
+	@Provides
+	public ServiceStatusesDAO getServiceStatusesDAO(DBI jdbi) {
+		return jdbi.onDemand(ServiceStatusesDAO.class);
+	}
 
-    @Provides
-    public ServicesDAO getServicesDAO(DBI jdbi) { return jdbi.onDemand(ServicesDAO.class); }
+	@Provides
+	public ServicesDAO getServicesDAO(DBI jdbi) {
+		return jdbi.onDemand(ServicesDAO.class);
+	}
 
-    @Override
-    protected void configure() {
-        bind(IncidentsRepository.class);
-        bind(DefaultIncidentService.class);
-    }
+	@Override
+	protected void configure() {
+		bind(IncidentsRepository.class);
+		bind(DefaultIncidentService.class);
+	}
+
 }

@@ -9,17 +9,18 @@ import javax.validation.constraints.NotNull;
 
 public class StatusConfiguration extends Configuration {
 
-    @Valid
-    @NotNull
-    private DataSourceFactory database = new DataSourceFactory();
+	@Valid
+	@NotNull
+	private DataSourceFactory database = new DataSourceFactory();
 
-    @JsonProperty("database")
-    public DataSourceFactory getDataSourceFactory() {
-        return database;
-    }
+	@JsonProperty("database")
+	public DataSourceFactory getDataSourceFactory() {
+		return database;
+	}
 
-    @JsonProperty("database")
-    public void setDataSourceFactory(DataSourceFactory dataSourceFactory) {
-        this.database = dataSourceFactory;
-    }
+	@JsonProperty("database")
+	public void setDataSourceFactory(DataSourceFactory dataSourceFactory) {
+		this.database = dataSourceFactory;
+	}
+
 }

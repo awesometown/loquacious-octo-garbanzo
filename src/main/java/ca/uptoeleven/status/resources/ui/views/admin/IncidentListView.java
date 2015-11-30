@@ -8,10 +8,11 @@ import java.util.List;
 
 @Getter
 public class IncidentListView extends View {
-    private final List<IncidentViewModel> incidents;
 
-    public IncidentListView(List<IncidentViewModel> incidents) {
-        super("incident_list.ftl");
-        this.incidents = incidents;
-    }
+	private final List<IncidentViewModel> incidents;
+
+	public IncidentListView(List<IncidentViewModel> incidents) {
+		super("incident_list.ftl");
+		this.incidents = incidents;
+	}
 }

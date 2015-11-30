@@ -2,11 +2,11 @@ package ca.uptoeleven.status.auth;
 
 import io.dropwizard.auth.UnauthorizedHandler;
 
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 public class CustomUnauthorizedHandler implements UnauthorizedHandler {
+
 	private static final String CHALLENGE_FORMAT = "%s realm=\"%s\"";
 
 	@Override
@@ -17,4 +17,5 @@ public class CustomUnauthorizedHandler implements UnauthorizedHandler {
 				.entity("Credentials are required to access this resource.")
 				.build();
 	}
+
 }

@@ -9,15 +9,16 @@ import java.util.List;
 @RegisterMapper(IncidentUpdateMapper.class)
 public abstract class IncidentUpdatesDAO {
 
-    @SqlUpdate("insert into incidentUpdates (id , incidentId, description, newState, newServiceStatusId, createdAt, updatedAt) values (:id, :incidentId, :description, :newState, :newServiceStatusId, :createdAt, :updatedAt)")
-    abstract void insert(@Bind("incidentId") String incidentId, @BindBean IncidentUpdate update);
+	@SqlUpdate("insert into incidentUpdates (id , incidentId, description, newState, newServiceStatusId, createdAt, updatedAt) values (:id, :incidentId, :description, :newState, :newServiceStatusId, :createdAt, :updatedAt)")
+	abstract void insert(@Bind("incidentId") String incidentId, @BindBean IncidentUpdate update);
 
-    @SqlQuery("select id, incidentId, description, newState, newServiceStatusId, createdAt, updatedAt from incidentUpdates where id = :id ")
-    abstract IncidentUpdate findById(@Bind("id") String id);
+	@SqlQuery("select id, incidentId, description, newState, newServiceStatusId, createdAt, updatedAt from incidentUpdates where id = :id ")
+	abstract IncidentUpdate findById(@Bind("id") String id);
 
-    @SqlQuery("select id, incidentId, description, newState, newServiceStatusId, createdAt, updatedAt from incidentUpdates where incidentId = :incidentId order by updatedAt desc")
-    abstract List<IncidentUpdate> findByIncidentId(@Bind("incidentId") String incidentId);
+	@SqlQuery("select id, incidentId, description, newState, newServiceStatusId, createdAt, updatedAt from incidentUpdates where incidentId = :incidentId order by updatedAt desc")
+	abstract List<IncidentUpdate> findByIncidentId(@Bind("incidentId") String incidentId);
 
-    @SqlCall("delete from incidentUpdates where incidentId = :incidentId")
-    abstract void clear(@Bind("incidentId") String incidentId);
+	@SqlCall("delete from incidentUpdates where incidentId = :incidentId")
+	abstract void clear(@Bind("incidentId") String incidentId);
+
 }

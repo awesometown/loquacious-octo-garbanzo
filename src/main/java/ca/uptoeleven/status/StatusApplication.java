@@ -70,7 +70,7 @@ public class StatusApplication extends Application<StatusConfiguration> {
 
 	@Override
 	public void run(StatusConfiguration configuration,
-	                Environment environment) {
+					Environment environment) {
 		FilterRegistration.Dynamic filter = environment.servlets().addFilter("CORSFilter", CrossOriginFilter.class);
 
 		filter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, environment.getApplicationContext().getContextPath() + "*");
