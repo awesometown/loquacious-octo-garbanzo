@@ -1,5 +1,6 @@
 package ca.uptoeleven.status.resources.ui.views.dashboard;
 
+import ca.uptoeleven.status.core.IncidentType;
 import ca.uptoeleven.status.resources.api.IncidentsResource;
 import ca.uptoeleven.status.resources.api.ServicesResource;
 import ca.uptoeleven.status.api.IncidentViewModel;
@@ -32,7 +33,7 @@ public class DashboardResource {
 	public View getDashboard() {
 		List<ServiceViewModel> svms = servicesResource.getServices().getData();
 
-		List<IncidentViewModel> incidents = incidentsResource.listIncidents().getData();
+		List<IncidentViewModel> incidents = incidentsResource.listIncidents(IncidentType.UNPLANNED).getData();
 		return new DashboardView(svms, incidents);
 	}
 

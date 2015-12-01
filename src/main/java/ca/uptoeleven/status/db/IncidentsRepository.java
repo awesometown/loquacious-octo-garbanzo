@@ -31,9 +31,17 @@ public class IncidentsRepository {
 		return allIncidents.stream().map(incident -> populateUpdates(incident)).collect(Collectors.toList());
 	}
 
+	public List<Incident> getAllIncidentsByType(final String type) {
+		return this.incidentsDAO.findAllIncidentsByType(type).stream().map(this::populateUpdates).collect(Collectors.toList());
+	}
+
 	public List<Incident> getActiveIncidents() {
 		List<Incident> activeIncidents = incidentsDAO.findActiveIncidents();
 		return activeIncidents.stream().map(incident -> populateUpdates(incident)).collect(Collectors.toList());
+	}
+
+	public List<Incident> getActiveIncidentsByType(final String type) {
+		return this.incidentsDAO.findActiveIncidentsByType(type).stream().map(this::populateUpdates).collect(Collectors.toList());
 	}
 
 	public Incident create(Incident incident) {

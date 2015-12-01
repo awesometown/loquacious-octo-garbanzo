@@ -15,6 +15,7 @@ import static ca.uptoeleven.status.core.UtcDateTime.nowUtc;
 public class DefaultIncidentService implements IncidentService {
 
 	private final IncidentsRepository incidentsRepository;
+
 	private final ServicesDAO servicesDAO;
 
 	@Inject
@@ -29,8 +30,18 @@ public class DefaultIncidentService implements IncidentService {
 	}
 
 	@Override
+	public List<Incident> getAllIncidentsByType(final String type) {
+		return this.incidentsRepository.getAllIncidentsByType(type);
+	}
+
+	@Override
 	public List<Incident> getActiveIncidents() {
 		return incidentsRepository.getActiveIncidents();
+	}
+
+	@Override
+	public List<Incident> getActiveIncidentsByType(final String type) {
+		return incidentsRepository.getActiveIncidentsByType(type);
 	}
 
 	@Override

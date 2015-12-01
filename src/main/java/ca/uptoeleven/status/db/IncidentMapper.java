@@ -16,6 +16,7 @@ public class IncidentMapper implements ResultSetMapper<Incident> {
 				resultSet.getString("ID"),
 				resultSet.getString("TITLE"),
 				resultSet.getString("STATE"),
+				resultSet.getString("TYPE"),
 				new ArrayList<>(),
 				resultSet.getTimestamp("STARTTIME").toLocalDateTime(),
 				resultSet.getTimestamp("CREATEDAT").toLocalDateTime(),
