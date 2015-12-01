@@ -24,6 +24,6 @@ public class IncidentCreateView extends View {
 	}
 
 	public List<String> getStates() {
-		return Lists.newArrayList(IncidentState.INVESTIGATING, IncidentState.IDENTIFIED, IncidentState.MONITORING, IncidentState.RESOLVED);
+		return Lists.newArrayList(IncidentState.Unplanned.INVESTIGATING, IncidentState.Unplanned.IDENTIFIED, IncidentState.Unplanned.MONITORING, IncidentState.Unplanned.RESOLVED);
 	}
 }

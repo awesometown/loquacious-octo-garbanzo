@@ -19,13 +19,39 @@ import static ca.uptoeleven.status.core.UtcDateTime.nowUtc;
 @AllArgsConstructor
 public class Incident {
 
-	public static Incident newIncident(String title, String firstUpdateDescription, String state, String serviceStatusId, List<String> affectedServicesIds) {
-		LocalDateTime now = nowUtc();
-		IncidentUpdate update = new IncidentUpdate(newId(), firstUpdateDescription, state, serviceStatusId, now, now);
+	public static Incident newIncident(
+			final String title,
+			final String firstUpdateDescription,
+			final String state,
+			final String serviceStatusId,
+			final List<String> affectedServicesIds) {
+		final LocalDateTime now = nowUtc();
+		final IncidentUpdate update = new IncidentUpdate(newId(), firstUpdateDescription, state, serviceStatusId, now, now);
 		return new Incident(
 				newId(),
 				title,
 				state,
+				IncidentType.UNPLANNED,
+				ImmutableList.copyOf(affectedServicesIds),
+				now,
+				now,
+				now,
+				ImmutableList.of(update));
+	}
+
+	public static Incident newPlannedIncident(
+			final String title,
+			final String firstUpdateDescription,
+			final String state,
+			final String serviceStatusId,
+			final List<String> affectedServicesIds) {
+		final LocalDateTime now = nowUtc();
+		final IncidentUpdate update = new IncidentUpdate(newId(), firstUpdateDescription, state, serviceStatusId, now, now);
+		return new Incident(
+				newId(),
+				title,
+				state,
+				IncidentType.PLANNED,
 				ImmutableList.copyOf(affectedServicesIds),
 				now,
 				now,
@@ -34,15 +60,17 @@ public class Incident {
 	}
 
 	public Incident(
-			String id,
-			String title,
-			String state,
-			List<String> affectedServicesIds,
-			LocalDateTime startTime,
-			LocalDateTime createdAt,
-			LocalDateTime updatedAt,
-			List<IncidentUpdate> incidentUpdates) {
-		this(id, title, state, ImmutableList.copyOf(affectedServicesIds), startTime, createdAt, updatedAt, incidentUpdates == null ? ImmutableList.of() : ImmutableList.copyOf(incidentUpdates));
+			final String id,
+			final String title,
+			final String state,
+			final String type,
+			final List<String> affectedServicesIds,
+			final LocalDateTime startTime,
+			final LocalDateTime createdAt,
+			final LocalDateTime updatedAt,
+			final List<IncidentUpdate> incidentUpdates) {
+		this(id, title, state, type, ImmutableList.copyOf(affectedServicesIds), startTime, createdAt, updatedAt,
+				incidentUpdates == null ? ImmutableList.of() : ImmutableList.copyOf(incidentUpdates));
 	}
 
 	@NotNull
@@ -56,6 +84,10 @@ public class Incident {
 	@NotNull
 	@JsonProperty
 	private final String state;
+
+	@NotNull
+	@JsonProperty
+	private final String type;
 
 	@NotNull
 	@JsonProperty
@@ -88,6 +120,6 @@ public class Incident {
 	public Incident withAdditionalUpdate(IncidentUpdate newUpdate) {
 		List<IncidentUpdate> updates = new ArrayList<>(incidentUpdates);
 		updates.add(newUpdate);
-		return new Incident(this.id, this.title, this.state, this.affectedServicesIds, this.startTime, this.createdAt, this.updatedAt, ImmutableList.copyOf(updates));
+		return new Incident(this.id, this.title, this.state, this.type, this.affectedServicesIds, this.startTime, this.createdAt, this.updatedAt, ImmutableList.copyOf(updates));
 	}
 }

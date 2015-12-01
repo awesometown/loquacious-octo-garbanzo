@@ -1,21 +1,16 @@
 package ca.uptoeleven.status.resources.api;
 
 import ca.uptoeleven.status.api.*;
-import ca.uptoeleven.status.core.DefaultIncidentService;
 import ca.uptoeleven.status.core.Incident;
 import ca.uptoeleven.status.core.IncidentService;
-import ca.uptoeleven.status.core.IncidentUpdate;
+import com.google.common.base.Strings;
 import com.google.inject.Inject;
-import org.glassfish.jersey.server.Uri;
 
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,11 +32,13 @@ public class IncidentsResource {
 	}
 
 	@GET
-	public ListHolder<IncidentViewModel> listIncidents() {
-		return new ListHolder<>(
-				incidentService.getAllIncidents().stream().map(incident ->
-								map(incident)
-				).collect(Collectors.toList()));
+	public ListHolder<IncidentViewModel> listIncidents(@QueryParam("type") final String queryType) {
+
+		final List<Incident> incidents = Strings.isNullOrEmpty(queryType) ?
+				this.incidentService.getAllIncidents() :
+				this.incidentService.getAllIncidentsByType(queryType);
+
+		return new ListHolder<>(incidents.stream().map(this::map).collect(Collectors.toList()));
 	}
 
 	@POST
@@ -56,11 +53,13 @@ public class IncidentsResource {
 
 	@GET
 	@Path("/active")
-	public ListHolder<IncidentViewModel> getActiveIncidents() {
-		return new ListHolder<>(
-				incidentService.getActiveIncidents().stream().map(incident ->
-								map(incident)
-				).collect(Collectors.toList()));
+	public ListHolder<IncidentViewModel> getActiveIncidents(@QueryParam("type") final String queryType) {
+
+		final List<Incident> incidents = Strings.isNullOrEmpty(queryType) ?
+			this.incidentService.getActiveIncidents() :
+			this.incidentService.getActiveIncidentsByType(queryType);
+
+		return new ListHolder<>(incidents.stream().map(this::map).collect(Collectors.toList()));
 	}
 
 	@GET

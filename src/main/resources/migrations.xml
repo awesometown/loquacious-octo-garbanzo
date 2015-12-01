@@ -105,4 +105,21 @@
 			</column>
 		</createTable>
 	</changeSet>
+
+	<changeSet id="2" author="jpennell">
+
+		<comment>Add type field to incidents, default "unplanned". Possible values "planned", "unplanned".</comment>
+
+		<addColumn tableName="incidents">
+			<column name="type" type="varchar(255)" defaultValue="unplanned">
+				<constraints nullable="false"/>
+			</column>
+		</addColumn>
+
+		<rollback>
+			<dropColumn columnName="type" tableName="incidents"/>
+		</rollback>
+
+	</changeSet>
+
 </databaseChangeLog>
