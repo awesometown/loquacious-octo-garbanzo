@@ -19,6 +19,7 @@ import static ca.uptoeleven.status.core.UtcDateTime.asUtc;
 
 @Path("/incidents")
 @Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class IncidentsResource {
 
 	private final IncidentService incidentService;
@@ -42,12 +43,12 @@ public class IncidentsResource {
 	}
 
 	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
 	@RolesAllowed("ADMIN")
-	public Response create(@Valid IncidentCreateModel newIncident) {
-		Incident created = incidentService.createIncident(newIncident);
-		UriBuilder ub = uriInfo.getAbsolutePathBuilder();
-		URI userUri = ub.path(created.getId()).build();
+	public Response create(@Valid final IncidentCreateModel newIncident) {
+
+		final Incident created = this.incidentService.createIncident(newIncident);
+
+		final URI userUri = this.uriInfo.getAbsolutePathBuilder().path(created.getId()).build();
 		return Response.created(userUri).build();
 	}
 
