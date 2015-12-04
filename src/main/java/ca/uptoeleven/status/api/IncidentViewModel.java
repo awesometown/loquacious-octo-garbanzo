@@ -14,6 +14,8 @@ public class IncidentViewModel {
 
 	private final String state;
 
+	private final String type;
+
 	private final String serviceStatusId;
 
 	private final List<String> affectedServiceIds;

@@ -49,7 +49,7 @@ public abstract class IncidentsDAO {
 
 	@Transaction(TransactionIsolationLevel.REPEATABLE_READ)
 	public List<Incident> findAllIncidentsByType(final String type) {
-		return this.findActiveIncidentsByTypeBare(type).stream().map(incident -> {
+		return this.findAllIncidentsByTypeBare(type).stream().map(incident -> {
 			List<String> affectedServiceIds = findAffectedServiceIds(incident.getId());
 			return incident.withAffectedServicesIds(ImmutableList.copyOf(affectedServiceIds));
 		}).collect(Collectors.toList());
@@ -75,7 +75,7 @@ public abstract class IncidentsDAO {
 	abstract List<Incident> findAllIncidentsBare();
 
 	@SqlQuery("select id, title, state, type, startTime, createdAt, updatedAt from incidents where type = :type order by createdAt desc")
-	abstract List<Incident> findIncidentsByTypeBare(@Bind("type") final String type);
+	abstract List<Incident> findAllIncidentsByTypeBare(@Bind("type") final String type);
 
 	@SqlQuery("select id, title, state, type, startTime, createdAt, updatedAt from incidents where state != 'resolved' order by createdAt desc")
 	abstract List<Incident> findActiveIncidentsBare();

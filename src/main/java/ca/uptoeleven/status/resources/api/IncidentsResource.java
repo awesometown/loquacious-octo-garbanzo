@@ -78,8 +78,8 @@ public class IncidentsResource {
 		return map(updated);
 	}
 
-	private IncidentViewModel map(Incident incident) {
-		List<IncidentUpdateViewModel> updates = incident.getIncidentUpdates().stream()
+	private IncidentViewModel map(final Incident incident) {
+		final List<IncidentUpdateViewModel> updates = incident.getIncidentUpdates().stream()
 				.map(update -> new IncidentUpdateViewModel(
 						update.getId(),
 						update.getDescription(),
@@ -95,6 +95,7 @@ public class IncidentsResource {
 				incident.getId(),
 				incident.getTitle(),
 				incident.getState(),
+				incident.getType(),
 				lastStatusId,
 				new ArrayList<>(incident.getAffectedServicesIds()),
 				asUtc(incident.getCreatedAt()),
