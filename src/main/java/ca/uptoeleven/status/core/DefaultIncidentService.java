@@ -50,12 +50,16 @@ public class DefaultIncidentService implements IncidentService {
 	}
 
 	@Override
-	public Incident createIncident(IncidentCreateModel model) {
-		Incident incident = Incident.newIncident(model.getTitle(), model.getDescription(), model.getState(), model.getServiceStatusId(), model.getAffectedServiceIds());
-		Incident created = incidentsRepository.create(incident);
-		for (String serviceId : created.getAffectedServicesIds()) {
-			servicesDAO.updateServiceStatusId(serviceId, model.getServiceStatusId());
-		}
+	public Incident createIncident(final IncidentCreateModel model) {
+
+		final Incident incident = Incident.newIncident(model.getTitle(), model.getDescription(), model.getState(),
+				model.getType(), model.getServiceStatusId(), model.getAffectedServiceIds());
+
+		final Incident created = this.incidentsRepository.create(incident);
+
+		created.getAffectedServicesIds().forEach(id ->
+				this.servicesDAO.updateServiceStatusId(id, model.getServiceStatusId()));
+
 		return created;
 	}
 

@@ -25,13 +25,18 @@ public class Incident {
 			final String state,
 			final String serviceStatusId,
 			final List<String> affectedServicesIds) {
+		return newIncident(title, firstUpdateDescription, state, IncidentType.UNPLANNED, serviceStatusId, affectedServicesIds);
+	}
+
+	public static Incident newIncident(final String title, final String firstUpdateDescription, final String state,
+			final String type, final String serviceStatusId, final List<String> affectedServicesIds) {
 		final LocalDateTime now = nowUtc();
 		final IncidentUpdate update = new IncidentUpdate(newId(), firstUpdateDescription, state, serviceStatusId, now, now);
 		return new Incident(
 				newId(),
 				title,
 				state,
-				IncidentType.UNPLANNED,
+				type,
 				ImmutableList.copyOf(affectedServicesIds),
 				now,
 				now,
@@ -39,24 +44,9 @@ public class Incident {
 				ImmutableList.of(update));
 	}
 
-	public static Incident newPlannedIncident(
-			final String title,
-			final String firstUpdateDescription,
-			final String state,
-			final String serviceStatusId,
-			final List<String> affectedServicesIds) {
-		final LocalDateTime now = nowUtc();
-		final IncidentUpdate update = new IncidentUpdate(newId(), firstUpdateDescription, state, serviceStatusId, now, now);
-		return new Incident(
-				newId(),
-				title,
-				state,
-				IncidentType.PLANNED,
-				ImmutableList.copyOf(affectedServicesIds),
-				now,
-				now,
-				now,
-				ImmutableList.of(update));
+	public static Incident newPlannedIncident(final String title, final String firstUpdateDescription, final String state,
+			final String serviceStatusId, final List<String> affectedServicesIds) {
+		return newIncident(title, firstUpdateDescription, state, IncidentType.PLANNED, serviceStatusId, affectedServicesIds);
 	}
 
 	public Incident(
