@@ -9,10 +9,10 @@ import java.util.List;
 @Getter
 public class AdminDashboardView extends View {
 
-    private List<ServiceViewModel> services;
+	private List<ServiceViewModel> services;
 
-    public AdminDashboardView(List<ServiceViewModel> services) {
-        super("admin_dashboard.ftl");
-        this.services = services;
-    }
+	public AdminDashboardView(List<ServiceViewModel> services) {
+		super("admin_dashboard.ftl");
+		this.services = services;
+	}
 }

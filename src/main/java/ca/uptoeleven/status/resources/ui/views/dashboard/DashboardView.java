@@ -14,18 +14,21 @@ import java.util.List;
 
 @Getter
 public class DashboardView extends View {
-    private final List<ServiceViewModel> services;
-    private final List<IncidentViewModel> incidents;
 
-    public DashboardView(List<ServiceViewModel> services, List<IncidentViewModel> incidents) {
-        super("dashboard.ftl");
-        this.services = services;
-        this.incidents = incidents;
-    }
-    public String prettyDate(LocalDateTime dateTime) {
-        PrettyTime p = new PrettyTime();
-        ZonedDateTime zoned = ZonedDateTime.of(dateTime, ZoneOffset.UTC);
-	    Date date = Date.from(zoned.toInstant());
-	    return p.format(date);
-    }
+	private final List<ServiceViewModel> services;
+
+	private final List<IncidentViewModel> incidents;
+
+	public DashboardView(List<ServiceViewModel> services, List<IncidentViewModel> incidents) {
+		super("dashboard.ftl");
+		this.services = services;
+		this.incidents = incidents;
+	}
+
+	public String prettyDate(LocalDateTime dateTime) {
+		PrettyTime p = new PrettyTime();
+		ZonedDateTime zoned = ZonedDateTime.of(dateTime, ZoneOffset.UTC);
+		Date date = Date.from(zoned.toInstant());
+		return p.format(date);
+	}
 }

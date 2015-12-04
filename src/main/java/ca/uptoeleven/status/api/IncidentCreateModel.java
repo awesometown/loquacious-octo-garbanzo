@@ -1,42 +1,52 @@
 package ca.uptoeleven.status.api;
 
+import ca.uptoeleven.status.core.IncidentType;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.experimental.Wither;
+import com.google.common.base.Strings;
+import lombok.Value;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Getter
-@Wither
-@NoArgsConstructor
-@AllArgsConstructor
+@Value
 public class IncidentCreateModel {
 
-    @JsonProperty
-    @NotEmpty(message="Nope!")
-    private String title;
+	@NotEmpty(message = "Nope!")
+	private final String title;
 
-    @JsonProperty
-    @NotEmpty
-    private String description;
+	@NotEmpty
+	private final String description;
 
-    @JsonProperty
-    @NotEmpty
-    private String state;
+	@NotEmpty
+	private final String state;
 
-    @JsonProperty
-    @NotEmpty
-    private String serviceStatusId;
+	@NotEmpty
+	private final String type;
 
-    @JsonProperty
-    private List<String> affectedServiceIds;
+	@NotEmpty
+	private final String serviceStatusId;
 
-    @JsonProperty
-    private LocalDateTime startTime;
+	private final List<String> affectedServiceIds;
+
+	private final LocalDateTime startTime;
+
+	@JsonCreator
+	public IncidentCreateModel(@JsonProperty(value = "title") final String title,
+							   @JsonProperty(value = "description") final String description,
+							   @JsonProperty(value = "state") final String state,
+							   @JsonProperty(value = "type") final String type,
+							   @JsonProperty(value = "serviceStatusId") final String serviceStatusId,
+							   @JsonProperty(value = "affectedServiceIds") final List<String> affectedServiceIds,
+							   @JsonProperty(value = "startTime") final LocalDateTime startTime) {
+		this.title = title;
+		this.description = description;
+		this.state = state;
+		this.type = Strings.isNullOrEmpty(type) ? IncidentType.UNPLANNED : type;
+		this.serviceStatusId = serviceStatusId;
+		this.affectedServiceIds = affectedServiceIds;
+		this.startTime = startTime;
+	}
+
 }

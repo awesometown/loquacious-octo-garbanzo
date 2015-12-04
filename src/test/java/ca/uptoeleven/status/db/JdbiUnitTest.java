@@ -16,43 +16,42 @@ import org.skife.jdbi.v2.Handle;
 
 public abstract class JdbiUnitTest {
 
-    protected DBI dbi;
+	protected DBI dbi;
 
-    private Handle handle;
+	private Handle handle;
 
-    private Liquibase liquibase;
+	private Liquibase liquibase;
 
-    protected abstract void setUpDataAccessObjects();
+	protected abstract void setUpDataAccessObjects();
 
-    @Before
-    public void setUpDatabase() throws Exception {
+	@Before
+	public void setUpDatabase() throws Exception {
 
-        Environment environment = new Environment( "test-env", Jackson.newObjectMapper(), null, new MetricRegistry(), null );
-        dbi = new DBIFactory().build( environment, getDataSourceFactory(), "test" );
-        handle = dbi.open();
-        migrateDatabase();
-        setUpDataAccessObjects();
-    }
+		Environment environment = new Environment("test-env", Jackson.newObjectMapper(), null, new MetricRegistry(), null);
+		dbi = new DBIFactory().build(environment, getDataSourceFactory(), "test");
+		handle = dbi.open();
+		migrateDatabase();
+		setUpDataAccessObjects();
+	}
 
-    @After
-    public void tearDown() throws Exception {
-        liquibase.dropAll();
-        handle.close();
-    }
+	@After
+	public void tearDown() throws Exception {
+		liquibase.dropAll();
+		handle.close();
+	}
 
-    private void migrateDatabase() throws LiquibaseException {
-        liquibase = new Liquibase("migrations.xml", new ClassLoaderResourceAccessor(), new JdbcConnection(handle.getConnection()));
-        liquibase.update("");
-    }
+	private void migrateDatabase() throws LiquibaseException {
+		liquibase = new Liquibase("migrations.xml", new ClassLoaderResourceAccessor(), new JdbcConnection(handle.getConnection()));
+		liquibase.update("");
+	}
 
-    protected DataSourceFactory getDataSourceFactory()
-    {
-        DataSourceFactory dataSourceFactory = new DataSourceFactory();
-        dataSourceFactory.setDriverClass( "org.h2.Driver" );
-        dataSourceFactory.setUrl( "jdbc:h2:./build/h2db" );
-        dataSourceFactory.setUser( "sa" );
-        dataSourceFactory.setPassword( "sa" );
+	protected DataSourceFactory getDataSourceFactory() {
+		DataSourceFactory dataSourceFactory = new DataSourceFactory();
+		dataSourceFactory.setDriverClass("org.h2.Driver");
+		dataSourceFactory.setUrl("jdbc:h2:./build/h2db");
+		dataSourceFactory.setUser("sa");
+		dataSourceFactory.setPassword("sa");
 
-        return dataSourceFactory;
-    }
+		return dataSourceFactory;
+	}
 }

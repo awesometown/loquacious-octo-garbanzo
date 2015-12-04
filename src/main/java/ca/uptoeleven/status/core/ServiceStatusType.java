@@ -7,19 +7,20 @@ import javax.validation.constraints.NotNull;
 
 @Data
 public class ServiceStatusType {
-    @NotNull
-    @JsonProperty
-    private String id;
 
-    @NotNull
-    @JsonProperty
-    private String name;
+	@NotNull
+	@JsonProperty
+	private String id;
 
-    @NotNull
-    @JsonProperty
-    private String description;
+	@NotNull
+	@JsonProperty
+	private String name;
 
-    @NotNull
-    @JsonProperty
-    private int sortOrder;
+	@NotNull
+	@JsonProperty
+	private String description;
+
+	@NotNull
+	@JsonProperty
+	private int sortOrder;
 }

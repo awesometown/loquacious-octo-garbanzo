@@ -29,19 +29,19 @@ import static ca.uptoeleven.status.core.UtcDateTime.asUtc;
 @Produces(MediaType.APPLICATION_JSON)
 public class ServicesResource {
 
-    private final ServicesDAO servicesDAO;
-    private final ServiceStatusesDAO serviceStatusesDAO;
+	private final ServicesDAO servicesDAO;
+	private final ServiceStatusesDAO serviceStatusesDAO;
 
-    @Inject
-    public ServicesResource(ServicesDAO servicesDAO, ServiceStatusesDAO serviceStatusesDAO) {
-        this.servicesDAO = servicesDAO;
-        this.serviceStatusesDAO = serviceStatusesDAO;
-    }
+	@Inject
+	public ServicesResource(ServicesDAO servicesDAO, ServiceStatusesDAO serviceStatusesDAO) {
+		this.servicesDAO = servicesDAO;
+		this.serviceStatusesDAO = serviceStatusesDAO;
+	}
 
-    @GET
-    public ListHolder<ServiceViewModel> getServices() {
-        List<Service> services = servicesDAO.findAll();
-        List<ServiceViewModel> vms = services.stream() .map(service -> map(getServiceStatusesMap(), service))
+	@GET
+	public ListHolder<ServiceViewModel> getServices() {
+		List<Service> services = servicesDAO.findAll();
+		List<ServiceViewModel> vms = services.stream().map(service -> map(getServiceStatusesMap(), service))
 				.collect(Collectors.<ServiceViewModel>toList());
 		return new ListHolder<>(vms);
 	}
@@ -53,13 +53,13 @@ public class ServicesResource {
 	}
 
 	private Map<String, ServiceStatus> getServiceStatusesMap() {
-        Map<String, ServiceStatus> mapping = new HashMap<>();
-        List<ServiceStatus> statuses = serviceStatusesDAO.findAll();
-        for(ServiceStatus status : statuses) {
-            mapping.put(status.getId(), status);
-        }
-        return mapping;
-    }
+		Map<String, ServiceStatus> mapping = new HashMap<>();
+		List<ServiceStatus> statuses = serviceStatusesDAO.findAll();
+		for (ServiceStatus status : statuses) {
+			mapping.put(status.getId(), status);
+		}
+		return mapping;
+	}
 
 	@GET
 	@Path("/{serviceId}")
@@ -68,25 +68,25 @@ public class ServicesResource {
 		return map(getServiceStatusesMap(), service);
 	}
 
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
 	@RolesAllowed("ADMIN")
-    public Response createService(ServiceCreateModel createModel) {
-        LocalDateTime now = LocalDateTime.now();
+	public Response createService(ServiceCreateModel createModel) {
+		LocalDateTime now = LocalDateTime.now();
 
-        Service service = new Service(
-                UUID.randomUUID().toString(),
-                createModel.getName(),
-                createModel.getDescription(),
-                "ok",
-                now,
-                now);
-        servicesDAO.insert(service);
-	    URI uri = UriBuilder
-			    .fromResource(ServicesResource.class)
-			    .path(ServicesResource.class, "getService")
-			    .resolveTemplate("serviceId", service.getId())
-			    .build();
-	    return Response.created(uri).build();
-    }
+		Service service = new Service(
+				UUID.randomUUID().toString(),
+				createModel.getName(),
+				createModel.getDescription(),
+				"ok",
+				now,
+				now);
+		servicesDAO.insert(service);
+		URI uri = UriBuilder
+				.fromResource(ServicesResource.class)
+				.path(ServicesResource.class, "getService")
+				.resolveTemplate("serviceId", service.getId())
+				.build();
+		return Response.created(uri).build();
+	}
 }

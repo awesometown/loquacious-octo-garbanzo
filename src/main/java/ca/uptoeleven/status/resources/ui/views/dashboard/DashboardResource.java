@@ -1,5 +1,6 @@
 package ca.uptoeleven.status.resources.ui.views.dashboard;
 
+import ca.uptoeleven.status.core.IncidentType;
 import ca.uptoeleven.status.resources.api.IncidentsResource;
 import ca.uptoeleven.status.resources.api.ServicesResource;
 import ca.uptoeleven.status.api.IncidentViewModel;
@@ -20,6 +21,7 @@ import java.util.List;
 public class DashboardResource {
 
 	private final IncidentsResource incidentsResource;
+
 	private final ServicesResource servicesResource;
 
 	public DashboardResource(@Context ResourceContext rc) {
@@ -27,20 +29,20 @@ public class DashboardResource {
 		servicesResource = rc.getResource(ServicesResource.class);
 	}
 
-    @GET
-    public View getDashboard() {
+	@GET
+	public View getDashboard() {
 		List<ServiceViewModel> svms = servicesResource.getServices().getData();
 
-        List<IncidentViewModel> incidents = incidentsResource.listIncidents().getData();
-        return new DashboardView(svms, incidents);
-    }
+		List<IncidentViewModel> incidents = incidentsResource.listIncidents(IncidentType.UNPLANNED).getData();
+		return new DashboardView(svms, incidents);
+	}
 
-    @GET
-    @Path("/incidents/{incidentId}")
-    public View viewIncident(@PathParam("incidentId") String incidentId) {
-        return new IncidentDetailsView(
+	@GET
+	@Path("/incidents/{incidentId}")
+	public View viewIncident(@PathParam("incidentId") String incidentId) {
+		return new IncidentDetailsView(
 				incidentsResource.getIncident(incidentId),
 				servicesResource.getServices().getData()
 		);
-    }
+	}
 }

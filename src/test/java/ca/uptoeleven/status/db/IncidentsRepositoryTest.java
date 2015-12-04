@@ -10,45 +10,51 @@ import static ca.uptoeleven.status.db.DBTestHelpers.*;
 import static org.junit.Assert.assertEquals;
 
 public class IncidentsRepositoryTest {
-    @Rule
-    public H2JDBIRule h2JDBIRule = new H2JDBIRule();
 
-    private DBI dbi;
-    private IncidentsDAO incidentsDAO;
-    private IncidentUpdatesDAO updatesDAO;
-    private ServicesDAO servicesDAO;
-    private IncidentsRepository repository;
+	@Rule
+	public H2JDBIRule h2JDBIRule = new H2JDBIRule();
 
-    @Before
-    public void setup() {
-        this.dbi = h2JDBIRule.getDbi();
-        this.incidentsDAO = incidentsDAO(h2JDBIRule.getDbi());
-        this.updatesDAO = incidentUpdatesDAO(h2JDBIRule.getDbi());
-        this.servicesDAO = servicesDAO(h2JDBIRule.getDbi());
-        this.repository = new IncidentsRepository(h2JDBIRule.getDbi(), incidentsDAO, updatesDAO, servicesDAO);
-    }
+	private DBI dbi;
 
-    @Test
-    public void createIncidentSucceedsWithoutError() {
-        Incident incident = newIncidentWithUpdateForTest();
-        repository.create(incident);
-    }
+	private IncidentsDAO incidentsDAO;
 
-    @Test
-    public void createdIncidentCanBeRetrieved() {
-        Incident incident = newIncidentForTest();
-        incident = repository.create(incident);
+	private IncidentUpdatesDAO updatesDAO;
 
-        Incident found = incidentsDAO.findById(incident.getId());
-        assertEquals(incident, found);
-    }
+	private ServicesDAO servicesDAO;
 
-    @Test
-    public void createdIncidentUpdateIsRetrievedWithIncident() {
-        Incident incident = newIncidentWithUpdateForTest();
-        Incident created = repository.create(incident);
+	private IncidentsRepository repository;
 
-        Incident retrieved = repository.getIncident(created.getId());
-        assertEquals(1, retrieved.getIncidentUpdates().size());
-    }
+	@Before
+	public void setup() {
+		this.dbi = h2JDBIRule.getDbi();
+		this.incidentsDAO = incidentsDAO(h2JDBIRule.getDbi());
+		this.updatesDAO = incidentUpdatesDAO(h2JDBIRule.getDbi());
+		this.servicesDAO = servicesDAO(h2JDBIRule.getDbi());
+		this.repository = new IncidentsRepository(h2JDBIRule.getDbi(), incidentsDAO, updatesDAO, servicesDAO);
+	}
+
+	@Test
+	public void createIncidentSucceedsWithoutError() {
+		Incident incident = newIncidentWithUpdateForTest();
+		repository.create(incident);
+	}
+
+	@Test
+	public void createdIncidentCanBeRetrieved() {
+		Incident incident = newIncidentForTest();
+		incident = repository.create(incident);
+
+		Incident found = incidentsDAO.findById(incident.getId());
+		assertEquals(incident, found);
+	}
+
+	@Test
+	public void createdIncidentUpdateIsRetrievedWithIncident() {
+		Incident incident = newIncidentWithUpdateForTest();
+		Incident created = repository.create(incident);
+
+		Incident retrieved = repository.getIncident(created.getId());
+		assertEquals(1, retrieved.getIncidentUpdates().size());
+	}
+
 }

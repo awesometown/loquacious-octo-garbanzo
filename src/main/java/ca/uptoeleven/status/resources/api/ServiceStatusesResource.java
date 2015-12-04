@@ -17,26 +17,26 @@ import java.util.stream.Collectors;
 @Produces(MediaType.APPLICATION_JSON)
 public class ServiceStatusesResource {
 
-    private final ServiceStatusesDAO dao;
+	private final ServiceStatusesDAO dao;
 
-    @Inject
-    public ServiceStatusesResource(ServiceStatusesDAO dao) {
-        this.dao = dao;
-    }
+	@Inject
+	public ServiceStatusesResource(ServiceStatusesDAO dao) {
+		this.dao = dao;
+	}
 
-    @GET
-    public List<ServiceStatusViewModel> getAllStatuses() {
-        List<ServiceStatus> statuses = dao.findAll();
-        List<ServiceStatusViewModel> viewModels = statuses.stream()
-                .map(status -> new ServiceStatusViewModel(status.getId(), status.getName(), status.getDisplayColor()))
-                .collect(Collectors.<ServiceStatusViewModel> toList());
-        return viewModels;
-    }
+	@GET
+	public List<ServiceStatusViewModel> getAllStatuses() {
+		List<ServiceStatus> statuses = dao.findAll();
+		List<ServiceStatusViewModel> viewModels = statuses.stream()
+				.map(status -> new ServiceStatusViewModel(status.getId(), status.getName(), status.getDisplayColor()))
+				.collect(Collectors.<ServiceStatusViewModel>toList());
+		return viewModels;
+	}
 
-    @GET
-    @Path("/{statusid}")
-    public ServiceStatusViewModel getStatusById(@PathParam("statusid")String statusId) {
-        ServiceStatus status =  dao.findById(statusId);
-        return new ServiceStatusViewModel(status.getId(), status.getName(), status.getDisplayColor());
-    }
+	@GET
+	@Path("/{statusid}")
+	public ServiceStatusViewModel getStatusById(@PathParam("statusid") String statusId) {
+		ServiceStatus status = dao.findById(statusId);
+		return new ServiceStatusViewModel(status.getId(), status.getName(), status.getDisplayColor());
+	}
 }

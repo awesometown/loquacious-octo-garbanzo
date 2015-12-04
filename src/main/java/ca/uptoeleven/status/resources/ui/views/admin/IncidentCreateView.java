@@ -12,18 +12,18 @@ import java.util.List;
 @Getter
 public class IncidentCreateView extends View {
 
-    private List<ServiceViewModel> services;
+	private List<ServiceViewModel> services;
 
-    public IncidentCreateView(List<ServiceViewModel> services) {
-        super("incident_create.ftl");
-        this.services = services;
-    }
+	public IncidentCreateView(List<ServiceViewModel> services) {
+		super("incident_create.ftl");
+		this.services = services;
+	}
 
-    public List<ServiceStatus> getStatuses() {
-        return Lists.newArrayList(ServiceStatus.DEGRADED, ServiceStatus.MINOR, ServiceStatus.MAJOR);
-    }
+	public List<ServiceStatus> getStatuses() {
+		return Lists.newArrayList(ServiceStatus.DEGRADED, ServiceStatus.MINOR, ServiceStatus.MAJOR);
+	}
 
-    public List<String> getStates() {
-        return Lists.newArrayList(IncidentState.INVESTIGATING, IncidentState.IDENTIFIED, IncidentState.MONITORING, IncidentState.RESOLVED);
-    }
+	public List<String> getStates() {
+		return Lists.newArrayList(IncidentState.Unplanned.INVESTIGATING, IncidentState.Unplanned.IDENTIFIED, IncidentState.Unplanned.MONITORING, IncidentState.Unplanned.RESOLVED);
+	}
 }

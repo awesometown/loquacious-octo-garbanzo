@@ -6,13 +6,18 @@ import ca.uptoeleven.status.api.IncidentUpdateCreateModel;
 import java.util.List;
 
 public interface IncidentService {
-    List<Incident> getAllIncidents();
+
+	List<Incident> getAllIncidents();
+
+	List<Incident> getAllIncidentsByType(final String type);
 
 	List<Incident> getActiveIncidents();
 
-    Incident getIncident(String incidentId);
+	List<Incident> getActiveIncidentsByType(final String type);
 
-    Incident createIncident(IncidentCreateModel model);
+	Incident getIncident(final String incidentId);
 
-    Incident updateIncident(String incidentId, IncidentUpdateCreateModel model);
+	Incident createIncident(final IncidentCreateModel model);
+
+	Incident updateIncident(final String incidentId, final IncidentUpdateCreateModel model);
 }
