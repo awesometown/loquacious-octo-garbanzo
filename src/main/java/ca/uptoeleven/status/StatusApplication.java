@@ -18,7 +18,6 @@ import io.dropwizard.jdbi.bundles.DBIExceptionsBundle;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import io.dropwizard.views.ViewBundle;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 
@@ -61,9 +60,7 @@ public class StatusApplication extends Application<StatusConfiguration> {
 				return configuration.getDataSourceFactory();
 			}
 		});
-		bootstrap.addBundle(new ViewBundle<>());
 		bootstrap.addBundle(new AssetsBundle("/assets/", "/", "index.html", "assets"));
-		bootstrap.addBundle(new AssetsBundle("/META-INF/resources/webjars", "/webjars", null, "webjars"));
 
 		bootstrap.getObjectMapper().configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 	}
