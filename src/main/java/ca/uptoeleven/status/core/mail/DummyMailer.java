@@ -4,14 +4,14 @@ import java.io.IOException;
 
 public class DummyMailer implements Mailer {
 
-	private EmailTemplate lastMail;
+	private EmailContent lastMail;
 
 	@Override
-	public void sendEmail(EmailTemplate template) throws IOException {
+	public void sendEmail(EmailContent template) throws IOException {
 		this.lastMail = template;
 	}
 
-	public EmailTemplate getLastMail() {
+	public EmailContent getLastMail() {
 		return lastMail;
 	}
 }

@@ -17,10 +17,9 @@ public class EmailNotificationEventHandler {
 		try {
 			NewIncidentSubstitutions subs = new NewIncidentSubstitutions(newIncident);
 			FreemarkerEmailTemplate templ = new FreemarkerEmailTemplate("Hi ${incident.id}");
-			templ.setSubstitutions(subs);
-			
-			String output = templ.getHtmlContent();
-			System.out.println(output);
+			EmailContent content = templ.resolve(subs);
+
+			mailer.sendEmail(content);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

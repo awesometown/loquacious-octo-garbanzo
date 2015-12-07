@@ -16,16 +16,22 @@ public class SESMailer implements Mailer {
 	static final String SUBJECT = "Amazon SES test (AWS SDK for Java)";
 
 
-	public void sendEmail(EmailTemplate template) throws IOException {
+	public void sendEmail(EmailContent content) throws IOException {
 
 		// Construct an object to contain the recipient address.
 		Destination destination = new Destination().withToAddresses(new String[]{TO});
 
 		// Create the subject and body of the message.
 		Content subject = new Content().withData(SUBJECT);
-		Content textBody = new Content().withData(template.getTextContent());
-		Content htmlBody = new Content().withData(template.getHtmlContent());
-		Body body = new Body().withHtml(htmlBody).withText(textBody);
+		Body body = new Body();
+		if (content.hasHtmlContent()) {
+			Content htmlBody = new Content().withData(content.getHtmlContent());
+			body = body.withHtml(htmlBody);
+		}
+		if (content.hasTextContent()) {
+			Content textBody = new Content().withData(content.getTextContent());
+			body = body.withText(textBody);
+		}
 
 		// Create a message with the specified subject and body.
 		Message message = new Message().withSubject(subject).withBody(body);
