@@ -1,6 +1,8 @@
 package ca.uptoeleven.status.core.mail;
 
 import ca.uptoeleven.status.core.Incident;
+import ca.uptoeleven.status.core.events.IncidentCreatedEvent;
+import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
 
 public class EmailNotificationEventHandler {
@@ -13,9 +15,10 @@ public class EmailNotificationEventHandler {
 	}
 
 
-	public void onIncidentCreated(Incident newIncident) {
+	@Subscribe
+	public void onIncidentCreated(IncidentCreatedEvent event) {
 		try {
-			NewIncidentSubstitutions subs = new NewIncidentSubstitutions(newIncident);
+			NewIncidentSubstitutions subs = new NewIncidentSubstitutions(event.getIncident());
 			FreemarkerEmailTemplate templ = new FreemarkerEmailTemplate("Hi ${incident.id}");
 			EmailContent content = templ.resolve(subs);
 

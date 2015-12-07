@@ -4,6 +4,8 @@ import ca.uptoeleven.status.auth.CustomUnauthorizedHandler;
 import ca.uptoeleven.status.auth.DummyAuthenticator;
 import ca.uptoeleven.status.auth.DummyAuthorizer;
 import ca.uptoeleven.status.core.User;
+import ca.uptoeleven.status.core.events.EventsModule;
+import ca.uptoeleven.status.core.mail.EmailModule;
 import ca.uptoeleven.status.db.JDBIModule;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.hubspot.dropwizard.guice.GuiceBundle;
@@ -47,6 +49,8 @@ public class StatusApplication extends Application<StatusConfiguration> {
 		guiceBundle = GuiceBundle.<StatusConfiguration>newBuilder()
 				.addModule(new StatusModule())
 				.addModule(new JDBIModule())
+				.addModule(new EventsModule())
+				.addModule(new EmailModule())
 				.setConfigClass(StatusConfiguration.class)
 				.enableAutoConfig(getClass().getPackage().getName())
 				.build();
@@ -61,8 +65,9 @@ public class StatusApplication extends Application<StatusConfiguration> {
 			}
 		});
 		bootstrap.addBundle(new AssetsBundle("/assets/", "/", "index.html", "assets"));
-
 		bootstrap.getObjectMapper().configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+
+
 	}
 
 	@Override

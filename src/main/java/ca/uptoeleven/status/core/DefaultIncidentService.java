@@ -2,8 +2,10 @@ package ca.uptoeleven.status.core;
 
 import ca.uptoeleven.status.api.IncidentCreateModel;
 import ca.uptoeleven.status.api.IncidentUpdateCreateModel;
+import ca.uptoeleven.status.core.events.IncidentCreatedEvent;
 import ca.uptoeleven.status.db.IncidentsRepository;
 import ca.uptoeleven.status.db.ServicesDAO;
+import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
 
 import java.time.LocalDateTime;
@@ -14,12 +16,15 @@ import static ca.uptoeleven.status.core.UtcDateTime.nowUtc;
 
 public class DefaultIncidentService implements IncidentService {
 
+	private final EventBus eventBus;
+
 	private final IncidentsRepository incidentsRepository;
 
 	private final ServicesDAO servicesDAO;
 
 	@Inject
-	public DefaultIncidentService(IncidentsRepository incidentsRepository, ServicesDAO servicesDAO) {
+	public DefaultIncidentService(EventBus eventBus, IncidentsRepository incidentsRepository, ServicesDAO servicesDAO) {
+		this.eventBus = eventBus;
 		this.incidentsRepository = incidentsRepository;
 		this.servicesDAO = servicesDAO;
 	}
@@ -59,6 +64,8 @@ public class DefaultIncidentService implements IncidentService {
 
 		created.getAffectedServicesIds().forEach(id ->
 				this.servicesDAO.updateServiceStatusId(id, model.getServiceStatusId()));
+
+		eventBus.post(new IncidentCreatedEvent(created));
 
 		return created;
 	}
