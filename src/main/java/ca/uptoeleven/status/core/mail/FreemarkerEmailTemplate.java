@@ -10,10 +10,10 @@ import java.io.StringWriter;
 @Slf4j
 public class FreemarkerEmailTemplate implements EmailTemplate {
 
-	private final String templateContent;
+	private final Template template;
 
-	public FreemarkerEmailTemplate(String templateContent) {
-		this.templateContent = templateContent;
+	public FreemarkerEmailTemplate(Template freemarkerTemplate) {
+		this.template = freemarkerTemplate;
 	}
 
 	public EmailContent resolve(TemplateSubstitutions substitutions) throws TemplateException {
@@ -23,9 +23,6 @@ public class FreemarkerEmailTemplate implements EmailTemplate {
 
 	private String getHtmlContent(TemplateSubstitutions substitutions) throws TemplateException {
 		try {
-			//This stuff needs to get moved out of here and into a singleton factory class
-			Configuration cfg = new Configuration(Configuration.VERSION_2_3_22);
-			Template template = new Template("foo", new StringReader(templateContent), cfg);
 			StringWriter out = new StringWriter();
 			template.process(substitutions, out);
 			return out.toString();

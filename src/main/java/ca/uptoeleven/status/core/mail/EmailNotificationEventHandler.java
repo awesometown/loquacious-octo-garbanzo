@@ -4,13 +4,17 @@ import ca.uptoeleven.status.core.Incident;
 import ca.uptoeleven.status.core.events.IncidentCreatedEvent;
 import com.google.common.eventbus.Subscribe;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
+import freemarker.template.Configuration;
 
 public class EmailNotificationEventHandler {
 
+	private final TemplateFactory templateFactory;
 	private final Mailer mailer;
 
 	@Inject
-	public EmailNotificationEventHandler(Mailer mailer) {
+	public EmailNotificationEventHandler(TemplateFactory templateFactory, Mailer mailer) {
+		this.templateFactory = templateFactory;
 		this.mailer = mailer;
 	}
 
@@ -19,8 +23,8 @@ public class EmailNotificationEventHandler {
 	public void onIncidentCreated(IncidentCreatedEvent event) {
 		try {
 			NewIncidentSubstitutions subs = new NewIncidentSubstitutions(event.getIncident());
-			FreemarkerEmailTemplate templ = new FreemarkerEmailTemplate("Hi ${incident.id}");
-			EmailContent content = templ.resolve(subs);
+			EmailTemplate template = templateFactory.getTemplate("new_incident");
+			EmailContent content = template.resolve(subs);
 
 			mailer.sendEmail(content);
 		} catch (Exception e) {
