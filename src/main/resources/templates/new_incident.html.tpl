@@ -4,7 +4,7 @@
 
 <h2>${incident.title}</h2>
 
-<p>${incident.description}</p>
+<p>${incident.state}</p>
 
 </body>
 </html>
