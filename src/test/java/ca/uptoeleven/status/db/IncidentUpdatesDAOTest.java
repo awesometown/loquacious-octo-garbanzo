@@ -9,6 +9,8 @@ import org.skife.jdbi.v2.DBI;
 
 import java.util.List;
 
+import static ca.uptoeleven.status.core.EntityHelpers.newIncidentUpdateForTest;
+import static ca.uptoeleven.status.core.EntityHelpers.newIncidentWithUpdateForTest;
 import static ca.uptoeleven.status.db.DBTestHelpers.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

@@ -7,6 +7,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.skife.jdbi.v2.DBI;
 
+import static ca.uptoeleven.status.core.EntityHelpers.newServiceForTest;
 import static ca.uptoeleven.status.db.DBTestHelpers.*;
 import static ca.uptoeleven.status.db.DBTestHelpers.servicesDAO;
 
