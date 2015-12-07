@@ -14,7 +14,7 @@ import org.mockito.Mock;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-import static ca.uptoeleven.status.db.DBTestHelpers.newIncidentForTest;
+import static ca.uptoeleven.status.core.EntityHelpers.newIncidentForTest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;

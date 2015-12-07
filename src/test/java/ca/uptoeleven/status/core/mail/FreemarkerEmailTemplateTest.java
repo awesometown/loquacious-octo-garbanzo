@@ -3,7 +3,7 @@ package ca.uptoeleven.status.core.mail;
 import ca.uptoeleven.status.core.Incident;
 import org.junit.Test;
 
-import static ca.uptoeleven.status.db.DBTestHelpers.newIncidentForTest;
+import static ca.uptoeleven.status.core.EntityHelpers.newIncidentForTest;
 import static org.junit.Assert.assertEquals;
 
 public class FreemarkerEmailTemplateTest {
