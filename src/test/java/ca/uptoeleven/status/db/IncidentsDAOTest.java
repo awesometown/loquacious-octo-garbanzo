@@ -1,6 +1,9 @@
 package ca.uptoeleven.status.db;
 
-import ca.uptoeleven.status.core.*;
+import ca.uptoeleven.status.core.Incident;
+import ca.uptoeleven.status.core.IncidentState;
+import ca.uptoeleven.status.core.IncidentType;
+import ca.uptoeleven.status.core.Service;
 import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Rule;
@@ -9,6 +12,7 @@ import org.skife.jdbi.v2.DBI;
 
 import java.util.List;
 
+import static ca.uptoeleven.status.core.EntityHelpers.*;
 import static ca.uptoeleven.status.db.DBTestHelpers.*;
 import static org.junit.Assert.*;
 
