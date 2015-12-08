@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class IncidentResourceTests {
+public class IncidentResourceTest {
 
 	private static final IncidentService service = mock(IncidentService.class);
 
@@ -27,7 +27,7 @@ public class IncidentResourceTests {
 		assertEquals(incident.getId(), ivm.getId());
 		assertEquals(incident.getTitle(), ivm.getTitle());
 		assertEquals(incident.getState(), ivm.getState());
-		assertEquals(incident.getCreatedAt(), ivm.getCreatedAt());
+		assertEquals(incident.getCreatedAt(), ivm.getCreatedAt().toLocalDateTime());
 	}
 
 	@Test
