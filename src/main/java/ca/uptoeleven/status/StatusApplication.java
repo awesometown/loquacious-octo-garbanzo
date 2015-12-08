@@ -7,6 +7,7 @@ import ca.uptoeleven.status.core.User;
 import ca.uptoeleven.status.core.events.EventsModule;
 import ca.uptoeleven.status.core.mail.EmailModule;
 import ca.uptoeleven.status.db.JDBIModule;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.hubspot.dropwizard.guice.GuiceBundle;
 import io.dropwizard.Application;
@@ -66,7 +67,7 @@ public class StatusApplication extends Application<StatusConfiguration> {
 		});
 		bootstrap.addBundle(new AssetsBundle("/assets/", "/", "index.html", "assets"));
 		bootstrap.getObjectMapper().configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-
+		bootstrap.getObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
 	}
 
