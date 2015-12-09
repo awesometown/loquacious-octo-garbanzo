@@ -2,6 +2,8 @@ package ca.uptoeleven.status.core;
 
 import java.util.ArrayList;
 
+import static ca.uptoeleven.status.core.UtcDateTime.nowUtcZoned;
+
 public class EntityHelpers {
 	public static Service newServiceForTest() {
 		return Service.createNew("name", "description");
@@ -16,7 +18,7 @@ public class EntityHelpers {
 	}
 
 	public static Incident newPlannedIncidentForTest() {
-		return Incident.newPlannedIncident("title", "notUsed", IncidentState.Planned.STARTED, ServiceStatus.OK.getId(), new ArrayList<>()).withIncidentUpdatesList(new ArrayList<>());
+		return Incident.newPlannedIncident("title", "notUsed", IncidentState.Planned.STARTED, ServiceStatus.OK.getId(), new ArrayList<>(), nowUtcZoned().plusHours(1)).withIncidentUpdatesList(new ArrayList<>());
 	}
 
 	public static IncidentUpdate newIncidentUpdateForTest() {
