@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Strings;
 import lombok.Value;
+import lombok.experimental.Wither;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 @Value
+@Wither
 public class IncidentCreateModel {
 
 	@NotEmpty(message = "Nope!")
