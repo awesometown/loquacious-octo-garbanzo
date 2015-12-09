@@ -10,6 +10,10 @@ public class UtcDateTime {
         return LocalDateTime.now(ZoneOffset.UTC);
     }
 
+	public static ZonedDateTime nowUtcZoned() {
+		return ZonedDateTime.now(ZoneOffset.UTC);
+	}
+
 	public static ZonedDateTime asUtc(LocalDateTime dateTime) {
 		return ZonedDateTime.of(dateTime, ZoneOffset.UTC);
 	}

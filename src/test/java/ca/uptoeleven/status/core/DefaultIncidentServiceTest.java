@@ -11,10 +11,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import static ca.uptoeleven.status.core.EntityHelpers.newIncidentForTest;
+import static ca.uptoeleven.status.core.UtcDateTime.nowUtcZoned;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
@@ -43,7 +43,7 @@ public class DefaultIncidentServiceTest {
 		bus.register(listener);
 
 		DefaultIncidentService service = new DefaultIncidentService(bus, incidentsRepository, servicesDAO);
-		service.createIncident(new IncidentCreateModel("foo", "bar", "whatever", "whatever", "whatever", new ArrayList<>(), LocalDateTime.now()));
+		service.createIncident(new IncidentCreateModel("foo", "bar", "whatever", "whatever", "whatever", new ArrayList<>(), nowUtcZoned()));
 
 		assertNotNull(listener.getEvent());
 		assertEquals(incident, listener.getEvent().getIncident());

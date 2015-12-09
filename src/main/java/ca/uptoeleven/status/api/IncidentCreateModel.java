@@ -8,6 +8,7 @@ import lombok.Value;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Value
@@ -30,7 +31,7 @@ public class IncidentCreateModel {
 
 	private final List<String> affectedServiceIds;
 
-	private final LocalDateTime startTime;
+	private final ZonedDateTime startTime;
 
 	@JsonCreator
 	public IncidentCreateModel(@JsonProperty(value = "title") final String title,
@@ -39,7 +40,7 @@ public class IncidentCreateModel {
 							   @JsonProperty(value = "type") final String type,
 							   @JsonProperty(value = "serviceStatusId") final String serviceStatusId,
 							   @JsonProperty(value = "affectedServiceIds") final List<String> affectedServiceIds,
-							   @JsonProperty(value = "startTime") final LocalDateTime startTime) {
+							   @JsonProperty(value = "startTime") final ZonedDateTime startTime) {
 		this.title = title;
 		this.description = description;
 		this.state = state;
