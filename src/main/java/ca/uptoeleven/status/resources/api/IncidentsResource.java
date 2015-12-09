@@ -100,6 +100,7 @@ public class IncidentsResource {
 				new ArrayList<>(incident.getAffectedServicesIds()),
 				asUtc(incident.getCreatedAt()),
 				asUtc(incident.getUpdatedAt()),
+				asUtc(incident.getStartTime()),
 				updates
 		);
 		return vm;
