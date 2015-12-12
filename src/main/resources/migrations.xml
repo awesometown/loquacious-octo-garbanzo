@@ -8,26 +8,6 @@
 
 	<changeSet id="1" author="jprice">
 
-		<createTable tableName="serviceStatuses">
-			<column name="id" type="varchar(100)">
-				<constraints primaryKey="true" nullable="false"/>
-			</column>
-			<column name="name" type="varchar(100)">
-				<constraints nullable="false"/>
-			</column>
-			<column name="displayColor" type="varchar(10)"/>
-			<column name="sortOrder" type="integer">
-				<constraints nullable="false"/>
-			</column>
-		</createTable>
-
-		<loadData tableName="serviceStatuses" file="statuses_data.csv">
-			<column name="id" type="STRING"/>
-			<column name="name" type="STRING"/>
-			<column name="displayColor" type="STRING"/>
-			<column name="sortOrder" type="NUMERIC"/>
-		</loadData>
-
 		<createTable tableName="services">
 			<column name="id" type="varchar(100)">
 				<constraints primaryKey="true" nullable="false"/>
@@ -39,8 +19,7 @@
 				<constraints nullable="false"/>
 			</column>
 			<column name="serviceStatusId" type="varchar(100)">
-				<constraints nullable="false" foreignKeyName="fk_services_serviceStatuses"
-							 references="serviceStatuses(id)"/>
+				<constraints nullable="false" />
 			</column>
 			<column name="createdAt" type="datetime">
 				<constraints nullable="false"/>
@@ -54,10 +33,13 @@
 			<column name="id" type="varchar(100)" autoIncrement="false">
 				<constraints primaryKey="true" nullable="false"/>
 			</column>
+			<column name="type" type="varchar(255)" defaultValue="unplanned">
+				<constraints nullable="false"/>
+			</column>
 			<column name="title" type="varchar(255)">
 				<constraints nullable="false"/>
 			</column>
-			<column name="state" type="varchar(50)">
+			<column name="state" type="varchar(100)">
 				<constraints nullable="false"/>
 			</column>
 			<column name="startTime" type="datetime">
@@ -84,9 +66,8 @@
 			<column name="newState" type="varchar(50)">
 				<constraints nullable="true"/>
 			</column>
-			<column name="newServiceStatusId" type="varchar(50)">
-				<constraints nullable="true" foreignKeyName="fk_incidentUpdates_serviceStatuses"
-							 references="serviceStatuses(id)"/>
+			<column name="newServiceStatusId" type="varchar(100)">
+				<constraints nullable="true"/>
 			</column>
 			<column name="createdAt" type="datetime">
 				<constraints nullable="false"/>
@@ -105,21 +86,4 @@
 			</column>
 		</createTable>
 	</changeSet>
-
-	<changeSet id="2" author="jpennell">
-
-		<comment>Add type field to incidents, default "unplanned". Possible values "planned", "unplanned".</comment>
-
-		<addColumn tableName="incidents">
-			<column name="type" type="varchar(255)" defaultValue="unplanned">
-				<constraints nullable="false"/>
-			</column>
-		</addColumn>
-
-		<rollback>
-			<dropColumn columnName="type" tableName="incidents"/>
-		</rollback>
-
-	</changeSet>
-
 </databaseChangeLog>
