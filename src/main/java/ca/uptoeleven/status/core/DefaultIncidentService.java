@@ -56,9 +56,8 @@ public class DefaultIncidentService implements IncidentService {
 
 	@Override
 	public Incident createIncident(final IncidentCreateModel model) {
-
 		final Incident incident = Incident.newIncident(model.getTitle(), model.getDescription(), model.getState(),
-				model.getType(), model.getServiceStatusId(), model.getAffectedServiceIds());
+				model.getType(), model.getServiceStatusId(), model.getAffectedServiceIds(), model.getStartTime());
 
 		final Incident created = this.incidentsRepository.create(incident);
 

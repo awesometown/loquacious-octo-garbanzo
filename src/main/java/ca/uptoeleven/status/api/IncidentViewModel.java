@@ -24,6 +24,8 @@ public class IncidentViewModel {
 
 	private final ZonedDateTime updatedAt;
 
+	private final ZonedDateTime startTime;
+
 	private final List<IncidentUpdateViewModel> incidentUpdates;
 
 }
