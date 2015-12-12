@@ -16,7 +16,7 @@ public class IncidentResourceTest {
 
 	private static final IncidentService service = mock(IncidentService.class);
 
-	private final Incident incident = Incident.newIncident("aTitle", "anUpdate", IncidentState.Unplanned.IDENTIFIED, ServiceStatus.OK.getId(), Lists.newArrayList("service1"));
+	private final Incident incident = Incident.newIncident("aTitle", "anUpdate", IncidentState.Unplanned.IDENTIFIED, ServiceStatus.OK, Lists.newArrayList("service1"));
 
 	@Test
 	public void testGetIncident() {
@@ -32,7 +32,7 @@ public class IncidentResourceTest {
 
 	@Test
 	public void testUpdateIncident() {
-		IncidentUpdateCreateModel update = new IncidentUpdateCreateModel("an update", IncidentState.Unplanned.MONITORING, ServiceStatus.DEGRADED.getId());
+		IncidentUpdateCreateModel update = new IncidentUpdateCreateModel("an update", IncidentState.Unplanned.MONITORING, ServiceStatus.DEGRADED);
 
 		when(service.getIncident(incident.getId())).thenReturn(incident);
 		when(service.updateIncident(incident.getId(), update)).thenReturn(incident.withAdditionalUpdate(IncidentUpdate.createNew(update.getDescription(), update.getState(), update.getServiceStatusId())));

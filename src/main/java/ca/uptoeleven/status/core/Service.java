@@ -16,7 +16,7 @@ public class Service {
 
 	public static Service createNew(String name, String description) {
 		LocalDateTime now = nowUtc();
-		return new Service(newId(), name, description, ServiceStatus.OK.getId(), now, now);
+		return new Service(newId(), name, description, ServiceStatus.OK, now, now);
 	}
 
 	@NotNull

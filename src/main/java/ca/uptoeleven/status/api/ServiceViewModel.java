@@ -13,7 +13,7 @@ public class ServiceViewModel {
 
 	private final String description;
 
-	private final ServiceStatusViewModel serviceStatus;
+	private final String serviceStatus;
 
 	private final ZonedDateTime createdAt;
 

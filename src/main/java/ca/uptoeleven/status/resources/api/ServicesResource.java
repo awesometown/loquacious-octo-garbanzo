@@ -1,13 +1,10 @@
 package ca.uptoeleven.status.resources.api;
 
 import ca.uptoeleven.status.api.ListHolder;
-import ca.uptoeleven.status.db.ServiceStatusesDAO;
-import ca.uptoeleven.status.db.ServicesDAO;
-import ca.uptoeleven.status.core.Service;
-import ca.uptoeleven.status.core.ServiceStatus;
 import ca.uptoeleven.status.api.ServiceCreateModel;
-import ca.uptoeleven.status.api.ServiceStatusViewModel;
 import ca.uptoeleven.status.api.ServiceViewModel;
+import ca.uptoeleven.status.core.Service;
+import ca.uptoeleven.status.db.ServicesDAO;
 import com.google.inject.Inject;
 
 import javax.annotation.security.RolesAllowed;
@@ -17,9 +14,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -30,42 +25,29 @@ import static ca.uptoeleven.status.core.UtcDateTime.asUtc;
 public class ServicesResource {
 
 	private final ServicesDAO servicesDAO;
-	private final ServiceStatusesDAO serviceStatusesDAO;
 
 	@Inject
-	public ServicesResource(ServicesDAO servicesDAO, ServiceStatusesDAO serviceStatusesDAO) {
+	public ServicesResource(ServicesDAO servicesDAO) {
 		this.servicesDAO = servicesDAO;
-		this.serviceStatusesDAO = serviceStatusesDAO;
 	}
 
 	@GET
 	public ListHolder<ServiceViewModel> getServices() {
 		List<Service> services = servicesDAO.findAll();
-		List<ServiceViewModel> vms = services.stream().map(service -> map(getServiceStatusesMap(), service))
+		List<ServiceViewModel> vms = services.stream().map(service -> map(service))
 				.collect(Collectors.<ServiceViewModel>toList());
 		return new ListHolder<>(vms);
 	}
 
-	private ServiceViewModel map(Map<String, ServiceStatus> statusMapping, Service service) {
-		ServiceStatus status = statusMapping.get(service.getServiceStatusId());
-		ServiceStatusViewModel statusViewModel = new ServiceStatusViewModel(status.getId(), status.getName(), status.getDisplayColor());
-		return new ServiceViewModel(service.getId(), service.getName(), service.getDescription(), statusViewModel, asUtc(service.getCreatedAt()), asUtc(service.getUpdatedAt()));
-	}
-
-	private Map<String, ServiceStatus> getServiceStatusesMap() {
-		Map<String, ServiceStatus> mapping = new HashMap<>();
-		List<ServiceStatus> statuses = serviceStatusesDAO.findAll();
-		for (ServiceStatus status : statuses) {
-			mapping.put(status.getId(), status);
-		}
-		return mapping;
+	private ServiceViewModel map(Service service) {
+		return new ServiceViewModel(service.getId(), service.getName(), service.getDescription(), service.getServiceStatusId(), asUtc(service.getCreatedAt()), asUtc(service.getUpdatedAt()));
 	}
 
 	@GET
 	@Path("/{serviceId}")
 	public ServiceViewModel getService(@PathParam("serviceId") String serviceId) {
 		Service service = servicesDAO.findById(serviceId);
-		return map(getServiceStatusesMap(), service);
+		return map(service);
 	}
 
 	@POST

@@ -38,7 +38,7 @@ public class EmailNotificationEventHandlerTest {
 		};
 		when(templateFactory.getTemplate(any())).thenReturn(template);
 
-		Incident newIncident = Incident.newIncident("title", "update", IncidentState.Unplanned.IDENTIFIED, ServiceStatus.DEGRADED.getId(), new ArrayList<>());
+		Incident newIncident = Incident.newIncident("title", "update", IncidentState.Unplanned.IDENTIFIED, ServiceStatus.DEGRADED, new ArrayList<>());
 		handler.onIncidentCreated(new IncidentCreatedEvent(newIncident));
 
 		assertEquals("hi there", mailer.getLastMail().getHtmlContent());

@@ -10,19 +10,19 @@ public class EntityHelpers {
 	}
 
 	public static Incident newIncidentWithUpdateForTest() {
-		return Incident.newIncident("title", "updateDescription", IncidentState.Unplanned.INVESTIGATING, ServiceStatus.OK.getId(), new ArrayList<>());
+		return Incident.newIncident("title", "updateDescription", IncidentState.Unplanned.INVESTIGATING, ServiceStatus.OK, new ArrayList<>());
 	}
 
 	public static Incident newIncidentForTest() {
-		return Incident.newIncident("title", "notUsed", IncidentState.Unplanned.INVESTIGATING, ServiceStatus.OK.getId(), new ArrayList<>()).withIncidentUpdatesList(new ArrayList<>());
+		return Incident.newIncident("title", "notUsed", IncidentState.Unplanned.INVESTIGATING, ServiceStatus.OK, new ArrayList<>()).withIncidentUpdatesList(new ArrayList<>());
 	}
 
 	public static Incident newPlannedIncidentForTest() {
-		return Incident.newPlannedIncident("title", "notUsed", IncidentState.Planned.STARTED, ServiceStatus.OK.getId(), new ArrayList<>(), nowUtcZoned().plusHours(1)).withIncidentUpdatesList(new ArrayList<>());
+		return Incident.newPlannedIncident("title", "notUsed", IncidentState.Planned.STARTED, ServiceStatus.OK, new ArrayList<>(), nowUtcZoned().plusHours(1)).withIncidentUpdatesList(new ArrayList<>());
 	}
 
 	public static IncidentUpdate newIncidentUpdateForTest() {
-		return IncidentUpdate.createNew("foo", IncidentState.Unplanned.INVESTIGATING, ServiceStatus.OK.getId());
+		return IncidentUpdate.createNew("foo", IncidentState.Unplanned.INVESTIGATING, ServiceStatus.OK);
 	}
 
 }
